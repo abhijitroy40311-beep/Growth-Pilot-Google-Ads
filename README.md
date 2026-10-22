@@ -84,7 +84,7 @@ We measure success using business-relevant metrics such as:
 ## 🌐 Connect With GrowthPilot
 - **Instagram:** [@the.growthpilot.agency](https://www.instagram.com/the.growthpilot.agency/)
 - **Website:** [Add your website URL]
-- **Business enquiries:** [Add your professional contact email]
+- **Business enquiries:** abhijitroy40311@gamil.com
 
 ## 📄 License
 Unless otherwise stated, the content, branding, and original assets in this repository belong to their respective owners. Add a formal open-source license only if you intend to grant those permissions.
