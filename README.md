@@ -64,10 +64,9 @@ GrowthPilot is designed for businesses that want to improve customer acquisition
 ## 🛠️ Website Technology
 Update this section to match the technologies actually used in this repository.
 
-- Frontend: [Add your framework]
-- Styling: [Add your CSS framework]
-- Deployment: [Add your hosting platform]
-- Analytics: [Add configured analytics tools, if applicable]
+- Frontend: React + Vite.
+- Styling: Tailwind + CSS.
+- Analytics: GTM + GA4
 
 ## 📈 Our Performance Philosophy
 We measure success using business-relevant metrics such as:
