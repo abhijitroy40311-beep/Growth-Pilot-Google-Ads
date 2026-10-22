@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Manrope Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans'), local('DejaVu Sans');
+  size-adjust: 103.5%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans'), local('DejaVu Sans');
+  size-adjust: 101.5%;
+  ascent-override: 98%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  :root {
+    --bg-primary: #050505;
+    --bg-secondary: #0B0D10;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A5AAB4;
+    --brand-blue: #1677FF;
+    --brand-cyan: #08D9F5;
+    --brand-green: #00E6A8;
+    --font-display: 'Manrope', 'Manrope Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Plus Jakarta Sans Fallback', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  html {
+    background-color: #050505;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    background-color: #050505;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+.gp-gradient-text {
+  background: linear-gradient(110deg, #1677FF 0%, #08D9F5 50%, #00E6A8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gp-gradient-bg {
+  background: linear-gradient(110deg, #1677FF 0%, #08D9F5 50%, #00E6A8 100%);
+}
+
+.gp-grid-bg {
+  background-size: 64px 64px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.gp-radial-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(22, 119, 255, 0.16) 0%,
+    rgba(8, 217, 245, 0.09) 38%,
+    rgba(0, 230, 168, 0.04) 65%,
+    transparent 80%
+  );
+}
+
+.gp-card-surface {
+  background-color: #0B0D10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gp-card-surface:hover {
+  border-color: rgba(8, 217, 245, 0.32);
+}
+
+@keyframes gp-light-sweep {
+  0%, 10% {
+    transform: translate3d(-120%, 0, 0) skewX(-12deg);
+  }
+  42%, 100% {
+    transform: translate3d(220%, 0, 0) skewX(-12deg);
+  }
+}
+
+.gp-light-sweep {
+  animation: gp-light-sweep 8.1s ease-in-out 0.4s infinite;
+  will-change: transform;
+}
+
+@keyframes gp-arrow-enter {
+  0% {
+    transform: translate3d(-10px, 10px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.gp-arrow-enter {
+  animation: gp-arrow-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
+}
