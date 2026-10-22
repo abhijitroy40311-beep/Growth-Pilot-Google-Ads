@@ -17,6 +17,7 @@ export interface SiteConfig {
     serviceId: string;
     templateId: string;
     publicKey: string;
+    privateKey: string;
   };
   contact: {
     /**
@@ -67,6 +68,7 @@ export const siteConfig: SiteConfig = {
     serviceId: cleanEnv(import.meta.env.VITE_EMAILJS_SERVICE_ID, 'service_1g1fike') || 'service_1g1fike',
     templateId: cleanEnv(import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 'template_a1gp7od') || 'template_a1gp7od',
     publicKey: cleanEnv(import.meta.env.VITE_EMAILJS_PUBLIC_KEY, 'J6Z6BqADTVbe_oGTY') || 'J6Z6BqADTVbe_oGTY',
+    privateKey: cleanEnv(import.meta.env.VITE_EMAILJS_PRIVATE_KEY, 'DI2V29MD3yRrzMUHrnOQZ') || 'DI2V29MD3yRrzMUHrnOQZ',
   },
   contact: {
     // Verified channels configured via .env

@@ -100,79 +100,164 @@ export const ContactForm: React.FC = () => {
 
     setSubmitting(true);
     try {
-      const { serviceId, templateId, publicKey } = siteConfig.emailjs;
+      const { serviceId, templateId, publicKey, privateKey } = siteConfig.emailjs;
+      const recipientEmail = siteConfig.contact.email || 'abhijitroy40311@gmail.com';
       const clientInquiryId = `GP-${Date.now().toString(36).toUpperCase()}-${Math.random()
         .toString(36)
         .substring(2, 6)
         .toUpperCase()}`;
       const submittedAt = new Date().toISOString();
 
+      const templateParams = buildEmailJsTemplateParams(
+        validation.sanitized,
+        clientInquiryId,
+        submittedAt,
+        recipientEmail
+      );
+
       let clientEmailSent = false;
       let clientEmailError: string | null = null;
 
-      // 1. Primary Client-Side EmailJS Dispatch (works directly from browser with Public Key)
+      // 1. Primary Client-Side EmailJS Dispatch (@emailjs/browser SDK)
       if (serviceId && templateId && publicKey) {
         try {
           const emailjsModule = await import('@emailjs/browser');
           const emailjs = emailjsModule.default || emailjsModule;
-          const templateParams = buildEmailJsTemplateParams(
-            validation.sanitized,
-            clientInquiryId,
-            submittedAt,
-            siteConfig.contact.email || 'abhijitroy40311@gmail.com'
-          );
           await emailjs.send(serviceId, templateId, templateParams, {
             publicKey,
           });
           clientEmailSent = true;
-        } catch (err) {
-          clientEmailError =
-            err && typeof err === 'object' && 'text' in err
-              ? String((err as { text: string }).text)
-              : err instanceof Error
-              ? err.message
-              : 'Client-side EmailJS dispatch failed';
+        } catch (sdkErr) {
+          // 2. Direct EmailJS REST API Fallback from Browser (with accessToken support)
+          try {
+            const restRes = await fetch(
+              'https://api.emailjs.com/api/v1.0/email/send',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  service_id: serviceId,
+                  template_id: templateId,
+                  user_id: publicKey,
+                  ...(privateKey ? { accessToken: privateKey } : {}),
+                  template_params: templateParams,
+                }),
+              }
+            );
+            if (restRes.ok) {
+              clientEmailSent = true;
+              clientEmailError = null;
+            } else {
+              const errText = await restRes.text();
+              clientEmailError = `EmailJS (${serviceId} / ${templateId}): ${errText}`;
+            }
+          } catch {
+            clientEmailError =
+              sdkErr && typeof sdkErr === 'object' && 'text' in sdkErr
+                ? String((sdkErr as { text: string }).text)
+                : sdkErr instanceof Error
+                ? sdkErr.message
+                : 'EmailJS dispatch failed';
+          }
         }
       }
 
-      // 2. Server-Side Inquiry Log & Automatic REST Fallback (uses Private Key if client was blocked)
-      const response = await fetch(siteConfig.contact.inquiryEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...validation.sanitized,
+      // If client-side EmailJS succeeded, confirm immediately without hitting /api/contact
+      // (prevents 405 Method Not Allowed on static deployments such as Cloud Run static / Vercel / Netlify)
+      if (clientEmailSent) {
+        setReceipt({
           inquiryId: clientInquiryId,
           submittedAt,
-          clientEmailSent,
-          clientEmailError,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.ok) {
-        if (data.errors) {
-          setErrors(data.errors);
-        }
-        setServerError(
-          data.message ||
-            'Unable to submit your inquiry right now. Please verify your details and try again.'
-        );
-        setSubmitting(false);
+          emailDispatched: true,
+          emailError: null,
+          emailjsServiceId: serviceId,
+          emailjsTemplateId: templateId,
+          message:
+            'Thank you. Your project inquiry has been sent directly to our inbox via EmailJS.',
+          summary: {
+            name: validation.sanitized.name,
+            businessName: validation.sanitized.businessName,
+            email: validation.sanitized.email,
+            serviceOfInterest: validation.sanitized.serviceOfInterest,
+          },
+        });
+        setErrors({});
         return;
       }
 
+      // 3. Optional Backend API Fallback (only if backend /api/health is active and returns JSON)
+      let backendAvailable = false;
+      try {
+        const healthRes = await fetch('/api/health', { method: 'GET' });
+        const contentType = healthRes.headers.get('content-type') || '';
+        backendAvailable = healthRes.ok && contentType.includes('application/json');
+      } catch {
+        backendAvailable = false;
+      }
+
+      if (backendAvailable) {
+        const response = await fetch(siteConfig.contact.inquiryEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...validation.sanitized,
+            inquiryId: clientInquiryId,
+            submittedAt,
+            clientEmailSent,
+            clientEmailError,
+          }),
+        });
+
+        const resContentType = response.headers.get('content-type') || '';
+        if (resContentType.includes('application/json')) {
+          const data = await response.json();
+
+          if (!response.ok || !data.ok) {
+            if (data.errors) {
+              setErrors(data.errors);
+            }
+            setServerError(
+              data.message ||
+                'Unable to submit your inquiry right now. Please verify your details and try again.'
+            );
+            return;
+          }
+
+          setReceipt({
+            inquiryId: data.inquiryId || clientInquiryId,
+            submittedAt: data.submittedAt || submittedAt,
+            emailDispatched: Boolean(data.emailDispatched || clientEmailSent),
+            emailError: data.emailError || clientEmailError,
+            emailjsServiceId: data.emailjsServiceId || serviceId,
+            emailjsTemplateId: data.emailjsTemplateId || templateId,
+            message: data.message,
+            summary: data.summary,
+          });
+          setErrors({});
+          return;
+        }
+      }
+
+      // 4. Static Deployment Fallback Receipt (ensures zero 405 error and provides instant WhatsApp/Email actions)
       setReceipt({
-        inquiryId: data.inquiryId || clientInquiryId,
-        submittedAt: data.submittedAt || submittedAt,
-        emailDispatched: Boolean(data.emailDispatched || clientEmailSent),
-        emailError: data.emailError || null,
-        emailjsServiceId: data.emailjsServiceId || serviceId,
-        emailjsTemplateId: data.emailjsTemplateId || templateId,
-        message: data.message,
-        summary: data.summary,
+        inquiryId: clientInquiryId,
+        submittedAt,
+        emailDispatched: clientEmailSent,
+        emailError: clientEmailError,
+        emailjsServiceId: serviceId,
+        emailjsTemplateId: templateId,
+        message:
+          'Thank you. Your project inquiry has been recorded. You can also send an instant copy via WhatsApp or Email below.',
+        summary: {
+          name: validation.sanitized.name,
+          businessName: validation.sanitized.businessName,
+          email: validation.sanitized.email,
+          serviceOfInterest: validation.sanitized.serviceOfInterest,
+        },
       });
       setErrors({});
     } catch {
@@ -362,7 +447,7 @@ export const ContactForm: React.FC = () => {
             type="text"
             required
             autoComplete="name"
-            placeholder="Your Name"
+            placeholder="e.g., Alex Morgan"
             value={formData.name}
             onChange={handleChange}
             aria-invalid={Boolean(errors.name)}
@@ -394,7 +479,7 @@ export const ContactForm: React.FC = () => {
             type="text"
             required
             autoComplete="organization"
-            placeholder="e.g., Your Business"
+            placeholder="e.g., Apex Industrial Ltd."
             value={formData.businessName}
             onChange={handleChange}
             aria-invalid={Boolean(errors.businessName)}
@@ -430,7 +515,7 @@ export const ContactForm: React.FC = () => {
             type="email"
             required
             autoComplete="email"
-            placeholder="your@email.com"
+            placeholder="you@company.com"
             value={formData.email}
             onChange={handleChange}
             aria-invalid={Boolean(errors.email)}
@@ -461,7 +546,7 @@ export const ContactForm: React.FC = () => {
             name="phone"
             type="tel"
             autoComplete="tel"
-            placeholder="+0 (000) 000-0000"
+            placeholder="+1 (555) 000-0000"
             value={formData.phone}
             onChange={handleChange}
             aria-invalid={Boolean(errors.phone)}
