@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://growthpilot.agency/sitemap.xml
+Sitemap: https://growthpilot.agancy.workers.dev/sitemap.xml
