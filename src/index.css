@@ -36,7 +36,7 @@
     background-color: #050505;
     color: #FFFFFF;
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     scroll-padding-top: 5rem;
     -webkit-overflow-scrolling: touch;
   }
@@ -49,7 +49,12 @@
     scroll-margin-top: 5rem;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     text-wrap: balance;
   }
@@ -58,7 +63,10 @@
     html {
       scroll-behavior: auto;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -80,19 +88,17 @@
 
 .gp-grid-bg {
   background-size: 64px 64px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
 }
 
 .gp-radial-glow {
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(22, 119, 255, 0.16) 0%,
-    rgba(8, 217, 245, 0.09) 38%,
-    rgba(0, 230, 168, 0.04) 65%,
-    transparent 80%
-  );
+  background: radial-gradient(circle at 50% 50%,
+      rgba(22, 119, 255, 0.16) 0%,
+      rgba(8, 217, 245, 0.09) 38%,
+      rgba(0, 230, 168, 0.04) 65%,
+      transparent 80%);
 }
 
 .gp-card-surface {
@@ -106,10 +112,14 @@
 }
 
 @keyframes gp-light-sweep {
-  0%, 10% {
+
+  0%,
+  10% {
     transform: translate3d(-120%, 0, 0) skewX(-12deg);
   }
-  42%, 100% {
+
+  42%,
+  100% {
     transform: translate3d(220%, 0, 0) skewX(-12deg);
   }
 }
@@ -123,6 +133,7 @@
   0% {
     transform: translate3d(-10px, 10px, 0);
   }
+
   100% {
     transform: translate3d(0, 0, 0);
   }
@@ -131,4 +142,21 @@
 .gp-arrow-enter {
   animation: gp-arrow-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform;
+}
+
+@keyframes gp-page-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.gp-page-enter {
+  animation: gp-page-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform;
 }

@@ -71,7 +71,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
       <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between">
         <Link
-          to={`/services#${service.id}`}
+          to="/services"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#08D9F5] transition-colors hover:text-[#00E6A8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08D9F5] rounded-sm"
         >
           <span>Explore Service</span>

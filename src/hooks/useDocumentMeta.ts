@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { siteConfig } from '../data/siteConfig';
+import { cancelActiveSmoothScroll } from '../lib/scrollLogic';
 
 interface DocumentMetaOptions {
   title: string;
@@ -8,6 +9,15 @@ interface DocumentMetaOptions {
 }
 
 export function useDocumentMeta({ title, description, path = '/' }: DocumentMetaOptions) {
+  useLayoutEffect(() => {
+    if (typeof window !== 'undefined') {
+      cancelActiveSmoothScroll();
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+  }, [path]);
+
   useEffect(() => {
     document.title = title;
 
@@ -34,3 +44,4 @@ export function useDocumentMeta({ title, description, path = '/' }: DocumentMeta
     }
   }, [title, description, path]);
 }
+

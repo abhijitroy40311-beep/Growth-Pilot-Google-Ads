@@ -37,19 +37,20 @@ export const footerNavigation = {
     { label: 'Contact Us', path: '/contact' },
   ],
   services: [
-    { label: 'Website Development', path: '/services#website-development' },
-    { label: 'Google Ads', path: '/services#google-ads' },
-    { label: 'Conversion Optimization', path: '/services#conversion-optimization' },
-    { label: 'Analytics & Tracking', path: '/services#analytics-tracking' },
-    { label: 'Digital Strategy', path: '/services#digital-strategy' },
+    { label: 'Website Development', path: '/services' },
+    { label: 'Google Ads', path: '/services' },
+    { label: 'Conversion Optimization', path: '/services' },
+    { label: 'Analytics & Tracking', path: '/services' },
+    { label: 'Digital Strategy', path: '/services' },
   ],
   resources: [
     { label: 'FAQs', path: '/faq' },
     { label: 'Contact', path: '/contact' },
-    { label: 'Project Inquiry', path: '/contact#inquiry-form' },
+    { label: 'Project Inquiry', path: '/contact' },
   ],
   legal: [
     { label: 'Privacy Policy', path: '/privacy-policy' },
     { label: 'Terms & Conditions', path: '/terms-and-conditions' },
   ],
 };
+

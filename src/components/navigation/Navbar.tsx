@@ -132,18 +132,21 @@ export const Navbar: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => handleNavLinkClick(item.path)}
-                  className={`relative py-1.5 text-sm font-medium transition-colors duration-200 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08D9F5] rounded-sm ${
+                  className={`group relative py-1.5 text-sm font-medium transition-colors duration-200 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08D9F5] rounded-sm ${
                     isActive
                       ? 'text-white'
                       : 'text-[#A5AAB4] hover:text-white'
                   }`}
                 >
                   <span>{item.label}</span>
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-gradient-to-r from-[#1677FF] via-[#08D9F5] to-[#00E6A8]"
-                    />
-                  )}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-gradient-to-r from-[#1677FF] via-[#08D9F5] to-[#00E6A8] origin-left transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isActive
+                        ? 'scale-x-100 opacity-100'
+                        : 'scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-45'
+                    }`}
+                  />
                 </Link>
               );
             })}
@@ -196,23 +199,40 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Smooth Animated Mobile & Tablet Navigation Drawer (Overlay positioned at top-full for zero page reflow) */}
-        {mobileMenuOpen && (
-          <nav
-            id="mobile-navigation-menu"
-            aria-label="Mobile Navigation"
-            className="absolute top-full left-0 right-0 z-50 overflow-hidden border-b border-white/10 bg-[#0B0D10]/98 shadow-[0_24px_48px_rgba(0,0,0,0.75)] backdrop-blur-2xl lg:hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
-          >
+        {/* Smooth Animated Mobile & Tablet Navigation Drawer (Grid height + opacity + transform interpolation for 60fps open AND close) */}
+        <nav
+          id="mobile-navigation-menu"
+          aria-label="Mobile Navigation"
+          aria-hidden={!mobileMenuOpen}
+          inert={!mobileMenuOpen || undefined}
+          className={`absolute top-full left-0 right-0 z-50 grid lg:hidden border-b bg-[#0B0D10]/98 backdrop-blur-2xl transition-[grid-template-rows,opacity,transform,visibility,border-color,box-shadow] duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            mobileMenuOpen
+              ? 'grid-rows-[1fr] opacity-100 translate-y-0 visible pointer-events-auto border-white/10 shadow-[0_24px_48px_rgba(0,0,0,0.75)]'
+              : 'grid-rows-[0fr] opacity-0 -translate-y-2 invisible pointer-events-none border-transparent shadow-none'
+          }`}
+        >
+          <div className="overflow-hidden">
             <div className="mx-auto max-w-7xl px-4 pt-3 pb-6 sm:px-6 max-h-[calc(100dvh-4.25rem)] overflow-y-auto">
               <div className="flex flex-col space-y-1.5">
-                {primaryNavItems.map((item) => {
+                {primaryNavItems.map((item, idx) => {
                   const isActive =
                     item.path === '/'
                       ? location.pathname === '/'
                       : location.pathname.startsWith(item.path);
 
                   return (
-                    <div key={item.path}>
+                    <div
+                      key={item.path}
+                      style={{
+                        transitionDelay:
+                          mobileMenuOpen && !reducedMotion ? `${idx * 35}ms` : '0ms',
+                      }}
+                      className={`transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        mobileMenuOpen
+                          ? 'opacity-100 translate-x-0'
+                          : 'opacity-0 -translate-x-3'
+                      }`}
+                    >
                       <Link
                         to={item.path}
                         onClick={() => handleNavLinkClick(item.path)}
@@ -239,7 +259,16 @@ export const Navbar: React.FC = () => {
 
               {/* Smooth Section Quick-Jump Bar when on Home Page */}
               {location.pathname === '/' && (
-                <div className="mt-4 rounded-xl border border-white/10 bg-[#050505]/80 p-3.5">
+                <div
+                  style={{
+                    transitionDelay: mobileMenuOpen && !reducedMotion ? '150ms' : '0ms',
+                  }}
+                  className={`mt-4 rounded-xl border border-white/10 bg-[#050505]/80 p-3.5 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    mobileMenuOpen
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-2'
+                  }`}
+                >
                   <div className="flex items-center gap-2 text-[11px] font-mono text-[#08D9F5]">
                     <Compass className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>Smooth Scroll · Homepage Sections</span>
@@ -262,7 +291,16 @@ export const Navbar: React.FC = () => {
                 </div>
               )}
 
-              <div className="mt-4 pt-4 border-t border-white/10">
+              <div
+                style={{
+                  transitionDelay: mobileMenuOpen && !reducedMotion ? '185ms' : '0ms',
+                }}
+                className={`mt-4 pt-4 border-t border-white/10 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  mobileMenuOpen
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-2'
+                }`}
+              >
                 <Link
                   to="/contact"
                   onClick={() => handleNavLinkClick('/contact')}
@@ -273,18 +311,20 @@ export const Navbar: React.FC = () => {
                 </Link>
               </div>
             </div>
-          </nav>
-        )}
+          </div>
+        </nav>
       </header>
 
       {/* Smooth Backdrop Overlay for Mobile/Tablet Drawer */}
-      {mobileMenuOpen && (
-        <div
-          aria-hidden="true"
-          onClick={() => setMobileMenuOpen(false)}
-          className="fixed inset-0 z-40 bg-black/65 backdrop-blur-xs lg:hidden transition-opacity duration-200"
-        />
-      )}
+      <div
+        aria-hidden="true"
+        onClick={() => setMobileMenuOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/65 backdrop-blur-xs lg:hidden transition-[opacity,visibility] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          mobileMenuOpen
+            ? 'opacity-100 visible pointer-events-auto'
+            : 'opacity-0 invisible pointer-events-none'
+        }`}
+      />
     </>
   );
 };
