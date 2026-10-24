@@ -4,7 +4,6 @@ import { LogoScrollJourney } from '../components/animation/LogoScrollJourney';
 import { HeroSection } from '../components/sections/HeroSection';
 import { ChatStory } from '../components/sections/ChatStory';
 import { ServicesSection } from '../components/sections/ServicesSection';
-import { GrowthTimeline } from '../components/sections/GrowthTimeline';
 import { WhyGrowthPilot } from '../components/sections/WhyGrowthPilot';
 import { HomeFAQSection } from '../components/sections/HomeFAQSection';
 import { FinalCTASection } from '../components/sections/FinalCTASection';
@@ -23,7 +22,7 @@ export const Home: React.FC = () => {
       <HeroSection />
       <ChatStory />
       <ServicesSection />
-      <GrowthTimeline />
+      {/* <GrowthTimeline /> */}
       <WhyGrowthPilot />
       <HomeFAQSection />
       <FinalCTASection />
