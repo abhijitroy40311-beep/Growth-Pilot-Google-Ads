@@ -213,4 +213,60 @@ export function buildWhatsAppInquiryMessage(
     .join('\n');
 }
 
+export const THANK_YOU_RECEIPT_STORAGE_KEY = 'gp_latest_inquiry_receipt';
 
+export interface SubmissionReceipt {
+  inquiryId: string;
+  submittedAt: string;
+  emailDispatched: boolean;
+  emailError?: string | null;
+  emailjsServiceId: string;
+  emailjsTemplateId?: string;
+  message: string;
+  summary: {
+    name: string;
+    businessName: string;
+    email: string;
+    serviceOfInterest: string;
+  };
+  formData?: ContactFormPayload;
+}
+
+export function isValidSubmissionReceipt(candidate: unknown): candidate is SubmissionReceipt {
+  if (!candidate || typeof candidate !== 'object') return false;
+  const obj = candidate as Record<string, unknown>;
+  if (typeof obj.inquiryId !== 'string' || !obj.inquiryId.startsWith('GP-')) return false;
+  if (typeof obj.submittedAt !== 'string' || !obj.submittedAt) return false;
+  if (!obj.summary || typeof obj.summary !== 'object') return false;
+  const summary = obj.summary as Record<string, unknown>;
+  return (
+    typeof summary.name === 'string' &&
+    summary.name.trim().length > 0 &&
+    typeof summary.businessName === 'string' &&
+    summary.businessName.trim().length > 0 &&
+    typeof summary.email === 'string' &&
+    summary.email.trim().length > 0 &&
+    typeof summary.serviceOfInterest === 'string' &&
+    summary.serviceOfInterest.trim().length > 0
+  );
+}
+
+export function resolveThankYouReceipt(
+  locationStateReceipt: unknown,
+  sessionStorageRaw?: string | null
+): SubmissionReceipt | null {
+  if (isValidSubmissionReceipt(locationStateReceipt)) {
+    return locationStateReceipt;
+  }
+  if (sessionStorageRaw) {
+    try {
+      const parsed = JSON.parse(sessionStorageRaw);
+      if (isValidSubmissionReceipt(parsed)) {
+        return parsed;
+      }
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}

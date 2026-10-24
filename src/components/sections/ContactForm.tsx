@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   CheckCircle2,
   AlertCircle,
@@ -11,6 +11,8 @@ import {
 import {
   ContactFormPayload,
   ContactFormErrors,
+  SubmissionReceipt,
+  THANK_YOU_RECEIPT_STORAGE_KEY,
   validateContactForm,
   buildEmailJsTemplateParams,
   buildWhatsAppContactUrl,
@@ -27,23 +29,8 @@ const budgetOptions = [
   '$10,000+',
 ];
 
-interface SubmissionReceipt {
-  inquiryId: string;
-  submittedAt: string;
-  emailDispatched: boolean;
-  emailError?: string | null;
-  emailjsServiceId: string;
-  emailjsTemplateId?: string;
-  message: string;
-  summary: {
-    name: string;
-    businessName: string;
-    email: string;
-    serviceOfInterest: string;
-  };
-}
-
 export const ContactForm: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<ContactFormPayload>({
     name: '',
     businessName: '',
@@ -61,6 +48,23 @@ export const ContactForm: React.FC = () => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<SubmissionReceipt | null>(null);
+
+  const finalizeAndRedirectToThankYou = (nextReceipt: SubmissionReceipt) => {
+    setReceipt(nextReceipt);
+    setErrors({});
+    try {
+      window.sessionStorage.setItem(
+        THANK_YOU_RECEIPT_STORAGE_KEY,
+        JSON.stringify(nextReceipt)
+      );
+    } catch {
+      // Ignore storage quota errors
+    }
+    navigate('/thank-you', {
+      state: { receipt: nextReceipt },
+      replace: true,
+    });
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -167,7 +171,7 @@ export const ContactForm: React.FC = () => {
       // If client-side EmailJS succeeded, confirm immediately without hitting /api/contact
       // (prevents 405 Method Not Allowed on static deployments such as Cloud Run static / Vercel / Netlify)
       if (clientEmailSent) {
-        setReceipt({
+        finalizeAndRedirectToThankYou({
           inquiryId: clientInquiryId,
           submittedAt,
           emailDispatched: true,
@@ -182,8 +186,8 @@ export const ContactForm: React.FC = () => {
             email: validation.sanitized.email,
             serviceOfInterest: validation.sanitized.serviceOfInterest,
           },
+          formData: validation.sanitized,
         });
-        setErrors({});
         return;
       }
 
@@ -227,7 +231,7 @@ export const ContactForm: React.FC = () => {
             return;
           }
 
-          setReceipt({
+          finalizeAndRedirectToThankYou({
             inquiryId: data.inquiryId || clientInquiryId,
             submittedAt: data.submittedAt || submittedAt,
             emailDispatched: Boolean(data.emailDispatched || clientEmailSent),
@@ -236,14 +240,14 @@ export const ContactForm: React.FC = () => {
             emailjsTemplateId: data.emailjsTemplateId || templateId,
             message: data.message,
             summary: data.summary,
+            formData: validation.sanitized,
           });
-          setErrors({});
           return;
         }
       }
 
       // 4. Static Deployment Fallback Receipt (ensures zero 405 error and provides instant WhatsApp/Email actions)
-      setReceipt({
+      finalizeAndRedirectToThankYou({
         inquiryId: clientInquiryId,
         submittedAt,
         emailDispatched: clientEmailSent,
@@ -258,8 +262,8 @@ export const ContactForm: React.FC = () => {
           email: validation.sanitized.email,
           serviceOfInterest: validation.sanitized.serviceOfInterest,
         },
+        formData: validation.sanitized,
       });
-      setErrors({});
     } catch {
       setServerError(
         'A network error occurred while sending your inquiry. Please check your connection and try again.'

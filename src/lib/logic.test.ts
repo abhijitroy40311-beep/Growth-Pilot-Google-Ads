@@ -5,6 +5,8 @@ import {
   isValidOptionalUrl,
   buildEmailJsTemplateParams,
   buildWhatsAppContactUrl,
+  isValidSubmissionReceipt,
+  resolveThankYouReceipt,
 } from './validation';
 import { filterProjects, filterFAQs, resolveJourneyStage } from './filterLogic';
 import {
@@ -157,5 +159,30 @@ test('buildWhatsAppContactUrl formats E.164 digits and encodes message cleanly',
   assert.equal(withoutPhone, 'https://wa.me/?text=Quick%20inquiry');
 });
 
+test('resolveThankYouReceipt blocks direct unsubmitted access and accepts completed form receipts', () => {
+  assert.equal(resolveThankYouReceipt(null, null), null);
+  assert.equal(resolveThankYouReceipt(undefined, '{invalid-json'), null);
+  assert.equal(isValidSubmissionReceipt({ inquiryId: 'INVALID' }), false);
 
+  const validReceipt = {
+    inquiryId: 'GP-M9XYZ-1234',
+    submittedAt: '2026-10-24T04:00:00.000Z',
+    emailDispatched: true,
+    emailjsServiceId: 'service_9efxkwk',
+    message: 'Thank you. Your project inquiry has been sent.',
+    summary: {
+      name: 'Aarav Mehta',
+      businessName: 'Meridian Precision Systems',
+      email: 'aarav@meridiansystems.com',
+      serviceOfInterest: 'Website Design & Development',
+    },
+  };
+
+  assert.equal(isValidSubmissionReceipt(validReceipt), true);
+  assert.deepEqual(resolveThankYouReceipt(validReceipt, null), validReceipt);
+  assert.deepEqual(
+    resolveThankYouReceipt(null, JSON.stringify(validReceipt)),
+    validReceipt
+  );
+});
 
