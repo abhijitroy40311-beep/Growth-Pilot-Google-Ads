@@ -132,9 +132,8 @@ export const HeroSection: React.FC = () => {
                       loading="lazy"
                       decoding="async"
                       referrerPolicy="no-referrer"
-                      className={`pointer-events-none absolute inset-0 h-full w-full object-contain ${
-                        reducedMotion ? '' : 'gp-arrow-enter'
-                      }`}
+                      className={`pointer-events-none absolute inset-0 h-full w-full object-contain ${reducedMotion ? '' : 'gp-arrow-enter'
+                        }`}
                     />
                   </div>
 

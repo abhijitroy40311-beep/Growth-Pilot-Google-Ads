@@ -1,162 +1,146 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Check } from 'lucide-react';
-import { processSteps } from '../../data/process';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, MessageSquare } from 'lucide-react';
 import { siteConfig } from '../../data/siteConfig';
 import { AnimatedHeading } from '../animation/AnimatedHeading';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { ScrollReveal } from '../animation/ScrollReveal';
 
-export const GrowthTimeline: React.FC = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const progressLineRef = useRef<HTMLDivElement>(null);
-  const arrowMarkerRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+interface DialogueMessage {
+  id: string;
+  speaker: 'BUSINESS OWNER' | 'GROWTHPILOT';
+  showTypingLeadIn?: boolean;
+  text: React.ReactNode;
+}
 
-  useEffect(() => {
-    if (reducedMotion || typeof window === 'undefined') {
-      setActiveIndex(processSteps.length - 1);
-      return;
-    }
+const storyMessages: DialogueMessage[] = [
+  {
+    id: 'msg-1',
+    speaker: 'BUSINESS OWNER',
+    text: (
+      <>
+        &ldquo;I&apos;m getting website visitors, but{' '}
+        <span className="text-white font-semibold">very few enquiries</span>.&rdquo;
+      </>
+    ),
+  },
+  {
+    id: 'msg-2',
+    speaker: 'GROWTHPILOT',
+    showTypingLeadIn: true,
+    text: (
+      <>
+        &ldquo;Let&apos;s identify{' '}
+        <span className="gp-gradient-text font-semibold">
+          what&apos;s preventing those visitors from taking action
+        </span>
+        .&rdquo;
+      </>
+    ),
+  },
+  {
+    id: 'msg-3',
+    speaker: 'BUSINESS OWNER',
+    text: (
+      <>
+        &ldquo;How do we know{' '}
+        <span className="text-white font-semibold">what is actually working</span>?&rdquo;
+      </>
+    ),
+  },
+  {
+    id: 'msg-4',
+    speaker: 'GROWTHPILOT',
+    showTypingLeadIn: true,
+    text: (
+      <>
+        &ldquo;We can improve your{' '}
+        <span className="gp-gradient-text font-semibold">landing page</span>,{' '}
+        <span className="gp-gradient-text font-semibold">
+          measure calls and form submissions
+        </span>
+        , and use <span className="gp-gradient-text font-semibold">campaign data</span> to guide the next steps.&rdquo;
+      </>
+    ),
+  },
+  {
+    id: 'msg-5',
+    speaker: 'BUSINESS OWNER',
+    text: (
+      <>
+        &ldquo;So the focus isn&apos;t just more traffic?&rdquo;
+      </>
+    ),
+  },
+  {
+    id: 'msg-6',
+    speaker: 'GROWTHPILOT',
+    showTypingLeadIn: true,
+    text: (
+      <>
+        &ldquo;Exactly. The goal is to build a{' '}
+        <span className="gp-gradient-text font-semibold">
+          better path from discovery to a meaningful enquiry
+        </span>
+        .&rdquo;
+      </>
+    ),
+  },
+];
 
-    const sectionEl = sectionRef.current;
-    const lineEl = progressLineRef.current;
-    const arrowEl = arrowMarkerRef.current;
-
-    if (!sectionEl || !lineEl) return;
-
-    let isCancelled = false;
-    let revertCtx: (() => void) | null = null;
-
-    const initTimeline = () => {
-      void Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(
-        ([{ default: gsap }, { ScrollTrigger }]) => {
-          if (isCancelled) return;
-          gsap.registerPlugin(ScrollTrigger);
-
-          const ctx = gsap.context(() => {
-            gsap.fromTo(
-              lineEl,
-              { scaleY: 0 },
-              {
-                scaleY: 1,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: sectionEl,
-                  start: 'top 65%',
-                  end: 'bottom 70%',
-                  scrub: 0.4,
-                  onUpdate: (self) => {
-                    const stepIdx = Math.min(
-                      processSteps.length - 1,
-                      Math.floor(self.progress * processSteps.length)
-                    );
-                    setActiveIndex((prev) => (prev !== stepIdx ? stepIdx : prev));
-                    if (arrowEl) {
-                      gsap.set(arrowEl, {
-                        y: `${self.progress * 100}%`,
-                      });
-                    }
-                  },
-                },
-              }
-            );
-          }, sectionRef);
-
-          revertCtx = () => ctx.revert();
-        }
-      );
-    };
-
-    let observer: IntersectionObserver | null = null;
-    if (typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0]?.isIntersecting) {
-            observer?.disconnect();
-            observer = null;
-            initTimeline();
-          }
-        },
-        { rootMargin: '300px 0px' }
-      );
-      observer.observe(sectionEl);
-    } else {
-      initTimeline();
-    }
-
-    return () => {
-      isCancelled = true;
-      if (observer) observer.disconnect();
-      if (revertCtx) revertCtx();
-    };
-  }, [reducedMotion]);
-
+export const ChatStory: React.FC = () => {
   return (
     <section
-      id="stage-process"
-      ref={sectionRef}
-      aria-labelledby="process-heading"
+      id="stage-story"
+      aria-labelledby="chat-story-heading"
       className="relative border-t border-white/10 bg-[#0B0D10] py-20 sm:py-28"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="max-w-2xl">
           <div className="text-xs font-mono text-[#08D9F5]">
-            03 · How We Make Your Service Better
+            01 · From Problem to Growth · Sample Consultation Dialogue
           </div>
           <AnimatedHeading
-            id="process-heading"
+            id="chat-story-heading"
             as="h2"
-            text="A Clear Process. Smarter Growth."
-            highlightWords={['Clear', 'Smarter', 'Growth']}
-            className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white"
+            text="Every Business Has a Growth Story."
+            highlightWords={['Growth', 'Story']}
+            className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-white"
           />
-          <p className="mt-4 text-base sm:text-lg text-[#A5AAB4]">
-            Every project follows a structured six-step methodology from initial discovery through launch and measurable refinement.
+          <p className="mt-3 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+            An illustrative look at how we diagnose conversion bottlenecks and connect website improvements with measurable enquiry tracking.
           </p>
         </div>
 
-        {/* Connected Timeline */}
-        <div className="relative mt-14 pl-8 sm:pl-12">
-          {/* Background Track Line */}
-          <div
-            aria-hidden="true"
-            className="absolute left-3 sm:left-4 top-2 bottom-2 w-0.5 bg-white/10"
-          />
-          {/* Animated Gradient Progress Line */}
-          <div
-            ref={progressLineRef}
-            aria-hidden="true"
-            className="absolute left-3 sm:left-4 top-2 bottom-2 w-0.5 gp-gradient-bg origin-top"
-            style={{ transform: reducedMotion ? 'scaleY(1)' : undefined }}
-          />
+        {/* Conversation Frame */}
+        <div className="mt-12 rounded-2xl border border-white/10 bg-[#050505] p-5 sm:p-8 md:p-10 shadow-2xl">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4 text-xs text-[#A5AAB4]">
+            <div className="flex items-center gap-2 font-mono">
+              <MessageSquare className="h-4 w-4 text-[#08D9F5]" aria-hidden="true" />
+              <span>Discovery Dialogue — Sample Scenario</span>
+            </div>
+            <span className="font-mono text-[#A5AAB4]">Illustrative Example</span>
+          </div>
 
-          <div className="space-y-8">
-            {processSteps.map((step, index) => {
-              const isIlluminated = index <= activeIndex;
+          <div className="mt-8 space-y-6">
+            {storyMessages.map((msg, index) => {
+              const isGrowthPilot = msg.speaker === 'GROWTHPILOT';
 
               return (
-                <div
-                  key={step.stepNumber}
-                  className={`relative rounded-2xl border p-6 sm:p-8 transition-colors duration-200 ${
-                    isIlluminated
-                      ? 'border-[#08D9F5]/35 bg-[#050505]'
-                      : 'border-white/10 bg-[#050505]/70'
-                  }`}
-                >
-                  {/* Milestone Node on the Track */}
-                  <div
-                    aria-hidden="true"
-                    className={`absolute -left-[29px] sm:-left-[41px] top-7 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-mono transition-colors duration-200 ${
-                      isIlluminated
-                        ? 'border-[#00E6A8] bg-[#050505] text-[#00E6A8] shadow-[0_0_14px_rgba(8,217,245,0.45)]'
-                        : 'border-white/20 bg-[#0B0D10] text-[#A5AAB4]'
+                <ScrollReveal
+                  key={msg.id}
+                  delay={index * 0.06}
+                  yOffset={18}
+                  className={`flex flex-col ${isGrowthPilot ? 'items-end' : 'items-start'
                     }`}
-                  >
-                    {index === activeIndex ? (
+                >
+                  <div className="mb-1.5 flex items-center gap-2 text-xs font-mono text-[#A5AAB4]">
+                    {isGrowthPilot && (
                       <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
                         <img
-                          src={siteConfig.assets.arrowSvg}
+                          src={siteConfig.assets.emblemSvg}
                           alt=""
+                          aria-hidden="true"
                           width={14}
                           height={14}
                           loading="lazy"
@@ -165,45 +149,53 @@ export const GrowthTimeline: React.FC = () => {
                           className="h-full w-full object-contain"
                         />
                       </span>
-                    ) : (
-                      step.stepNumber
+                    )}
+                    <span>
+                      {isGrowthPilot ? 'GrowthPilot Consultant' : 'Business Owner'}
+                    </span>
+                    {msg.showTypingLeadIn && (
+                      <span
+                        aria-hidden="true"
+                        className="inline-flex items-center gap-1 rounded bg-white/[0.04] px-1.5 py-0.5 text-[10px] text-[#08D9F5]"
+                      >
+                        <span className="inline-block h-1 w-1 rounded-full bg-[#1677FF]" />
+                        <span className="inline-block h-1 w-1 rounded-full bg-[#08D9F5]" />
+                        <span className="inline-block h-1 w-1 rounded-full bg-[#00E6A8]" />
+                      </span>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
-                    <div className="lg:col-span-7">
-                      <div className="font-mono text-xs text-[#08D9F5]">
-                        {step.code}
-                      </div>
-                      <h3 className="mt-2 text-xl sm:text-2xl font-bold text-white">
-                        {step.title}
-                      </h3>
-                      <p className="mt-2.5 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-
-                    <div className="lg:col-span-5 border-t border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pl-6 lg:pt-0">
-                      <div className="text-xs font-mono text-white/75">
-                        Key Deliverables
-                      </div>
-                      <ul className="mt-3 space-y-2 text-sm text-[#A5AAB4]">
-                        {step.deliverables.map((item) => (
-                          <li key={item} className="flex items-start gap-2">
-                            <Check
-                              className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
-                              aria-hidden="true"
-                            />
-                            <span className="text-white/90">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div
+                    className={`max-w-xl rounded-2xl px-5 py-4 text-sm sm:text-base leading-relaxed ${isGrowthPilot
+                        ? 'border border-[#08D9F5]/30 bg-[#0B0D10] text-white shadow-lg'
+                        : 'border border-white/10 bg-white/[0.03] text-[#A5AAB4]'
+                      }`}
+                  >
+                    {msg.text}
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
+
+          {/* Closing Prompt & CTA */}
+          <ScrollReveal className="mt-10 border-t border-white/10 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+              <p className="text-lg sm:text-xl font-bold text-white">
+                Your next growth chapter starts here.
+              </p>
+              <p className="mt-1 text-xs sm:text-sm text-[#A5AAB4]">
+                Tell us where visitors are dropping off and what kind of enquiries matter most to your business.
+              </p>
+            </div>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-xl gp-gradient-bg px-5 py-3 text-sm font-semibold text-[#050505] transition-transform duration-150 hover:scale-[1.02] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08D9F5]"
+            >
+              <span>Discuss Your Goals</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </ScrollReveal>
         </div>
       </div>
     </section>
