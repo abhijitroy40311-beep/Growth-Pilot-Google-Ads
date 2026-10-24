@@ -57,16 +57,18 @@ export const FinalCTASection: React.FC = () => {
 
             {/* Final Stage Brand Emblem Companion Anchor */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center border-t border-white/10 pt-8 lg:border-t-0 lg:border-l lg:pl-8 lg:pt-0">
-              <img
-                src={siteConfig.assets.emblemSvg}
-                alt="GrowthPilot Emblem"
-                width={112}
-                height={112}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="h-24 w-24 sm:h-28 sm:w-28 object-contain"
-              />
+              <div className="relative aspect-square h-24 w-24 sm:h-28 sm:w-28 shrink-0 overflow-hidden flex items-center justify-center">
+                <img
+                  src={siteConfig.assets.emblemSvg}
+                  alt="GrowthPilot Emblem"
+                  width={112}
+                  height={112}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-contain"
+                />
+              </div>
               <p className="mt-4 text-center text-xs font-mono text-white/80">
                 {siteConfig.tagline}
               </p>

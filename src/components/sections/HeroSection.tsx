@@ -112,15 +112,14 @@ export const HeroSection: React.FC = () => {
 
                 {/* Animated Vector Emblem & Directional Arrow Reveal Above Original Brand Lockup */}
                 <div className="relative mx-auto flex flex-col items-center">
-                  <div className="relative h-36 w-36 sm:h-44 sm:w-44 flex items-center justify-center">
+                  <div className="relative aspect-square h-36 w-36 sm:h-44 sm:w-44 shrink-0 overflow-hidden flex items-center justify-center">
                     <img
                       src={siteConfig.assets.emblemSvg}
                       alt="GrowthPilot Circular Growth Emblem"
                       width={176}
                       height={176}
-                      fetchPriority="high"
-                      loading="eager"
-                      decoding="sync"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-contain select-none"
                     />
@@ -130,9 +129,8 @@ export const HeroSection: React.FC = () => {
                       aria-hidden="true"
                       width={176}
                       height={176}
-                      fetchPriority="high"
-                      loading="eager"
-                      decoding="sync"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className={`pointer-events-none absolute inset-0 h-full w-full object-contain ${
                         reducedMotion ? '' : 'gp-arrow-enter'

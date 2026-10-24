@@ -477,7 +477,7 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
         <div ref={carriageRef} className="relative flex flex-col items-center will-change-transform">
           <div
             ref={symbolRef}
-            className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-[#0B0D10]/95 p-2 shadow-2xl backdrop-blur-md will-change-transform"
+            className="relative flex aspect-square h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-[#0B0D10]/95 p-2 shadow-2xl backdrop-blur-md will-change-transform"
           >
             <div
               ref={glowRef}
@@ -487,25 +487,29 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
                   'linear-gradient(110deg, rgba(22,119,255,0.45), rgba(8,217,245,0.4), rgba(0,230,168,0.45))',
               }}
             />
-            <img
-              src={siteConfig.assets.emblemSvg}
-              alt=""
-              width={32}
-              height={32}
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="relative z-10 h-full w-full object-contain"
-            />
-            <img
-              ref={arrowOverlayRef}
-              src={siteConfig.assets.arrowSvg}
-              alt=""
-              width={32}
-              height={32}
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="pointer-events-none absolute inset-2 z-20 h-[calc(100%-1rem)] w-[calc(100%-1rem)] object-contain opacity-90"
-            />
+            <div className="relative z-10 aspect-square h-8 w-8 shrink-0 overflow-hidden flex items-center justify-center">
+              <img
+                src={siteConfig.assets.emblemSvg}
+                alt=""
+                width={32}
+                height={32}
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                className="h-full w-full object-contain"
+              />
+              <img
+                ref={arrowOverlayRef}
+                src={siteConfig.assets.arrowSvg}
+                alt=""
+                width={32}
+                height={32}
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                className="pointer-events-none absolute inset-0 z-20 h-full w-full object-contain opacity-90"
+              />
+            </div>
           </div>
 
           <div className="mt-1.5 rounded border border-white/10 bg-[#050505]/90 px-1.5 py-0.5 text-center font-mono text-[10px] leading-tight text-[#08D9F5] whitespace-nowrap">
@@ -526,7 +530,7 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
           <div className="flex items-center gap-2 min-w-0">
             <div
               ref={mobileSymbolRef}
-              className="relative flex h-5 w-5 shrink-0 items-center justify-center will-change-transform"
+              className="relative flex aspect-square h-5 w-5 shrink-0 items-center justify-center overflow-hidden will-change-transform"
             >
               <img
                 src={siteConfig.assets.emblemSvg}
@@ -534,6 +538,7 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
                 aria-hidden="true"
                 width={20}
                 height={20}
+                loading="lazy"
                 decoding="async"
                 referrerPolicy="no-referrer"
                 className="h-full w-full object-contain"

@@ -153,16 +153,18 @@ export const GrowthTimeline: React.FC = () => {
                     }`}
                   >
                     {index === activeIndex ? (
-                      <img
-                        src={siteConfig.assets.arrowSvg}
-                        alt=""
-                        width={14}
-                        height={14}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="h-3.5 w-3.5 object-contain"
-                      />
+                      <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
+                        <img
+                          src={siteConfig.assets.arrowSvg}
+                          alt=""
+                          width={14}
+                          height={14}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-contain"
+                        />
+                      </span>
                     ) : (
                       step.stepNumber
                     )}

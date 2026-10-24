@@ -94,16 +94,18 @@ export const About: React.FC = () => {
 
             <div className="lg:col-span-4 flex justify-center lg:justify-end">
               <div className="rounded-2xl border border-white/15 bg-[#0B0D10] p-8 text-center shadow-2xl">
-                <img
-                  src={siteConfig.assets.emblemSvg}
-                  alt="GrowthPilot Emblem"
-                  width={112}
-                  height={112}
-                  fetchPriority="high"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="mx-auto h-28 w-28 object-contain"
-                />
+                <div className="relative mx-auto aspect-square h-28 w-28 shrink-0 overflow-hidden flex items-center justify-center">
+                  <img
+                    src={siteConfig.assets.emblemSvg}
+                    alt="GrowthPilot Emblem"
+                    width={112}
+                    height={112}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
                 <div className="mt-4 font-bold text-xl">
                   <span className="text-white">Growth</span>
                   <span className="gp-gradient-text">Pilot</span>
@@ -183,17 +185,19 @@ export const About: React.FC = () => {
                   <div>
                     <div className="flex items-center justify-between font-mono text-xs text-[#08D9F5]">
                       <span>Phase {phase.step}</span>
-                      <img
-                        src={siteConfig.assets.arrowSvg}
-                        alt=""
-                        aria-hidden="true"
-                        width={14}
-                        height={14}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="h-3.5 w-3.5 object-contain"
-                      />
+                      <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
+                        <img
+                          src={siteConfig.assets.arrowSvg}
+                          alt=""
+                          aria-hidden="true"
+                          width={14}
+                          height={14}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-contain"
+                        />
+                      </span>
                     </div>
                     <h3 className="mt-4 text-xl font-bold text-white">
                       {phase.title}

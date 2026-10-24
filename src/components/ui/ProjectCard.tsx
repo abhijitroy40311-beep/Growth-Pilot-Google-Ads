@@ -153,17 +153,19 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onSelect }) =
           <div className="relative z-10 flex h-full flex-col justify-between rounded-xl border border-white/10 bg-[#0B0D10]/90 p-4 transition-transform duration-300 group-hover:scale-[1.02]">
             <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2 text-[11px] font-mono text-[#A5AAB4]">
               <span className="truncate">{project.statusLabel} · {project.category}</span>
-              <img
-                src={siteConfig.assets.arrowSvg}
-                alt=""
-                aria-hidden="true"
-                width={14}
-                height={14}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="h-3.5 w-3.5 object-contain shrink-0"
-              />
+              <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
+                <img
+                  src={siteConfig.assets.arrowSvg}
+                  alt=""
+                  aria-hidden="true"
+                  width={14}
+                  height={14}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-contain"
+                />
+              </span>
             </div>
 
             {renderBlueprintGraphic(project.previewTheme.layoutType)}

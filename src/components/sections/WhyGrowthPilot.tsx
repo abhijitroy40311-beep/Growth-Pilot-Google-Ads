@@ -31,17 +31,19 @@ export const WhyGrowthPilot: React.FC = () => {
 
           <div className="lg:col-span-4 flex lg:justify-end">
             <div className="inline-flex items-center gap-3 rounded-xl border border-white/10 bg-[#0B0D10] px-4 py-3">
-              <img
-                src={siteConfig.assets.emblemSvg}
-                alt=""
-                aria-hidden="true"
-                width={28}
-                height={28}
-                loading="lazy"
-                decoding="async"
-                referrerPolicy="no-referrer"
-                className="h-7 w-7 object-contain"
-              />
+              <span className="relative inline-flex aspect-square h-7 w-7 shrink-0 items-center justify-center overflow-hidden">
+                <img
+                  src={siteConfig.assets.emblemSvg}
+                  alt=""
+                  aria-hidden="true"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-contain"
+                />
+              </span>
               <span className="text-xs font-mono text-white/85">
                 Understand → Plan → Build → Measure → Improve
               </span>

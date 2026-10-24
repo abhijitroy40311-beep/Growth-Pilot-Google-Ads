@@ -137,17 +137,19 @@ export const ChatStory: React.FC = () => {
                 >
                   <div className="mb-1.5 flex items-center gap-2 text-xs font-mono text-[#A5AAB4]">
                     {isGrowthPilot && (
-                      <img
-                        src={siteConfig.assets.emblemSvg}
-                        alt=""
-                        aria-hidden="true"
-                        width={14}
-                        height={14}
-                        loading="lazy"
-                        decoding="async"
-                        referrerPolicy="no-referrer"
-                        className="h-3.5 w-3.5 object-contain"
-                      />
+                      <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
+                        <img
+                          src={siteConfig.assets.emblemSvg}
+                          alt=""
+                          aria-hidden="true"
+                          width={14}
+                          height={14}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          className="h-full w-full object-contain"
+                        />
+                      </span>
                     )}
                     <span>
                       {isGrowthPilot ? 'GrowthPilot Consultant' : 'Business Owner'}
