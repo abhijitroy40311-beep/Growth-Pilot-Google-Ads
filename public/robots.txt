@@ -1,4 +1,30 @@
+# GrowthPilot — robots.txt
+# https://growthpilot.agancy.workers.dev/robots.txt
+
 User-agent: *
 Allow: /
+Allow: /assets/
 
+# Prevent indexing of internal search or raw tracking query parameters
+Disallow: /*?s=*
+Disallow: /*?search=*
+
+# Explicitly allow Google Search & Ads bots full rendering access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+# Allow AI Search Engines (GEO / AI Search Visibility)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# XML Sitemap Location
 Sitemap: https://growthpilot.agancy.workers.dev/sitemap.xml

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { LogoScrollJourney } from '../components/animation/LogoScrollJourney';
@@ -10,23 +11,30 @@ import { FinalCTASection } from '../components/sections/FinalCTASection';
 
 export const Home: React.FC = () => {
   useDocumentMeta({
-    title: 'GrowthPilot — Navigate Growth With Intelligence',
+    title: 'Google Ads Management & Lead Generation | GrowthPilot',
     description:
-      'Websites, performance marketing, conversion optimization, and intelligent digital experiences designed to turn attention into meaningful enquiries.',
+      'GrowthPilot helps service businesses attract qualified leads through Google Ads management, conversion-focused landing pages, and accurate conversion tracking.',
     path: '/',
   });
 
   return (
-    <div id="home-journey-container" className="relative">
-      <LogoScrollJourney containerSelector="#home-journey-container" />
+    <main id="home-journey-container" className="relative">
+      <LogoScrollJourney
+        containerSelector="#home-journey-container"
+      />
+
       <HeroSection />
+
       <ChatStory />
+
       <ServicesSection />
-      {/* <GrowthTimeline /> */}
+
       <WhyGrowthPilot />
+
       <HomeFAQSection />
+
       <FinalCTASection />
-    </div>
+    </main>
   );
 };
 
