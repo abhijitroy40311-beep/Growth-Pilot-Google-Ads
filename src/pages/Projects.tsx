@@ -68,7 +68,7 @@ export const Projects: React.FC = () => {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-              Project Gallery · Clearly Labeled Demo &amp; Reference Architectures
+              Project Gallery · Clearly &amp; Reference Architectures
             </p>
             <AnimatedHeading
               as="h1"

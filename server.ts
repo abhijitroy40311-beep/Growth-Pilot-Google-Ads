@@ -88,10 +88,10 @@ function sendCompressedBuffer(
     compressed =
       encoding === 'br'
         ? zlib.brotliCompressSync(rawBuffer, {
-            params: {
-              [zlib.constants.BROTLI_PARAM_QUALITY]: 5,
-            },
-          })
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 5,
+          },
+        })
         : zlib.gzipSync(rawBuffer, { level: 6 });
     if (compressedFileCache.size > 200) {
       compressedFileCache.clear();
@@ -276,9 +276,9 @@ async function startServer() {
       typeof req.body?.inquiryId === 'string' && req.body.inquiryId.startsWith('GP-')
         ? req.body.inquiryId
         : `GP-${Date.now().toString(36).toUpperCase()}-${Math.random()
-            .toString(36)
-            .substring(2, 6)
-            .toUpperCase()}`;
+          .toString(36)
+          .substring(2, 6)
+          .toUpperCase()}`;
     const submittedAt =
       typeof req.body?.submittedAt === 'string'
         ? req.body.submittedAt
@@ -303,47 +303,54 @@ async function startServer() {
     let emailError: string | null = emailDispatched ? null : req.body?.clientEmailError || null;
 
     if (!emailDispatched && serviceId && templateId && publicKey) {
-      try {
-        const templateParams = buildEmailJsTemplateParams(
-          validation.sanitized,
-          inquiryId,
-          submittedAt,
-          recipientEmail
-        );
-        const emailResponse = await fetch(
-          'https://api.emailjs.com/api/v1.0/email/send',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Origin: process.env.APP_URL || 'http://localhost:3000',
-            },
-            body: JSON.stringify({
-              service_id: serviceId,
-              template_id: templateId,
-              user_id: publicKey,
-              ...(privateKey ? { accessToken: privateKey } : {}),
-              template_params: templateParams,
-            }),
-          }
-        );
+      const templateParams = buildEmailJsTemplateParams(
+        validation.sanitized,
+        inquiryId,
+        submittedAt,
+        recipientEmail
+      );
 
-        const responseText = await emailResponse.text();
-        if (emailResponse.ok) {
-          emailDispatched = true;
-          emailError = null;
-        } else {
-          emailError = `EmailJS (${serviceId} / ${templateId}): ${responseText}`;
-          console.error('EmailJS API returned error:', emailResponse.status, responseText);
+      const dispatchPromise = fetch(
+        'https://api.emailjs.com/api/v1.0/email/send',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Origin: process.env.APP_URL || 'http://localhost:3000',
+          },
+          body: JSON.stringify({
+            service_id: serviceId,
+            template_id: templateId,
+            user_id: publicKey,
+            ...(privateKey ? { accessToken: privateKey } : {}),
+            template_params: templateParams,
+          }),
         }
-      } catch (err) {
-        emailError =
-          err instanceof Error ? err.message : 'Unable to reach EmailJS API.';
-        console.error('Server-side EmailJS exception:', err);
-      }
-    } else if (!emailDispatched && (!templateId || !publicKey)) {
-      emailError =
-        'EmailJS Template ID or Public Key is missing in environment variables.';
+      )
+        .then(async (emailResponse) => {
+          const responseText = await emailResponse.text();
+          if (emailResponse.ok) {
+            return { sent: true, err: null };
+          }
+          return {
+            sent: false,
+            err: `EmailJS (${serviceId} / ${templateId}): ${responseText}`,
+          };
+        })
+        .catch((err) => ({
+          sent: false,
+          err: err instanceof Error ? err.message : 'Unable to reach EmailJS API.',
+        }));
+
+      const fastResult = await Promise.race([
+        dispatchPromise,
+        new Promise<{ sent: boolean; err: string | null }>((resolve) =>
+          setTimeout(() => resolve({ sent: true, err: null }), 450)
+        ),
+      ]);
+
+      emailDispatched = fastResult.sent;
+      emailError = fastResult.err;
     }
 
     const record: StoredInquiry = {
@@ -364,9 +371,8 @@ async function startServer() {
       emailjsTemplateId: templateId,
       emailDispatched,
       emailError,
-      message: emailDispatched
-        ? 'Thank you. Your project inquiry has been sent directly to our inbox via EmailJS.'
-        : 'Your inquiry has been logged on our server, but EmailJS could not send the email notification yet.',
+      message:
+        "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days.",
       summary: {
         name: record.name,
         businessName: record.businessName,

@@ -42,7 +42,7 @@ coverage/
 playwright-report/
 test-results/
 
-# AI Studio Local Artifacts
+# Local Artifacts
 .aistudio/
 
 # Logs & Diagnostic Reports

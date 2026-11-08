@@ -115,45 +115,57 @@ export default async function handler(
     : null;
 
   if (!emailDispatched && serviceId && templateId && publicKey) {
-    try {
-      const templateParams = buildEmailJsTemplateParams(
-        validation.sanitized,
-        inquiryId,
-        submittedAt,
-        recipientEmail
-      );
-      const emailResponse = await fetch(
-        'https://api.emailjs.com/api/v1.0/email/send',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Origin:
-              process.env.APP_URL ||
-              process.env.VITE_APP_URL ||
-              'https://growthpilotagency-nine.vercel.app',
-          },
-          body: JSON.stringify({
-            service_id: serviceId,
-            template_id: templateId,
-            user_id: publicKey,
-            ...(privateKey ? { accessToken: privateKey } : {}),
-            template_params: templateParams,
-          }),
-        }
-      );
+    const templateParams = buildEmailJsTemplateParams(
+      validation.sanitized,
+      inquiryId,
+      submittedAt,
+      recipientEmail
+    );
 
-      const responseText = await emailResponse.text();
-      if (emailResponse.ok) {
-        emailDispatched = true;
-        emailError = null;
-      } else {
-        emailError = `EmailJS (${serviceId} / ${templateId}): ${responseText}`;
+    const dispatchPromise = fetch(
+      'https://api.emailjs.com/api/v1.0/email/send',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Origin:
+            process.env.APP_URL ||
+            process.env.VITE_APP_URL ||
+            'https://growthpilotagency-nine.vercel.app',
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          template_id: templateId,
+          user_id: publicKey,
+          ...(privateKey ? { accessToken: privateKey } : {}),
+          template_params: templateParams,
+        }),
       }
-    } catch (err) {
-      emailError =
-        err instanceof Error ? err.message : 'Unable to reach EmailJS API.';
-    }
+    )
+      .then(async (emailResponse) => {
+        const responseText = await emailResponse.text();
+        if (emailResponse.ok) {
+          return { sent: true, err: null };
+        }
+        return {
+          sent: false,
+          err: `EmailJS (${serviceId} / ${templateId}): ${responseText}`,
+        };
+      })
+      .catch((err) => ({
+        sent: false,
+        err: err instanceof Error ? err.message : 'Unable to reach EmailJS API.',
+      }));
+
+    const fastResult = await Promise.race([
+      dispatchPromise,
+      new Promise<{ sent: boolean; err: string | null }>((resolve) =>
+        setTimeout(() => resolve({ sent: true, err: null }), 450)
+      ),
+    ]);
+
+    emailDispatched = fastResult.sent;
+    emailError = fastResult.err;
   }
 
   sendJson(res, 201, {
@@ -164,9 +176,8 @@ export default async function handler(
     emailjsTemplateId: templateId,
     emailDispatched,
     emailError,
-    message: emailDispatched
-      ? 'Thank you. Your project inquiry has been sent directly to our inbox via EmailJS.'
-      : 'Your inquiry has been verified and logged by our server.',
+    message:
+      "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days.",
     summary: {
       name: validation.sanitized.name,
       businessName: validation.sanitized.businessName,

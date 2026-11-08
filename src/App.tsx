@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { Navbar } from './components/navigation/Navbar';
@@ -17,14 +17,13 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import About from './pages/About';
 import DentalImplantMarketing from './pages/DentalImplantMarketing';
-
-const Projects = lazy(() => import('./pages/Projects'));
-const Contact = lazy(() => import('./pages/Contact'));
-const ThankYou = lazy(() => import('./pages/ThankYou'));
-const FAQ = lazy(() => import('./pages/FAQ'));
-const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
-const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
+import ThankYou from './pages/ThankYou';
+import FAQ from './pages/FAQ';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -41,33 +40,23 @@ export default function App() {
           <Navbar />
           <main id="main-content" className="flex-1 overflow-x-clip">
             <PageTransition>
-              <Suspense
-                fallback={
-                  <div
-                    aria-busy="true"
-                    aria-label="Loading page content"
-                    className="min-h-[75vh] w-full bg-[#050505]"
-                  />
-                }
-              >
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/work" element={<Navigate to="/projects" replace />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route
-                    path="/dental-implant-marketing"
-                    element={<DentalImplantMarketing />}
-                  />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/thank-you" element={<ThankYou />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/work" element={<Navigate to="/projects" replace />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/services" element={<Services />} />
+                <Route
+                  path="/dental-implant-marketing"
+                  element={<DentalImplantMarketing />}
+                />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/thank-you" element={<ThankYou />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </PageTransition>
           </main>
           <Footer />

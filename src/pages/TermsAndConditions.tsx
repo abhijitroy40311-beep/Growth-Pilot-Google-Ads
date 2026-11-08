@@ -49,7 +49,7 @@ export const TermsAndConditions: React.FC = () => {
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-white">4. Demonstration &amp; Concept Projects</h2>
             <p>
-              Projects labeled as &ldquo;Demo Architecture&rdquo;, &ldquo;Concept Showcase&rdquo;, or &ldquo;Reference Blueprint&rdquo; in our gallery are illustrative architectural examples designed to demonstrate our engineering and measurement methodology.
+              Projects labeled as &ldquo;Architecture&rdquo;, &ldquo;Concept Showcase&rdquo;, or &ldquo;Reference Blueprint&rdquo; in our gallery are illustrative architectural designed to demonstrate our engineering and measurement methodology.
             </p>
           </section>
 
