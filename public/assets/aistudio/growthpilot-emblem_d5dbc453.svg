@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 326 288" fill="none">
+  <defs>
+    <linearGradient id="gp-emblem-grad" x1="10" y1="180" x2="316" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0B6EDD" />
+      <stop offset="28%" stop-color="#1B8EF6" />
+      <stop offset="55%" stop-color="#0ECDF6" />
+      <stop offset="80%" stop-color="#07F6D0" />
+      <stop offset="100%" stop-color="#12F1B9" />
+    </linearGradient>
+    <linearGradient id="gp-arrow-grad" x1="42" y1="248" x2="316" y2="31" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0B6EDD" />
+      <stop offset="35%" stop-color="#1CB4FC" />
+      <stop offset="65%" stop-color="#0FF2F2" />
+      <stop offset="85%" stop-color="#07F6D0" />
+      <stop offset="100%" stop-color="#12F1B9" />
+    </linearGradient>
+    <linearGradient id="gp-lower-g" x1="79" y1="250" x2="272" y2="153" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1CB4FC" />
+      <stop offset="50%" stop-color="#0ECDF6" />
+      <stop offset="100%" stop-color="#07F6D0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Upper-Left G Arc -->
+  <path
+    d="M236 47 A133 133 0 0 0 42 231 L81 199 A83 83 0 0 1 196 66 Z"
+    fill="url(#gp-emblem-grad)"
+  />
+
+  <!-- Center Notched Facet + Isolated Arrow -->
+  <path
+    d="M117 133 L137 133 L137 154 L117 170 Z"
+    fill="#1B8EF6"
+  />
+  <path
+    d="M42 231 C47 238, 53 244, 59 248 L241 100 L270 125 L316 31 L192 76 L221 89 L42 231 Z"
+    fill="url(#gp-arrow-grad)"
+  />
+
+  <!-- Lower-Right G Crossbar and Arc -->
+  <path
+    d="M206 153 L272 153 A133 133 0 0 1 79 256 L118 224 A83 83 0 0 0 218 190 L166 190 Z"
+    fill="url(#gp-lower-g)"
+  />
+</svg>
