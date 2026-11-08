@@ -108,298 +108,298 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
           if (isCancelled) return;
           gsap.registerPlugin(ScrollTrigger);
 
-        const ctx = gsap.context(() => {
-          if (carriageEl) {
-            gsap.set(carriageEl, { x: 0, y: 0, force3D: true });
-          }
-          if (symbolEl) {
-            gsap.set(symbolEl, {
-              scale: 1,
-              rotation: 0,
-              rotationY: 0,
-              transformPerspective: 900,
-              force3D: true,
-            });
-          }
-          if (mobileSymbolEl) {
-            gsap.set(mobileSymbolEl, {
-              scale: 1,
-              rotation: 0,
-              rotationY: 0,
-              transformPerspective: 600,
-              force3D: true,
-            });
-          }
+          const ctx = gsap.context(() => {
+            if (carriageEl) {
+              gsap.set(carriageEl, { x: 0, y: 0, force3D: true });
+            }
+            if (symbolEl) {
+              gsap.set(symbolEl, {
+                scale: 1,
+                rotation: 0,
+                rotationY: 0,
+                transformPerspective: 900,
+                force3D: true,
+              });
+            }
+            if (mobileSymbolEl) {
+              gsap.set(mobileSymbolEl, {
+                scale: 1,
+                rotation: 0,
+                rotationY: 0,
+                transformPerspective: 600,
+                force3D: true,
+              });
+            }
 
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: containerEl,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: 0.55,
-              onUpdate: (self) => {
-                const stage = resolveJourneyStage(self.progress);
-                setActiveStage((prev) => (prev.stageIndex !== stage.stageIndex ? stage : prev));
-                if (mobileBarEl) {
-                  mobileBarEl.style.transform = `scaleX(${self.progress.toFixed(4)})`;
-                }
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: containerEl,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 0.55,
+                onUpdate: (self) => {
+                  const stage = resolveJourneyStage(self.progress);
+                  setActiveStage((prev) => (prev.stageIndex !== stage.stageIndex ? stage : prev));
+                  if (mobileBarEl) {
+                    mobileBarEl.style.transform = `scaleX(${self.progress.toFixed(4)})`;
+                  }
+                },
               },
-            },
-          });
+            });
 
-          const bothSymbols = [symbolEl, mobileSymbolEl].filter(Boolean);
+            const bothSymbols = [symbolEl, mobileSymbolEl].filter(Boolean);
 
-      // STAGE 1 -> STAGE 2 (ABOUT / STORY): Scale down & move along dedicated right rail
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            x: -4,
-            y: 68,
-            duration: 1,
-            ease: 'power2.inOut',
-          },
-          0
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            scale: 0.86,
-            rotation: 28,
-            rotationY: 0,
-            duration: 1,
-            ease: 'power2.inOut',
-          },
-          0
-        );
-      }
-      if (glowEl) {
-        tl.to(
-          glowEl,
-          {
-            scale: 0.85,
-            opacity: 0.55,
-            duration: 1,
-          },
-          0
-        );
-      }
+            // STAGE 1 -> STAGE 2 (ABOUT / STORY): Scale down & move along dedicated right rail
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  x: -4,
+                  y: 68,
+                  duration: 1,
+                  ease: 'power2.inOut',
+                },
+                0
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  scale: 0.86,
+                  rotation: 28,
+                  rotationY: 0,
+                  duration: 1,
+                  ease: 'power2.inOut',
+                },
+                0
+              );
+            }
+            if (glowEl) {
+              tl.to(
+                glowEl,
+                {
+                  scale: 0.85,
+                  opacity: 0.55,
+                  duration: 1,
+                },
+                0
+              );
+            }
 
-      // STAGE 2 -> STAGE 3 (SERVICES): Rotate ~135deg so arrow points toward next stage
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            x: 0,
-            y: 146,
-            duration: 1,
-            ease: 'power2.inOut',
-          },
-          1
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            scale: 0.9,
-            rotation: 135,
-            rotationY: 0,
-            duration: 1,
-            ease: 'power2.inOut',
-          },
-          1
-        );
-      }
-      if (glowEl) {
-        tl.to(
-          glowEl,
-          {
-            scale: 0.95,
-            opacity: 0.7,
-            duration: 1,
-          },
-          1
-        );
-      }
+            // STAGE 2 -> STAGE 3 (SERVICES): Rotate ~135deg so arrow points toward next stage
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  x: 0,
+                  y: 146,
+                  duration: 1,
+                  ease: 'power2.inOut',
+                },
+                1
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  scale: 0.9,
+                  rotation: 135,
+                  rotationY: 0,
+                  duration: 1,
+                  ease: 'power2.inOut',
+                },
+                1
+              );
+            }
+            if (glowEl) {
+              tl.to(
+                glowEl,
+                {
+                  scale: 0.95,
+                  opacity: 0.7,
+                  duration: 1,
+                },
+                1
+              );
+            }
 
-      // STAGE 3 -> STAGE 4 (PROCESS): Controlled 3D vertical flip (full 360deg so symbol is never mirrored)
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            x: -6,
-            y: 224,
-            duration: 1.1,
-            ease: 'power2.inOut',
-          },
-          2
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            scale: 0.94,
-            rotation: 45,
-            rotationY: 360,
-            duration: 1.1,
-            ease: 'power2.inOut',
-          },
-          2
-        );
-      }
-      if (glowEl) {
-        tl.to(
-          glowEl,
-          {
-            scale: 1.05,
-            opacity: 0.8,
-            duration: 1.1,
-          },
-          2
-        );
-      }
+            // STAGE 3 -> STAGE 4 (PROCESS): Controlled 3D vertical flip (full 360deg so symbol is never mirrored)
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  x: -6,
+                  y: 224,
+                  duration: 1.1,
+                  ease: 'power2.inOut',
+                },
+                2
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  scale: 0.94,
+                  rotation: 45,
+                  rotationY: 360,
+                  duration: 1.1,
+                  ease: 'power2.inOut',
+                },
+                2
+              );
+            }
+            if (glowEl) {
+              tl.to(
+                glowEl,
+                {
+                  scale: 1.05,
+                  opacity: 0.8,
+                  duration: 1.1,
+                },
+                2
+              );
+            }
 
-      // STAGE 4 -> STAGE 5 (PROJECTS / ARCHITECTURE): Smooth curved motion path with subtle gradient trail
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            keyframes: [
-              { x: -14, y: 278 },
-              { x: -2, y: 332 },
-            ],
-            duration: 1.1,
-            ease: 'sine.inOut',
-          },
-          3.1
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            keyframes: [
-              { rotation: 18, scale: 0.88 },
-              { rotation: 32, scale: 0.92 },
-            ],
-            duration: 1.1,
-            ease: 'sine.inOut',
-          },
-          3.1
-        );
-      }
+            // STAGE 4 -> STAGE 5 (PROJECTS / ARCHITECTURE): Smooth curved motion path with subtle gradient trail
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  keyframes: [
+                    { x: -14, y: 278 },
+                    { x: -2, y: 332 },
+                  ],
+                  duration: 1.1,
+                  ease: 'sine.inOut',
+                },
+                3.1
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  keyframes: [
+                    { rotation: 18, scale: 0.88 },
+                    { rotation: 32, scale: 0.92 },
+                  ],
+                  duration: 1.1,
+                  ease: 'sine.inOut',
+                },
+                3.1
+              );
+            }
 
-      if (trailEl) {
-        tl.fromTo(
-          trailEl,
-          { opacity: 0, strokeDashoffset: 240 },
-          { opacity: 0.85, strokeDashoffset: 0, duration: 1.1, ease: 'power1.out' },
-          3.1
-        );
-      }
+            if (trailEl) {
+              tl.fromTo(
+                trailEl,
+                { opacity: 0, strokeDashoffset: 240 },
+                { opacity: 0.85, strokeDashoffset: 0, duration: 1.1, ease: 'power1.out' },
+                3.1
+              );
+            }
 
-      // STAGE 5 -> STAGE 6 (RESULTS / PROGRESS): Arrow rotates upward to symbolize progress + expanding glow
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            x: -4,
-            y: 398,
-            duration: 1,
-            ease: 'back.out(1.4)',
-          },
-          4.2
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            scale: 0.98,
-            rotation: -14,
-            duration: 1,
-            ease: 'back.out(1.4)',
-          },
-          4.2
-        );
-      }
-      if (glowEl) {
-        tl.to(
-          glowEl,
-          {
-            scale: 1.4,
-            opacity: 0.95,
-            duration: 1,
-            ease: 'power2.out',
-          },
-          4.2
-        );
-      }
+            // STAGE 5 -> STAGE 6 (RESULTS / PROGRESS): Arrow rotates upward to symbolize progress + expanding glow
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  x: -4,
+                  y: 398,
+                  duration: 1,
+                  ease: 'back.out(1.4)',
+                },
+                4.2
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  scale: 0.98,
+                  rotation: -14,
+                  duration: 1,
+                  ease: 'back.out(1.4)',
+                },
+                4.2
+              );
+            }
+            if (glowEl) {
+              tl.to(
+                glowEl,
+                {
+                  scale: 1.4,
+                  opacity: 0.95,
+                  duration: 1,
+                  ease: 'power2.out',
+                },
+                4.2
+              );
+            }
 
-      if (arrowEl) {
-        tl.fromTo(
-          arrowEl,
-          { scale: 1, x: 0, y: 0 },
-          { scale: 1.12, x: 2, y: -2, duration: 0.5, yoyo: true, repeat: 1 },
-          4.2
-        );
-      }
+            if (arrowEl) {
+              tl.fromTo(
+                arrowEl,
+                { scale: 1, x: 0, y: 0 },
+                { scale: 1.12, x: 2, y: -2, duration: 0.5, yoyo: true, repeat: 1 },
+                4.2
+              );
+            }
 
-      // STAGE 6 -> STAGE 7 (CONTACT): Settle beside the final call to action
-      if (carriageEl) {
-        tl.to(
-          carriageEl,
-          {
-            x: 0,
-            y: 462,
-            duration: 1,
-            ease: 'power3.out',
-          },
-          5.2
-        );
-      }
-      if (bothSymbols.length > 0) {
-        tl.to(
-          bothSymbols,
-          {
-            scale: 0.94,
-            rotation: 0,
-            duration: 1,
-            ease: 'power3.out',
-          },
-          5.2
-        );
-      }
-          if (glowEl) {
-            tl.to(
-              glowEl,
-              {
-                scale: 1.15,
-                opacity: 0.8,
-                duration: 1,
-              },
-              5.2
-            );
-          }
-        }, wrapperRef);
+            // STAGE 6 -> STAGE 7 (CONTACT): Settle beside the final call to action
+            if (carriageEl) {
+              tl.to(
+                carriageEl,
+                {
+                  x: 0,
+                  y: 462,
+                  duration: 1,
+                  ease: 'power3.out',
+                },
+                5.2
+              );
+            }
+            if (bothSymbols.length > 0) {
+              tl.to(
+                bothSymbols,
+                {
+                  scale: 0.94,
+                  rotation: 0,
+                  duration: 1,
+                  ease: 'power3.out',
+                },
+                5.2
+              );
+            }
+            if (glowEl) {
+              tl.to(
+                glowEl,
+                {
+                  scale: 1.15,
+                  opacity: 0.8,
+                  duration: 1,
+                },
+                5.2
+              );
+            }
+          }, wrapperRef);
 
-        revertCtx = () => ctx.revert();
+          revertCtx = () => ctx.revert();
 
-        onResizeHandler = () => {
-          if (resizeTimeout !== null) {
-            window.clearTimeout(resizeTimeout);
-          }
-          resizeTimeout = window.setTimeout(() => {
-            ScrollTrigger.refresh();
-          }, 150);
-        };
-        window.addEventListener('resize', onResizeHandler, { passive: true });
-      }
-    );
+          onResizeHandler = () => {
+            if (resizeTimeout !== null) {
+              window.clearTimeout(resizeTimeout);
+            }
+            resizeTimeout = window.setTimeout(() => {
+              ScrollTrigger.refresh();
+            }, 150);
+          };
+          window.addEventListener('resize', onResizeHandler, { passive: true });
+        }
+      );
     };
 
     if (window.scrollY > 4) {
@@ -520,11 +520,10 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
 
       {/* Mobile & Tablet (< 1280px): Slim Top-Docked Journey Ribbon under Sticky Navbar (Never overlaps content cards) */}
       <div
-        className={`fixed top-16 sm:top-[4.25rem] left-0 right-0 z-30 xl:hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          showMobileRibbon
+        className={`fixed top-16 sm:top-[4.25rem] left-0 right-0 z-30 xl:hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${showMobileRibbon
             ? 'translate-y-0 opacity-100 pointer-events-auto'
             : '-translate-y-2 opacity-0 pointer-events-none'
-        }`}
+          }`}
       >
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-3 border-b border-white/10 bg-[#050505]/92 px-4 sm:px-6 backdrop-blur-xl">
           <div className="flex items-center gap-2 min-w-0">

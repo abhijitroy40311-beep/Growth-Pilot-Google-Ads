@@ -137,20 +137,18 @@ export const GrowthTimeline: React.FC = () => {
               return (
                 <div
                   key={step.stepNumber}
-                  className={`relative rounded-2xl border p-6 sm:p-8 transition-colors duration-200 ${
-                    isIlluminated
+                  className={`relative rounded-2xl border p-6 sm:p-8 transition-colors duration-200 ${isIlluminated
                       ? 'border-[#08D9F5]/35 bg-[#050505]'
                       : 'border-white/10 bg-[#050505]/70'
-                  }`}
+                    }`}
                 >
                   {/* Milestone Node on the Track */}
                   <div
                     aria-hidden="true"
-                    className={`absolute -left-[29px] sm:-left-[41px] top-7 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-mono transition-colors duration-200 ${
-                      isIlluminated
+                    className={`absolute -left-[29px] sm:-left-[41px] top-7 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-mono transition-colors duration-200 ${isIlluminated
                         ? 'border-[#00E6A8] bg-[#050505] text-[#00E6A8] shadow-[0_0_14px_rgba(8,217,245,0.45)]'
                         : 'border-white/20 bg-[#0B0D10] text-[#A5AAB4]'
-                    }`}
+                      }`}
                   >
                     {index === activeIndex ? (
                       <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">

@@ -66,9 +66,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   return (
     <span className={`inline-flex items-center gap-3 whitespace-nowrap shrink-0 ${className}`}>
       <span
-        className={`relative inline-flex aspect-square shrink-0 items-center justify-center overflow-hidden ${
-          variant === 'navbar' ? 'h-8 w-8' : 'h-9 w-9'
-        }`}
+        className={`relative inline-flex aspect-square shrink-0 items-center justify-center overflow-hidden ${variant === 'navbar' ? 'h-8 w-8' : 'h-9 w-9'
+          }`}
       >
         <img
           src={siteConfig.assets.emblemSvg}

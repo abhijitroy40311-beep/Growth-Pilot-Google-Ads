@@ -60,9 +60,8 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
                 </div>
                 <span
                   aria-hidden="true"
-                  className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#050505] text-[#A5AAB4] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    isOpen ? 'rotate-180 border-[#08D9F5]/40 text-[#08D9F5]' : ''
-                  }`}
+                  className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#050505] text-[#A5AAB4] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'rotate-180 border-[#08D9F5]/40 text-[#08D9F5]' : ''
+                    }`}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </span>

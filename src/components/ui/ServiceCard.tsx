@@ -32,9 +32,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <article
-      className={`group relative flex flex-col justify-between rounded-2xl gp-card-surface p-6 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 ${
-        featured ? 'lg:col-span-2' : 'lg:col-span-1'
-      }`}
+      className={`group relative flex flex-col justify-between rounded-2xl gp-card-surface p-6 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 ${featured ? 'lg:col-span-2' : 'lg:col-span-1'
+        }`}
     >
       <div>
         {/* Editorial Number & Icon Header */}

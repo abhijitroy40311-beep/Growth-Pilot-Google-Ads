@@ -170,8 +170,8 @@ export const ContactForm: React.FC = () => {
               sdkErr && typeof sdkErr === 'object' && 'text' in sdkErr
                 ? String((sdkErr as { text: string }).text)
                 : sdkErr instanceof Error
-                ? sdkErr.message
-                : 'EmailJS dispatch failed';
+                  ? sdkErr.message
+                  : 'EmailJS dispatch failed';
           }
         }
       }
@@ -215,7 +215,7 @@ export const ContactForm: React.FC = () => {
                 }
                 setServerError(
                   data.message ||
-                    'Unable to submit your inquiry right now. Please verify your details and try again.'
+                  'Unable to submit your inquiry right now. Please verify your details and try again.'
                 );
                 return;
               }
@@ -308,10 +308,10 @@ export const ContactForm: React.FC = () => {
   if (receipt) {
     const fallbackMailtoHref = siteConfig.contact.email
       ? `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
-          `GrowthPilot Inquiry [${receipt.inquiryId}] - ${receipt.summary.businessName}`
-        )}&body=${encodeURIComponent(
-          `Inquiry Reference: ${receipt.inquiryId}\nName: ${receipt.summary.name}\nBusiness: ${receipt.summary.businessName}\nEmail: ${receipt.summary.email}\nPhone: ${formData.phone || 'Not provided'}\nWebsite: ${formData.websiteUrl || 'Not provided'}\nService: ${receipt.summary.serviceOfInterest}\nBudget: ${formData.projectBudget || 'Not specified'}\n\nProject Goals:\n${formData.projectGoals}`
-        )}`
+        `GrowthPilot Inquiry [${receipt.inquiryId}] - ${receipt.summary.businessName}`
+      )}&body=${encodeURIComponent(
+        `Inquiry Reference: ${receipt.inquiryId}\nName: ${receipt.summary.name}\nBusiness: ${receipt.summary.businessName}\nEmail: ${receipt.summary.email}\nPhone: ${formData.phone || 'Not provided'}\nWebsite: ${formData.websiteUrl || 'Not provided'}\nService: ${receipt.summary.serviceOfInterest}\nBudget: ${formData.projectBudget || 'Not specified'}\n\nProject Goals:\n${formData.projectGoals}`
+      )}`
       : null;
 
     const whatsappFollowupHref = buildWhatsAppContactUrl(
@@ -470,11 +470,10 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? 'error-name' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-              errors.name
+            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.name
                 ? 'border-red-500/70 focus:ring-red-500/50'
                 : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-            }`}
+              }`}
           />
           {errors.name && (
             <p id="error-name" role="alert" className="mt-1.5 text-xs text-red-400">
@@ -502,11 +501,10 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.businessName)}
             aria-describedby={errors.businessName ? 'error-businessName' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-              errors.businessName
+            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.businessName
                 ? 'border-red-500/70 focus:ring-red-500/50'
                 : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-            }`}
+              }`}
           />
           {errors.businessName && (
             <p
@@ -538,11 +536,10 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'error-email' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-              errors.email
+            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.email
                 ? 'border-red-500/70 focus:ring-red-500/50'
                 : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-            }`}
+              }`}
           />
           {errors.email && (
             <p id="error-email" role="alert" className="mt-1.5 text-xs text-red-400">
@@ -569,11 +566,10 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? 'error-phone' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-              errors.phone
+            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.phone
                 ? 'border-red-500/70 focus:ring-red-500/50'
                 : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-            }`}
+              }`}
           />
           {errors.phone && (
             <p id="error-phone" role="alert" className="mt-1.5 text-xs text-red-400">
@@ -600,11 +596,10 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.websiteUrl)}
             aria-describedby={errors.websiteUrl ? 'error-websiteUrl' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-              errors.websiteUrl
+            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.websiteUrl
                 ? 'border-red-500/70 focus:ring-red-500/50'
                 : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-            }`}
+              }`}
           />
           {errors.websiteUrl && (
             <p
@@ -661,11 +656,10 @@ export const ContactForm: React.FC = () => {
           aria-describedby={
             errors.serviceOfInterest ? 'error-serviceOfInterest' : undefined
           }
-          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 ${
-            errors.serviceOfInterest
+          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 ${errors.serviceOfInterest
               ? 'border-red-500/70 focus:ring-red-500/50'
               : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-          }`}
+            }`}
         >
           <option value="">Select the primary service you need</option>
           {servicesData.map((s) => (
@@ -706,11 +700,10 @@ export const ContactForm: React.FC = () => {
           onChange={handleChange}
           aria-invalid={Boolean(errors.projectGoals)}
           aria-describedby={errors.projectGoals ? 'error-projectGoals' : undefined}
-          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${
-            errors.projectGoals
+          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.projectGoals
               ? 'border-red-500/70 focus:ring-red-500/50'
               : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
-          }`}
+            }`}
         />
         {errors.projectGoals && (
           <p
