@@ -1,5 +1,4 @@
 # GrowthPilot — Google Ads Management & Lead Generation Agency
-
 **Navigate Growth With Intelligence.**  
 **Live Website:** [https://growthpilotagency-nine.vercel.app](https://growthpilotagency-nine.vercel.app)
 
@@ -8,7 +7,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 ---
 
 ## Core Services & Value Proposition
-
 1. **Google Ads Management & PPC Advertising**
    - High-intent commercial search campaign architecture (Exact & Phrase match focus)
    - Proactive negative keyword filtering to eliminate wasted ad spend
@@ -34,7 +32,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 ---
 
 ## Website Routes & Page Architecture
-
 | Route | Page Purpose & Primary SEO / Google Ads Focus |
 | :--- | :--- |
 | `/` | **Homepage** — Google Ads management services & lead generation agency overview, 7-stage interactive growth journey, services, and process |
@@ -51,7 +48,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 ---
 
 ## SEO, Schema & Google Ads Readiness
-
 - **Dynamic Route-Level SEO (`src/lib/seo.ts`)**:
   - Unique `<title>`, `<meta name="description">`, canonical URLs, OpenGraph tags, and Twitter Card metadata per route
   - Automatic `<meta name="robots" content="noindex, nofollow">` on `/thank-you` and unknown `404` routes so conversion pages cannot be triggered by organic crawlers
@@ -67,7 +63,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 ---
 
 ## Tech Stack & Architecture
-
 - **Frontend**: React 19, TypeScript, Vite 6, React Router v7 (`BrowserRouter`), Tailwind CSS v4, Lucide Icons
 - **Backend / API**:
   - **Local & Full-Stack Node Server (`server.ts`)**: Express server with Brotli/Gzip compression, rate limiting, `/api/health`, `/api/contact`, and Vite middleware
@@ -79,7 +74,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 ---
 
 ## Environment Variables (`.env`)
-
 Copy `.env.example` to `.env` in the project root:
 
 ```env
