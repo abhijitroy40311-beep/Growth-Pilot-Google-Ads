@@ -1,6 +1,6 @@
 # GrowthPilot — Google Ads Management & Lead Generation Agency
 **Navigate Growth With Intelligence.**  
-**Live Website:** [https://growthpilotagency-nine.vercel.app](https://growthpilotagency-nine.vercel.app)
+**Live Website:** [https://growthpilotagency-ten.vercel.app/](https://growthpilotagency-ten.vercel.app/)
 
 GrowthPilot is a full-stack digital growth and performance marketing agency platform specializing in **Google Ads Management Services**, **PPC Campaign Engineering**, **Dental Implant Marketing**, **Conversion-Focused Website & Landing Page Design**, and **GA4 / Google Ads Conversion Tracking**.
 
@@ -104,7 +104,7 @@ VITE_CONTACT_LOCATION="Kolkata, India"
 # Verified Social Profiles
 VITE_SOCIAL_LINKEDIN="https://www.linkedin.com/in/abhijit-roy-7b27a242b/"
 VITE_SOCIAL_INSTAGRAM="https://www.instagram.com/the.growthpilot.agency/"
-VITE_SOCIAL_FACEBOOK=""
+VITE_SOCIAL_FACEBOOK="https://www.facebook.com/GrowthPilot.Global"
 
 # Optional Analytics & Conversion Tracking IDs
 VITE_GA4_MEASUREMENT_ID=""
