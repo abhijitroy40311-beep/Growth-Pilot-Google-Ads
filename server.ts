@@ -14,6 +14,12 @@ import {
   readEmailJsServerConfig,
   dispatchEmailJsRest,
 } from './src/lib/emailjsServer.js';
+import {
+  buildStrictCorsHeaders,
+  createRateLimiter,
+  extractClientIp,
+  isAllowedOrigin,
+} from './src/lib/apiSecurity.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,9 +34,7 @@ export interface StoredInquiry extends ContactFormPayload {
 }
 
 const inquiriesStore: StoredInquiry[] = [];
-const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const MAX_REQUESTS_PER_WINDOW = 8;
+const contactRateLimiter = createRateLimiter();
 
 const MIME_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -193,6 +197,50 @@ async function startServer() {
   });
 
   app.use(express.json({ limit: '64kb' }));
+  app.use((err: unknown, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const errObj = err as { type?: string; status?: number };
+    if (errObj?.type === 'entity.too.large' || errObj?.status === 413) {
+      res.status(413).json({
+        ok: false,
+        message: 'Request payload exceeds maximum allowed size (64 KB).',
+      });
+      return;
+    }
+    if (errObj?.type === 'entity.parse.failed' || errObj?.status === 400) {
+      res.status(400).json({
+        ok: false,
+        message: 'Invalid JSON request payload.',
+      });
+      return;
+    }
+    next(err);
+  });
+
+  app.use('/api', (req, res, next) => {
+    const originHeader = typeof req.headers.origin === 'string' ? req.headers.origin : undefined;
+    const configuredOrigins = [process.env.APP_URL, process.env.VITE_APP_URL];
+    const allowedMethods = req.path === '/health' ? 'GET, HEAD, OPTIONS' : 'POST, OPTIONS';
+    const corsHeaders = buildStrictCorsHeaders(originHeader, allowedMethods, configuredOrigins);
+    for (const [k, v] of Object.entries(corsHeaders)) {
+      res.setHeader(k, v);
+    }
+    if (req.method === 'OPTIONS') {
+      if (originHeader && !isAllowedOrigin(originHeader, configuredOrigins)) {
+        res.status(403).end();
+        return;
+      }
+      res.status(204).end();
+      return;
+    }
+    if (req.method === 'POST' && originHeader && !isAllowedOrigin(originHeader, configuredOrigins)) {
+      res.status(403).json({
+        ok: false,
+        message: 'Cross-origin request rejected.',
+      });
+      return;
+    }
+    next();
+  });
 
   app.get('/api/health', (_req, res) => {
     const emailConfig = readEmailJsServerConfig();
@@ -213,25 +261,20 @@ async function startServer() {
   });
 
   app.post('/api/contact', async (req, res) => {
-    const clientIp =
-      (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
-      req.socket.remoteAddress ||
-      'unknown';
+    const clientIp = extractClientIp(
+      (name) => req.headers[name],
+      req.socket.remoteAddress
+    );
 
-    const now = Date.now();
-    const rateRecord = rateLimitMap.get(clientIp);
-    if (!rateRecord || now - rateRecord.windowStart > RATE_LIMIT_WINDOW_MS) {
-      rateLimitMap.set(clientIp, { count: 1, windowStart: now });
-    } else {
-      if (rateRecord.count >= MAX_REQUESTS_PER_WINDOW) {
-        res.status(429).json({
-          ok: false,
-          message:
-            'Too many enquiries submitted recently from this connection. Please wait a few minutes and try again.',
-        });
-        return;
-      }
-      rateRecord.count += 1;
+    const rateCheck = contactRateLimiter.check(clientIp);
+    if (!rateCheck.allowed) {
+      res.setHeader('Retry-After', String(rateCheck.retryAfterSeconds));
+      res.status(429).json({
+        ok: false,
+        message:
+          'Too many enquiries submitted recently from this connection. Please wait a few minutes and try again.',
+      });
+      return;
     }
 
     const validation = validateContactForm(req.body || {});

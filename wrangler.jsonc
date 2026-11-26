@@ -1,8 +1,20 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
+  // Native Worker Rate Limiting binding requires Wrangler >= 4.36.0;
+  // for multi-minute production protection also enable a Cloudflare WAF Rate Limiting rule on POST /api/contact.
   "name": "growthpilot-google-ads",
   "main": "./worker.ts",
-  "compatibility_date": "2026-11-26",
+  "compatibility_date": "2025-10-01",
+  "ratelimits": [
+    {
+      "name": "CONTACT_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -10,10 +22,13 @@
     "run_worker_first": [
       "/api/*",
       "/work",
-      "/work/*",
+      "/work/",
       "/about-us",
+      "/about-us/",
       "/contact-us",
-      "/faqs"
+      "/contact-us/",
+      "/faqs",
+      "/faqs/"
     ]
   }
 }

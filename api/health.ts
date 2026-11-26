@@ -1,5 +1,15 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import { readEmailJsServerConfig } from '../src/lib/emailjsServer.js';
+import {
+  buildStrictCorsHeaders,
+  isAllowedOrigin,
+} from '../src/lib/apiSecurity.js';
+
+function applyHeaders(res: ServerResponse, headers: Record<string, string>) {
+  for (const [key, value] of Object.entries(headers)) {
+    res.setHeader(key, value);
+  }
+}
 
 export default function handler(
   req: IncomingMessage & { method?: string },
@@ -8,6 +18,27 @@ export default function handler(
     json?: (body: unknown) => void;
   }
 ) {
+  const originHeader =
+    typeof req.headers?.origin === 'string' ? req.headers.origin : undefined;
+  const configuredOrigins = [process.env.APP_URL, process.env.VITE_APP_URL];
+  const corsHeaders = buildStrictCorsHeaders(
+    originHeader,
+    'GET, HEAD, OPTIONS',
+    configuredOrigins
+  );
+  applyHeaders(res, corsHeaders);
+
+  if (req.method === 'OPTIONS') {
+    if (originHeader && !isAllowedOrigin(originHeader, configuredOrigins)) {
+      res.statusCode = 403;
+      res.end();
+      return;
+    }
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
   if (req.method && req.method !== 'GET' && req.method !== 'HEAD') {
     res.statusCode = 405;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');

@@ -18,6 +18,13 @@ import { buildCanonicalUrl, buildBreadcrumbSchema } from './seo';
 import { shouldTrackLeadSubmission } from './analytics';
 import { CANONICAL_ROUTE_META } from './routeMeta';
 import { readEmailJsServerConfig, dispatchEmailJsRest } from './emailjsServer';
+import {
+  isAllowedOrigin,
+  buildStrictCorsHeaders,
+  createRateLimiter,
+} from './apiSecurity';
+import contactHandler from '../../api/contact';
+import healthHandler from '../../api/health';
 import workerHandler from '../../worker';
 import { projectsData } from '../data/projects';
 import { faqsData } from '../data/faqs';
@@ -434,5 +441,174 @@ test('Cloudflare workerHandler serves /api/health, /api/contact, 301 redirects, 
   );
   assert.equal(assetsCalled, true);
   assert.equal(assetRes.status, 200);
+});
+
+test('apiSecurity restricts CORS to approved origins and bounds sliding-window rate limiter', () => {
+  assert.equal(isAllowedOrigin('https://growthpilotagency-ten.vercel.app'), true);
+  assert.equal(isAllowedOrigin('https://growthpilot-google-ads.agancy.workers.dev'), true);
+  assert.equal(isAllowedOrigin('http://localhost:3000'), true);
+  assert.equal(isAllowedOrigin('https://evil.example'), false);
+  assert.equal(isAllowedOrigin(undefined), false);
+
+  const goodCors = buildStrictCorsHeaders('https://growthpilotagency-ten.vercel.app', 'POST, OPTIONS');
+  assert.equal(goodCors['Access-Control-Allow-Origin'], 'https://growthpilotagency-ten.vercel.app');
+  assert.equal(goodCors.Vary, 'Origin');
+
+  const badCors = buildStrictCorsHeaders('https://evil.example', 'POST, OPTIONS');
+  assert.equal('Access-Control-Allow-Origin' in badCors, false);
+
+  const limiter = createRateLimiter({ windowMs: 60_000, maxRequests: 2 });
+  assert.equal(limiter.check('1.2.3.4', 1000).allowed, true);
+  assert.equal(limiter.check('1.2.3.4', 2000).allowed, true);
+  const blocked = limiter.check('1.2.3.4', 3000);
+  assert.equal(blocked.allowed, false);
+  assert.ok(blocked.retryAfterSeconds >= 1);
+  assert.equal(limiter.check('1.2.3.4', 62_000).allowed, true);
+});
+
+test('workerHandler enforces strict CORS, distributed rate limit binding, and 64KB payload limits', async () => {
+  const corsReject = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/contact', {
+      method: 'POST',
+      headers: {
+        Origin: 'https://untrusted.example',
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '198.51.100.10',
+      },
+      body: JSON.stringify({}),
+    }),
+    {}
+  );
+  assert.equal(corsReject.status, 403);
+  assert.equal(corsReject.headers.get('Access-Control-Allow-Origin'), null);
+
+  const edgeThrottled = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/contact', {
+      method: 'POST',
+      headers: {
+        Origin: 'https://growthpilot-google-ads.agancy.workers.dev',
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '198.51.100.11',
+      },
+      body: JSON.stringify({}),
+    }),
+    {
+      CONTACT_RATE_LIMITER: {
+        async limit() {
+          return { success: false };
+        },
+      },
+    }
+  );
+  assert.equal(edgeThrottled.status, 429);
+  assert.equal(edgeThrottled.headers.get('Retry-After'), '60');
+
+  const oversized = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/contact', {
+      method: 'POST',
+      headers: {
+        Origin: 'https://growthpilot-google-ads.agancy.workers.dev',
+        'Content-Type': 'application/json',
+        'CF-Connecting-IP': '198.51.100.12',
+      },
+      body: JSON.stringify({ padding: 'x'.repeat(70_000) }),
+    }),
+    {}
+  );
+  assert.equal(oversized.status, 413);
+});
+
+test('Vercel contactHandler & healthHandler enforce CORS, 413 size limit, and 429 throttling', async () => {
+  const createRes = () => {
+    const state: { statusCode: number; headers: Record<string, string>; body: string } = {
+      statusCode: 200,
+      headers: {},
+      body: '',
+    };
+    return {
+      state,
+      res: {
+        set statusCode(c: number) {
+          state.statusCode = c;
+        },
+        get statusCode() {
+          return state.statusCode;
+        },
+        setHeader(k: string, v: string) {
+          state.headers[k.toLowerCase()] = String(v);
+        },
+        end(chunk?: string) {
+          if (chunk) state.body = chunk;
+        },
+      },
+    };
+  };
+
+  const healthMock = createRes();
+  healthHandler(
+    { method: 'GET', headers: { origin: 'https://growthpilotagency-ten.vercel.app' } } as never,
+    healthMock.res as never
+  );
+  assert.equal(healthMock.state.statusCode, 200);
+  assert.equal(
+    healthMock.state.headers['access-control-allow-origin'],
+    'https://growthpilotagency-ten.vercel.app'
+  );
+
+  const badCors = createRes();
+  await contactHandler(
+    {
+      method: 'POST',
+      headers: { origin: 'https://untrusted.example', 'x-forwarded-for': '198.51.100.20' },
+      body: {},
+    } as never,
+    badCors.res as never
+  );
+  assert.equal(badCors.state.statusCode, 403);
+  assert.equal(badCors.state.headers['access-control-allow-origin'], undefined);
+
+  const oversized = createRes();
+  await contactHandler(
+    {
+      method: 'POST',
+      headers: {
+        origin: 'https://growthpilotagency-ten.vercel.app',
+        'x-forwarded-for': '198.51.100.21',
+      },
+      body: { projectGoals: 'y'.repeat(70_000) },
+    } as never,
+    oversized.res as never
+  );
+  assert.equal(oversized.state.statusCode, 413);
+
+  for (let i = 0; i < 8; i++) {
+    const r = createRes();
+    await contactHandler(
+      {
+        method: 'POST',
+        headers: {
+          origin: 'https://growthpilotagency-ten.vercel.app',
+          'x-forwarded-for': '198.51.100.22',
+        },
+        body: {},
+      } as never,
+      r.res as never
+    );
+    assert.equal(r.state.statusCode, 400);
+  }
+  const throttled = createRes();
+  await contactHandler(
+    {
+      method: 'POST',
+      headers: {
+        origin: 'https://growthpilotagency-ten.vercel.app',
+        'x-forwarded-for': '198.51.100.22',
+      },
+      body: {},
+    } as never,
+    throttled.res as never
+  );
+  assert.equal(throttled.state.statusCode, 429);
+  assert.ok(throttled.state.headers['retry-after']);
 });
 
