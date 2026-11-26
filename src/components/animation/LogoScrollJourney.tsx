@@ -429,7 +429,11 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
     const nextIdx = activeStage.stageIndex < LOGO_JOURNEY_STAGES.length ? activeStage.stageIndex : 0;
     const nextStage = LOGO_JOURNEY_STAGES[nextIdx];
     const targetSectionId = STAGE_SECTION_IDS[nextStage.id] || 'stage-hero';
-    scrollToTargetSmooth(targetSectionId, { offset: 108, duration: 680, reducedMotion });
+    scrollToTargetSmooth(targetSectionId, {
+      offset: window.innerWidth < 1400 ? 112 : 76,
+      duration: 680,
+      reducedMotion,
+    });
   };
 
   return (
@@ -438,10 +442,10 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
       data-testid="logo-scroll-journey"
       data-stage={activeStage.id}
     >
-      {/* Desktop (>= 1280px): Right-Rail Curved Trajectory & 3D Emblem Carriage */}
+      {/* Desktop (>= 1400px): Right-Rail Curved Trajectory & 3D Emblem Carriage (clears max-w-7xl content) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed right-2.5 top-24 z-30 hidden xl:flex flex-col items-center w-16 select-none"
+        className="pointer-events-none fixed right-2.5 top-24 z-30 hidden min-[1400px]:flex flex-col items-center w-16 select-none"
       >
         <svg
           width="56"
@@ -518,14 +522,14 @@ export const LogoScrollJourney: React.FC<LogoScrollJourneyProps> = ({
         </div>
       </div>
 
-      {/* Mobile & Tablet (< 1280px): Slim Top-Docked Journey Ribbon under Sticky Navbar (Never overlaps content cards) */}
+      {/* Mobile & Laptop (< 1400px): Slim Top-Docked Journey Ribbon under Sticky Navbar (Never overlaps content cards) */}
       <div
-        className={`fixed top-16 sm:top-[4.25rem] left-0 right-0 z-30 xl:hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${showMobileRibbon
+        className={`fixed top-16 sm:top-[4.25rem] left-0 right-0 z-30 min-[1400px]:hidden transition-[transform,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] ${showMobileRibbon
             ? 'translate-y-0 opacity-100 pointer-events-auto'
             : '-translate-y-2 opacity-0 pointer-events-none'
           }`}
       >
-        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-3 border-b border-white/10 bg-[#050505]/92 px-4 sm:px-6 backdrop-blur-xl">
+        <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-3 border-b border-white/10 bg-[#050505]/95 px-4 sm:px-6">
           <div className="flex items-center gap-2 min-w-0">
             <div
               ref={mobileSymbolRef}

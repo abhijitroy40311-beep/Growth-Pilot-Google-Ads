@@ -10,7 +10,17 @@
       "permanent": true
     },
     {
+      "source": "/work/",
+      "destination": "/projects",
+      "permanent": true
+    },
+    {
       "source": "/about-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/about-us/",
       "destination": "/about",
       "permanent": true
     },
@@ -20,7 +30,17 @@
       "permanent": true
     },
     {
+      "source": "/contact-us/",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
       "source": "/faqs",
+      "destination": "/faq",
+      "permanent": true
+    },
+    {
+      "source": "/faqs/",
       "destination": "/faq",
       "permanent": true
     }

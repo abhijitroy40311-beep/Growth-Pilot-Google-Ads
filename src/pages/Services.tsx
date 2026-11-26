@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { servicesData } from '../data/services';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
@@ -50,25 +51,30 @@ export const Services: React.FC = () => {
             name: siteConfig.brandName,
             url: siteConfig.domain,
           },
-          areaServed: {
-            '@type': 'Country',
-            name: 'United States',
-          },
+          areaServed: [
+            { '@type': 'Country', name: 'United States' },
+            { '@type': 'Country', name: 'United Kingdom' },
+            { '@type': 'Country', name: 'Australia' },
+            { '@type': 'Country', name: 'Canada' },
+            { '@type': 'Country', name: 'Ireland' },
+            { '@type': 'Country', name: 'New Zealand' },
+          ],
         },
       })),
     },
   ];
 
+  const meta = getRouteMetaByPath('/services')!;
+
   useDocumentMeta({
-    title: 'Google Ads Management, PPC, Website Design & CRO Services | GrowthPilot',
-    description:
-      'Explore GrowthPilot’s Google Ads management services, PPC campaign optimization, lead-generation website design, landing page CRO, and GA4 conversion tracking.',
+    title: meta.title,
+    description: meta.description,
     path: '/services',
     structuredData,
   });
 
   return (
-    <div className="bg-[#050505] text-white">
+    <div className="bg-[#050505] text-white min-h-screen">
       {/* Header */}
       <section className="relative overflow-hidden border-b border-white/10 pt-14 pb-20 sm:pt-20 sm:pb-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />
@@ -97,19 +103,19 @@ export const Services: React.FC = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToTargetSmooth(s.id, {
-                    offset: 88,
+                    offset: window.innerWidth < 1280 ? 104 : 88,
                     duration: 640,
                     reducedMotion,
                   });
                 }}
-                className="rounded-lg border border-white/10 bg-[#0B0D10] px-3.5 py-2 text-xs sm:text-sm font-medium text-[#A5AAB4] hover:border-[#08D9F5]/50 hover:text-white transition-colors whitespace-nowrap shrink-0"
+                className="inline-flex min-h-[40px] items-center rounded-lg border border-white/10 bg-[#0B0D10] px-3.5 py-2 text-xs sm:text-sm font-medium text-[#A5AAB4] hover:border-[#08D9F5]/50 hover:text-white transition-colors whitespace-normal sm:whitespace-nowrap shrink-0"
               >
                 {s.number}. {s.title}
               </a>
             ))}
             <Link
               to="/dental-implant-marketing"
-              className="rounded-lg border border-[#08D9F5]/35 bg-[#0B0D10] px-3.5 py-2 text-xs sm:text-sm font-medium text-[#08D9F5] hover:border-[#08D9F5] hover:text-white transition-colors whitespace-nowrap shrink-0"
+              className="inline-flex min-h-[40px] items-center rounded-lg border border-[#08D9F5]/35 bg-[#0B0D10] px-3.5 py-2 text-xs sm:text-sm font-medium text-[#08D9F5] hover:border-[#08D9F5] hover:text-white transition-colors whitespace-normal sm:whitespace-nowrap shrink-0"
             >
               Industry Focus: Dental Implant PPC →
             </Link>

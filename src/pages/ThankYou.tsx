@@ -15,6 +15,7 @@ import {
   Home,
 } from 'lucide-react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import {
   THANK_YOU_RECEIPT_STORAGE_KEY,
   resolveThankYouReceipt,
@@ -50,10 +51,11 @@ export default function ThankYou() {
   const navigate = useNavigate();
   const [copiedId, setCopiedId] = useState(false);
 
+  const meta = getRouteMetaByPath('/thank-you')!;
+
   useDocumentMeta({
-    title: 'Thank You — GrowthPilot | Project Inquiry Received',
-    description:
-      'Thank you for submitting your project inquiry to GrowthPilot. Our team has received your brief and will respond within 1–2 business days.',
+    title: meta.title,
+    description: meta.description,
     path: '/thank-you',
     noindex: true,
   });
@@ -69,8 +71,8 @@ export default function ThankYou() {
 
   const receipt = resolveThankYouReceipt(locationReceipt, storedReceiptRaw);
 
-  // Strict guard: Only show the Thank-You page after completing the Contact Page form submission
-  if (!receipt) {
+  // Strict guard: Only show the Thank-You page after genuine email delivery succeeds
+  if (!receipt || !receipt.emailDispatched) {
     return <Navigate to="/contact" replace />;
   }
 
@@ -122,7 +124,7 @@ export default function ThankYou() {
   return (
     <section
       aria-labelledby="thank-you-heading"
-      className="relative overflow-hidden pt-28 pb-20 lg:pt-36 lg:pb-28 bg-[#050505]"
+      className="relative min-h-screen overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 bg-[#050505]"
     >
       {/* Subtle Brand Ambient Glow */}
       <div
@@ -136,7 +138,7 @@ export default function ThankYou() {
           role="status"
           aria-live="polite"
           data-testid="contact-confirmation"
-          className="rounded-2xl border border-[#00E6A8]/35 bg-[#0B0D10] p-6 sm:p-10 lg:p-12 shadow-2xl"
+          className="rounded-2xl border border-[#00E6A8]/35 bg-[#0B0D10] p-5 sm:p-10 lg:p-12 shadow-2xl"
         >
           {/* Status Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">

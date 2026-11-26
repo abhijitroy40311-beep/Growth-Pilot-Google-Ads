@@ -36,8 +36,7 @@
     background-color: #050505;
     color: #FFFFFF;
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
-    scroll-padding-top: 5.25rem;
+    scroll-padding-top: 6.75rem;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -47,7 +46,18 @@
 
   section[id],
   [id] {
-    scroll-margin-top: 5.25rem;
+    scroll-margin-top: 6.75rem;
+  }
+
+  @media (min-width: 1400px) {
+    html {
+      scroll-padding-top: 5.25rem;
+    }
+
+    section[id],
+    [id] {
+      scroll-margin-top: 5.25rem;
+    }
   }
 
   h1,
@@ -148,15 +158,60 @@
 @keyframes gp-page-enter {
   0% {
     opacity: 0;
-    transform: translate3d(0, 8px, 0);
+    transform: translate3d(0, 12px, 0);
   }
 
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: none;
   }
 }
 
 .gp-page-enter {
-  animation: gp-page-enter 210ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: gp-page-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@keyframes gp-backdrop-enter {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.gp-backdrop-enter {
+  animation: gp-backdrop-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes gp-popup-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.gp-popup-enter {
+  animation: gp-popup-enter 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes gp-progress-fill {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.gp-progress-fill {
+  transform-origin: left center;
+  animation: gp-progress-fill 1100ms linear forwards;
 }

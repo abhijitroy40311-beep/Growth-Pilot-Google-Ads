@@ -11,7 +11,7 @@ export const HeroSection: React.FC = () => {
 
   const scrollToNextSection = () => {
     scrollToTargetSmooth('stage-story', {
-      offset: 76,
+      offset: window.innerWidth < 1280 ? 112 : 76,
       duration: 680,
       reducedMotion,
     });

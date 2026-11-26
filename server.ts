@@ -9,7 +9,11 @@ import {
   validateContactForm,
   ContactFormPayload,
   buildEmailJsTemplateParams,
-} from './src/lib/validation';
+} from './src/lib/validation.js';
+import {
+  readEmailJsServerConfig,
+  dispatchEmailJsRest,
+} from './src/lib/emailjsServer.js';
 
 dotenv.config();
 
@@ -139,21 +143,11 @@ function tryServeStaticFile(
   }
 }
 
-function resolveRequestOrigin(req: express.Request): string {
-  const forwardedProto = (req.headers['x-forwarded-proto'] as string)
-    ?.split(',')[0]
-    ?.trim();
-  const proto = forwardedProto || req.protocol || 'https';
-  const host =
-    (req.headers['x-forwarded-host'] as string)?.split(',')[0]?.trim() ||
-    req.headers.host ||
-    'growthpilotagency-ten.vercel.app';
-  return `${proto}://${host}`;
-}
-
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
+  const publicPath = path.join(__dirname, 'public');
+  const distPath = path.join(__dirname, 'dist');
 
   app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -164,77 +158,55 @@ async function startServer() {
     next();
   });
 
-  // Valid SEO robots.txt with absolute Sitemap URL
-  app.get('/robots.txt', (req, res) => {
-    const origin = resolveRequestOrigin(req);
-    const robotsTxt = [
-      'User-agent: *',
-      'Allow: /',
-      'Disallow: /thank-you',
-      'Disallow: /api/',
-      '',
-      `Sitemap: ${origin}/sitemap.xml`,
-      '',
-    ].join('\n');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    sendCompressedBuffer(
-      req,
-      res,
-      Buffer.from(robotsTxt, 'utf-8'),
-      `robots:${origin}`,
-      'text/plain; charset=utf-8'
-    );
+  // Legacy alias redirects matching vercel.json
+  const routeRedirects: Record<string, string> = {
+    '/work': '/projects',
+    '/about-us': '/about',
+    '/contact-us': '/contact',
+    '/faqs': '/faq',
+  };
+  app.use((req, res, next) => {
+    const normalizedPath = req.path.length > 1 ? req.path.replace(/\/+$/, '') : req.path;
+    const redirectTarget = routeRedirects[normalizedPath];
+    if (redirectTarget) {
+      res.redirect(301, redirectTarget);
+      return;
+    }
+    next();
   });
 
-  // Valid XML Sitemap with absolute URLs
+  // Single-source-of-truth robots.txt and sitemap.xml served from public/
+  app.get('/robots.txt', (req, res) => {
+    const robotsFile = path.join(publicPath, 'robots.txt');
+    if (tryServeStaticFile(req, res, robotsFile, 'public, max-age=3600')) {
+      return;
+    }
+    res.status(404).type('text/plain').send('robots.txt not found');
+  });
+
   app.get('/sitemap.xml', (req, res) => {
-    const origin = resolveRequestOrigin(req);
-    const routes = [
-      { path: '/', changefreq: 'weekly', priority: '1.0' },
-      { path: '/services', changefreq: 'weekly', priority: '0.95' },
-      { path: '/dental-implant-marketing', changefreq: 'weekly', priority: '0.9' },
-      { path: '/about', changefreq: 'monthly', priority: '0.85' },
-      { path: '/projects', changefreq: 'weekly', priority: '0.85' },
-      { path: '/contact', changefreq: 'monthly', priority: '0.9' },
-      { path: '/faq', changefreq: 'monthly', priority: '0.75' },
-      { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
-      { path: '/terms-and-conditions', changefreq: 'yearly', priority: '0.3' },
-    ];
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes
-      .map(
-        (r) =>
-          `  <url>\n    <loc>${origin}${r.path}</loc>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`
-      )
-      .join('\n')}\n</urlset>\n`;
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    sendCompressedBuffer(
-      req,
-      res,
-      Buffer.from(xml, 'utf-8'),
-      `sitemap:${origin}`,
-      'application/xml; charset=utf-8'
-    );
+    const sitemapFile = path.join(publicPath, 'sitemap.xml');
+    if (tryServeStaticFile(req, res, sitemapFile, 'public, max-age=3600')) {
+      return;
+    }
+    res.status(404).type('text/plain').send('sitemap.xml not found');
   });
 
   app.use(express.json({ limit: '64kb' }));
 
   app.get('/api/health', (_req, res) => {
-    const serviceId =
-      process.env.VITE_EMAILJS_SERVICE_ID ||
-      process.env.EMAILJS_SERVICE_ID ||
-      'service_1g1fike';
-    const templateId =
-      process.env.VITE_EMAILJS_TEMPLATE_ID || process.env.EMAILJS_TEMPLATE_ID || '';
-    const publicKey =
-      process.env.VITE_EMAILJS_PUBLIC_KEY || process.env.EMAILJS_PUBLIC_KEY || '';
+    const emailConfig = readEmailJsServerConfig();
 
     res.json({
       status: 'ok',
       service: 'GrowthPilot Backend API',
       emailjs: {
-        serviceId,
-        templateId,
-        configured: Boolean(serviceId && templateId && publicKey),
+        serviceId: emailConfig.serviceId,
+        templateId: emailConfig.templateId,
+        configured: Boolean(
+          emailConfig.serviceId && emailConfig.templateId && emailConfig.publicKey
+        ),
+        privateKeyConfigured: Boolean(emailConfig.privateKey),
       },
       inquiriesCount: inquiriesStore.length,
     });
@@ -284,95 +256,46 @@ async function startServer() {
         ? req.body.submittedAt
         : new Date().toISOString();
 
-    const serviceId =
-      process.env.VITE_EMAILJS_SERVICE_ID ||
-      process.env.EMAILJS_SERVICE_ID ||
-      'service_1evejfv';
-    const templateId =
-      process.env.VITE_EMAILJS_TEMPLATE_ID ||
-      process.env.EMAILJS_TEMPLATE_ID ||
-      'template_a1gp7od';
-    const publicKey =
-      process.env.VITE_EMAILJS_PUBLIC_KEY ||
-      process.env.EMAILJS_PUBLIC_KEY ||
-      'J6Z6BqADTVbe_oGTY';
-    const privateKey = process.env.EMAILJS_PRIVATE_KEY; 
-    const recipientEmail = process.env.VITE_CONTACT_EMAIL || 'abhijitroy40311@gmail.com';
+    const emailConfig = readEmailJsServerConfig();
+    const templateParams = buildEmailJsTemplateParams(
+      validation.sanitized,
+      inquiryId,
+      submittedAt,
+      emailConfig.recipientEmail
+    );
 
-    let emailDispatched = Boolean(req.body?.clientEmailSent);
-    let emailError: string | null = emailDispatched ? null : req.body?.clientEmailError || null;
+    const origin =
+      process.env.APP_URL || process.env.VITE_APP_URL || `http://localhost:${PORT}`;
 
-    if (!emailDispatched && serviceId && templateId && publicKey) {
-      const templateParams = buildEmailJsTemplateParams(
-        validation.sanitized,
-        inquiryId,
-        submittedAt,
-        recipientEmail
-      );
-
-      const dispatchPromise = fetch(
-        'https://api.emailjs.com/api/v1.0/email/send',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Origin: process.env.APP_URL || 'http://localhost:3000',
-          },
-          body: JSON.stringify({
-            service_id: serviceId,
-            template_id: templateId,
-            user_id: publicKey,
-            ...(privateKey ? { accessToken: privateKey } : {}),
-            template_params: templateParams,
-          }),
-        }
-      )
-        .then(async (emailResponse) => {
-          const responseText = await emailResponse.text();
-          if (emailResponse.ok) {
-            return { sent: true, err: null };
-          }
-          return {
-            sent: false,
-            err: `EmailJS (${serviceId} / ${templateId}): ${responseText}`,
-          };
-        })
-        .catch((err) => ({
-          sent: false,
-          err: err instanceof Error ? err.message : 'Unable to reach EmailJS API.',
-        }));
-
-      const fastResult = await Promise.race([
-        dispatchPromise,
-        new Promise<{ sent: boolean; err: string | null }>((resolve) =>
-          setTimeout(() => resolve({ sent: true, err: null }), 450)
-        ),
-      ]);
-
-      emailDispatched = fastResult.sent;
-      emailError = fastResult.err;
-    }
+    const dispatchResult = await dispatchEmailJsRest({
+      config: emailConfig,
+      templateParams,
+      origin,
+    });
 
     const record: StoredInquiry = {
       ...validation.sanitized,
       id: inquiryId,
       submittedAt,
-      emailDispatched,
-      emailError,
+      emailDispatched: dispatchResult.sent,
+      emailError: dispatchResult.err,
     };
 
     inquiriesStore.unshift(record);
 
-    res.status(201).json({
-      ok: true,
+    const statusCode = dispatchResult.sent ? 201 : 502;
+
+    res.status(statusCode).json({
+      ok: dispatchResult.sent,
       inquiryId: record.id,
       submittedAt: record.submittedAt,
-      emailjsServiceId: serviceId,
-      emailjsTemplateId: templateId,
-      emailDispatched,
-      emailError,
-      message:
-        "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days.",
+      emailjsServiceId: emailConfig.serviceId,
+      emailjsTemplateId: emailConfig.templateId,
+      emailDispatched: dispatchResult.sent,
+      emailError: dispatchResult.err,
+      message: dispatchResult.sent
+        ? "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days."
+        : 'We could not deliver your inquiry email automatically right now. Please use WhatsApp or your Email App below to send your brief directly.',
       summary: {
         name: record.name,
         businessName: record.businessName,
@@ -382,51 +305,6 @@ async function startServer() {
     });
   });
 
-  const distPath = path.join(__dirname, 'dist');
-  const publicPath = path.join(__dirname, 'public');
-
-  // Serve compressed production build assets from dist/ when available
-  app.use((req, res, next) => {
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
-      next();
-      return;
-    }
-
-    const distIndex = path.join(distPath, 'index.html');
-    if (!fs.existsSync(distIndex)) {
-      next();
-      return;
-    }
-
-    const safeRelPath = path.normalize(req.path).replace(/^(\.\.(\/|\\|$))+/, '');
-    const candidateDistFile = path.join(distPath, safeRelPath);
-    const candidatePublicFile = path.join(publicPath, safeRelPath);
-
-    if (req.path !== '/' && path.extname(req.path)) {
-      const isImmutableAsset =
-        req.path.startsWith('/assets/') || req.path.startsWith('/assets/aistudio/');
-      const cacheHeader = isImmutableAsset
-        ? 'public, max-age=31536000, immutable'
-        : 'public, max-age=3600';
-
-      if (tryServeStaticFile(req, res, candidateDistFile, cacheHeader)) {
-        return;
-      }
-      if (tryServeStaticFile(req, res, candidatePublicFile, cacheHeader)) {
-        return;
-      }
-    }
-
-    // SPA route fallback to minified dist/index.html
-    if (!req.path.startsWith('/api/') && !path.extname(req.path)) {
-      if (tryServeStaticFile(req, res, distIndex, 'no-cache')) {
-        return;
-      }
-    }
-
-    next();
-  });
-
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -434,6 +312,55 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
+    // Serve compressed production build assets from dist/ strictly in production mode
+    app.use((req, res, next) => {
+      if (req.method !== 'GET' && req.method !== 'HEAD') {
+        next();
+        return;
+      }
+
+      const distIndex = path.join(distPath, 'index.html');
+      if (!fs.existsSync(distIndex)) {
+        next();
+        return;
+      }
+
+      const safeRelPath = path.normalize(req.path).replace(/^(\.\.(\/|\\|$))+/, '');
+      const candidateDistFile = path.join(distPath, safeRelPath);
+      const candidatePublicFile = path.join(publicPath, safeRelPath);
+
+      if (req.path !== '/' && path.extname(req.path)) {
+        const isImmutableAsset =
+          req.path.startsWith('/assets/') || req.path.startsWith('/assets/aistudio/');
+        const cacheHeader = isImmutableAsset
+          ? 'public, max-age=31536000, immutable'
+          : 'public, max-age=3600';
+
+        if (tryServeStaticFile(req, res, candidateDistFile, cacheHeader)) {
+          return;
+        }
+        if (tryServeStaticFile(req, res, candidatePublicFile, cacheHeader)) {
+          return;
+        }
+      }
+
+      // Serve route-specific prerendered dist/<route>/index.html when available, else dist/index.html
+      if (!req.path.startsWith('/api/') && !path.extname(req.path)) {
+        const cleanRouteDir = safeRelPath.replace(/^[/\\]+|[/\\]+$/g, '');
+        const routeHtmlPath = cleanRouteDir
+          ? path.join(distPath, cleanRouteDir, 'index.html')
+          : distIndex;
+        if (tryServeStaticFile(req, res, routeHtmlPath, 'no-cache')) {
+          return;
+        }
+        if (tryServeStaticFile(req, res, distIndex, 'no-cache')) {
+          return;
+        }
+      }
+
+      next();
+    });
+
     app.get('*', (req, res) => {
       tryServeStaticFile(req, res, path.join(distPath, 'index.html'), 'no-cache');
     });

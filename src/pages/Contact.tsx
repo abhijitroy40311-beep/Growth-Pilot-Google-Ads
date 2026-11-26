@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Globe, HelpCircle, MessageCircle } from 'lucide-react';
-import SEOHead from '../components/SEOHead';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import { trackConversionEvent } from '../lib/analytics';
@@ -10,6 +11,18 @@ import { ContactForm } from '../components/sections/ContactForm';
 import { AnimatedHeading } from '../components/animation/AnimatedHeading';
 
 export const Contact: React.FC = () => {
+  const meta = getRouteMetaByPath('/contact')!;
+
+  useDocumentMeta({
+    title: meta.title,
+    description: meta.description,
+    path: '/contact',
+    structuredData: buildBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact' },
+    ]),
+  });
+
   const whatsappDirectHref = buildWhatsAppContactUrl(
     siteConfig.contact.whatsapp,
     siteConfig.contact.whatsappMessage
@@ -21,15 +34,6 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="bg-[#050505] text-white min-h-screen">
-      <SEOHead
-        title="Contact Abhijit Roy | Independent Google Ads Specialist | GrowthPilot"
-        description="Contact Abhijit Roy at GrowthPilot to discuss Google Ads campaign management, landing page optimization, or GA4 and Google Tag Manager conversion tracking for your service business."
-        path="/contact"
-        schema={buildBreadcrumbSchema([
-          { name: 'Home', path: '/' },
-          { name: 'Contact', path: '/contact' },
-        ])}
-      />
 
       <section className="relative overflow-hidden border-b border-white/10 pt-6 pb-16 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24">
         <div

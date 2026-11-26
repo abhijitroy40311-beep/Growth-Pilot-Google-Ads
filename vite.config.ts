@@ -3,19 +3,73 @@ import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
 import {defineConfig, Plugin} from 'vite';
+import {
+  CANONICAL_ROUTE_META,
+  RouteMetaEntry,
+  SITE_CANONICAL_DOMAIN,
+} from './src/lib/routeMeta.ts';
 
-const SPA_ROUTES = [
-  'about',
-  'projects',
-  'work',
-  'services',
-  'dental-implant-marketing',
-  'contact',
-  'thank-you',
-  'faq',
-  'privacy-policy',
-  'terms-and-conditions',
-];
+function escapeHtmlAttr(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function escapeHtmlText(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function renderRouteHtml(baseHtml: string, route: RouteMetaEntry): string {
+  const canonicalUrl =
+    route.path === '/'
+      ? `${SITE_CANONICAL_DOMAIN}/`
+      : `${SITE_CANONICAL_DOMAIN}${route.path}`;
+  const robotsValue = route.noindex ? 'noindex, nofollow' : 'index, follow';
+  const safeTitleText = escapeHtmlText(route.title);
+  const safeTitleAttr = escapeHtmlAttr(route.title);
+  const safeDescAttr = escapeHtmlAttr(route.description);
+  const safeCanonical = escapeHtmlAttr(canonicalUrl);
+
+  return baseHtml
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${safeTitleText}</title>`)
+    .replace(
+      /<meta\s+name="description"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta name="description" content="${safeDescAttr}" />`
+    )
+    .replace(
+      /<meta\s+name="robots"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta name="robots" content="${robotsValue}" />`
+    )
+    .replace(
+      /<link\s+rel="canonical"[^>]*href="[^"]*"[^>]*>/i,
+      `<link rel="canonical" href="${safeCanonical}" />`
+    )
+    .replace(
+      /<meta\s+property="og:url"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta property="og:url" content="${safeCanonical}" />`
+    )
+    .replace(
+      /<meta\s+property="og:title"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta property="og:title" content="${safeTitleAttr}" />`
+    )
+    .replace(
+      /<meta\s+property="og:description"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta property="og:description" content="${safeDescAttr}" />`
+    )
+    .replace(
+      /<meta\s+name="twitter:title"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta name="twitter:title" content="${safeTitleAttr}" />`
+    )
+    .replace(
+      /<meta\s+name="twitter:description"[^>]*content="[^"]*"[^>]*>/i,
+      `<meta name="twitter:description" content="${safeDescAttr}" />`
+    );
+}
 
 function spaRouteHtmlFallbackPlugin(): Plugin {
   return {
@@ -27,10 +81,20 @@ function spaRouteHtmlFallbackPlugin(): Plugin {
       if (!fs.existsSync(indexHtmlPath)) return;
 
       const htmlContent = fs.readFileSync(indexHtmlPath, 'utf-8');
-      for (const route of SPA_ROUTES) {
-        const routeDir = path.join(distDir, route);
+      for (const route of CANONICAL_ROUTE_META) {
+        if (route.path === '/') {
+          fs.writeFileSync(indexHtmlPath, renderRouteHtml(htmlContent, route), 'utf-8');
+          continue;
+        }
+        const routeSlug = route.path.replace(/^\/+|\/+$/g, '');
+        if (!routeSlug) continue;
+        const routeDir = path.join(distDir, routeSlug);
         fs.mkdirSync(routeDir, {recursive: true});
-        fs.writeFileSync(path.join(routeDir, 'index.html'), htmlContent, 'utf-8');
+        fs.writeFileSync(
+          path.join(routeDir, 'index.html'),
+          renderRouteHtml(htmlContent, route),
+          'utf-8'
+        );
       }
     },
   };

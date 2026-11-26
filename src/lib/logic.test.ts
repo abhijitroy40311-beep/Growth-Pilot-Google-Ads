@@ -16,14 +16,14 @@ import {
 } from './scrollLogic';
 import { buildCanonicalUrl, buildBreadcrumbSchema } from './seo';
 import { shouldTrackLeadSubmission } from './analytics';
+import { CANONICAL_ROUTE_META } from './routeMeta';
+import { readEmailJsServerConfig, dispatchEmailJsRest } from './emailjsServer';
 import { projectsData } from '../data/projects';
 import { faqsData } from '../data/faqs';
 import { siteConfig } from '../data/siteConfig';
 
-test('siteConfig exposes connected API endpoints and EmailJS configuration', () => {
-  assert.equal(siteConfig.emailjs.serviceId, 'service_1g1fike');
-  assert.equal(siteConfig.emailjs.templateId, 'template_a1gp7od');
-  assert.ok(siteConfig.emailjs.publicKey.length > 5);
+test('siteConfig exposes connected API endpoints without private keys', () => {
+  assert.equal('privateKey' in siteConfig.emailjs, false);
   assert.equal(siteConfig.contact.inquiryEndpoint, '/api/contact');
   assert.equal(siteConfig.contact.healthEndpoint, '/api/health');
   assert.equal(siteConfig.contact.email, 'abhijitroy40311@gmail.com');
@@ -171,10 +171,27 @@ test('buildWhatsAppContactUrl formats E.164 digits and encodes message cleanly',
   assert.equal(withoutPhone, 'https://wa.me/?text=Quick%20inquiry');
 });
 
-test('resolveThankYouReceipt blocks direct unsubmitted access and accepts completed form receipts', () => {
+test('resolveThankYouReceipt blocks direct unsubmitted access and failed deliveries, accepting dispatched receipts', () => {
   assert.equal(resolveThankYouReceipt(null, null), null);
   assert.equal(resolveThankYouReceipt(undefined, '{invalid-json'), null);
   assert.equal(isValidSubmissionReceipt({ inquiryId: 'INVALID' }), false);
+
+  const failedReceipt = {
+    inquiryId: 'GP-M9XYZ-0000',
+    submittedAt: '2026-10-24T04:00:00.000Z',
+    emailDispatched: false,
+    emailError: 'EmailJS (service_test / template_test): Gmail_API: Invalid grant.',
+    emailjsServiceId: 'service_test',
+    message: 'Delivery failed.',
+    summary: {
+      name: 'Aarav Mehta',
+      businessName: 'Meridian Precision Systems',
+      email: 'aarav@meridiansystems.com',
+      serviceOfInterest: 'Website Design & Development',
+    },
+  };
+  assert.equal(isValidSubmissionReceipt(failedReceipt), false);
+  assert.equal(resolveThankYouReceipt(failedReceipt, null), null);
 
   const validReceipt = {
     inquiryId: 'GP-M9XYZ-1234',
@@ -245,6 +262,94 @@ test('shouldTrackLeadSubmission deduplicates conversion events by inquiryId', ()
   assert.equal(shouldTrackLeadSubmission('GP-LEAD-001', trackerSet), false);
   // Distinct inquiryId must return true
   assert.equal(shouldTrackLeadSubmission('GP-LEAD-002', trackerSet), true);
+});
+
+test('readEmailJsServerConfig ignores VITE_EMAILJS_PRIVATE_KEY and avoids hardcoded secrets', () => {
+  const cfg = readEmailJsServerConfig({
+    VITE_EMAILJS_PRIVATE_KEY: 'should_never_be_used',
+  });
+  assert.equal(cfg.serviceId, '');
+  assert.equal(cfg.templateId, '');
+  assert.equal(cfg.publicKey, '');
+  assert.equal(cfg.privateKey, '');
+});
+
+test('dispatchEmailJsRest reports genuine success/failure without false 450ms timeout success', async () => {
+  const validation = validateContactForm({
+    name: 'Alex Morgan',
+    businessName: 'Summit HVAC',
+    email: 'alex@summithvac.example',
+    serviceOfInterest: 'Google Ads & Performance Marketing',
+    projectGoals: 'Looking to generate qualified residential HVAC installation enquiries.',
+    consent: true,
+  });
+  const params = buildEmailJsTemplateParams(
+    validation.sanitized,
+    'GP-TEST-99',
+    '2026-11-26T12:00:00.000Z'
+  );
+
+  // Incomplete config fails accurately
+  const missingRes = await dispatchEmailJsRest({
+    config: { serviceId: '', templateId: '', publicKey: '', privateKey: '', recipientEmail: '' },
+    templateParams: params,
+    origin: 'https://growthpilotagency-ten.vercel.app',
+  });
+  assert.equal(missingRes.sent, false);
+  assert.ok(missingRes.err?.includes('incomplete'));
+
+  // Slow (>500ms) genuine failure must return sent: false with EmailJS error
+  const failRes = await dispatchEmailJsRest({
+    config: {
+      serviceId: 'service_test',
+      templateId: 'template_test',
+      publicKey: 'pub_test',
+      privateKey: '',
+      recipientEmail: 'abhijitroy40311@gmail.com',
+    },
+    templateParams: params,
+    origin: 'https://growthpilotagency-ten.vercel.app',
+    timeoutMs: 2000,
+    fetchImpl: (async () => {
+      await new Promise((r) => setTimeout(r, 500));
+      return new Response('Gmail_API: Invalid grant.', { status: 412 });
+    }) as typeof fetch,
+  });
+  assert.equal(failRes.sent, false);
+  assert.ok(failRes.err?.includes('Gmail_API: Invalid grant.'));
+
+  // Slow (>500ms) genuine 200 OK returns sent: true
+  const okRes = await dispatchEmailJsRest({
+    config: {
+      serviceId: 'service_test',
+      templateId: 'template_test',
+      publicKey: 'pub_test',
+      privateKey: 'priv_test',
+      recipientEmail: 'abhijitroy40311@gmail.com',
+    },
+    templateParams: params,
+    origin: 'https://growthpilotagency-ten.vercel.app',
+    timeoutMs: 2000,
+    fetchImpl: (async () => {
+      await new Promise((r) => setTimeout(r, 500));
+      return new Response('OK', { status: 200 });
+    }) as typeof fetch,
+  });
+  assert.equal(okRes.sent, true);
+  assert.equal(okRes.err, null);
+});
+
+test('CANONICAL_ROUTE_META includes /faq, marks /thank-you noindex, and excludes redirect aliases', () => {
+  const paths = CANONICAL_ROUTE_META.map((r) => r.path);
+  assert.ok(paths.includes('/faq'));
+  assert.equal(paths.includes('/faqs'), false);
+  assert.equal(paths.includes('/work'), false);
+  assert.equal(paths.includes('/about-us'), false);
+  assert.equal(paths.includes('/contact-us'), false);
+
+  const thankYou = CANONICAL_ROUTE_META.find((r) => r.path === '/thank-you');
+  assert.equal(thankYou?.noindex, true);
+  assert.equal(thankYou?.sitemap, undefined);
 });
 
 

@@ -38,17 +38,20 @@ export const BackToTopButton: React.FC = () => {
     });
   };
 
-  if (!visible) return null;
-
   return (
     <button
       type="button"
       onClick={scrollToTop}
       aria-label="Scroll back to top"
-      className="fixed bottom-20 right-4 sm:bottom-[5.25rem] sm:right-6 z-40 flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-[#0B0D10]/92 text-white shadow-xl backdrop-blur-md transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#08D9F5]/60 hover:text-[#08D9F5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08D9F5]"
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
+      className={`fixed bottom-[4.5rem] right-3.5 sm:bottom-[5.25rem] sm:right-6 z-40 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-xl border border-white/15 bg-[#0B0D10]/95 text-white shadow-xl transition-[opacity,transform,border-color,color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#08D9F5]/60 hover:text-[#08D9F5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08D9F5] ${
+        visible
+          ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+          : 'opacity-0 translate-y-3 scale-95 pointer-events-none'
+      }`}
     >
-      <ArrowUp className="h-4 w-4" />
+      <ArrowUp className="h-4 w-4" aria-hidden="true" />
     </button>
   );
 };
-

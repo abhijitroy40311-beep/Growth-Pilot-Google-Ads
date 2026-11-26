@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Check } from 'lucide-react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import { AnimatedHeading } from '../components/animation/AnimatedHeading';
@@ -64,10 +65,11 @@ const coreValues = [
 ];
 
 export const About: React.FC = () => {
+  const meta = getRouteMetaByPath('/about')!;
+
   useDocumentMeta({
-    title: 'About GrowthPilot | Google Ads Specialist & Digital Growth Consultant',
-    description:
-      'Learn how GrowthPilot combines Google Ads management, conversion-focused website development, CRO, and GA4 measurement to help businesses generate qualified inquiries.',
+    title: meta.title,
+    description: meta.description,
     path: '/about',
     structuredData: buildBreadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -76,7 +78,7 @@ export const About: React.FC = () => {
   });
 
   return (
-    <div className="bg-[#050505] text-white">
+    <div className="bg-[#050505] text-white min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-white/10 pt-14 pb-20 sm:pt-20 sm:pb-28">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />

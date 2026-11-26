@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, RotateCcw } from 'lucide-react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import {
   projectsData,
@@ -44,10 +45,11 @@ export const Projects: React.FC = () => {
     }
   };
 
+  const meta = getRouteMetaByPath('/projects')!;
+
   useDocumentMeta({
-    title: 'Lead Generation Website Design & PPC Funnel Blueprints | GrowthPilot',
-    description:
-      'Inspect GrowthPilot’s demonstration architectures for lead generation website design, Google Ads search campaigns, landing page CRO, and GA4 tracking.',
+    title: meta.title,
+    description: meta.description,
     path: '/projects',
     structuredData: buildBreadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -95,11 +97,10 @@ export const Projects: React.FC = () => {
                     key={category}
                     type="button"
                     onClick={() => handleCategoryChange(category)}
-                    className={`rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
-                      isActive
+                    className={`inline-flex min-h-[40px] items-center rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${isActive
                         ? 'gp-gradient-bg text-[#050505] font-semibold shadow-sm'
                         : 'text-[#A5AAB4] hover:text-white'
-                    }`}
+                      }`}
                   >
                     {category}
                   </button>

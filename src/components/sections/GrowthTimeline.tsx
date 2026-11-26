@@ -8,7 +8,6 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 export const GrowthTimeline: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const progressLineRef = useRef<HTMLDivElement>(null);
-  const arrowMarkerRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -20,7 +19,6 @@ export const GrowthTimeline: React.FC = () => {
 
     const sectionEl = sectionRef.current;
     const lineEl = progressLineRef.current;
-    const arrowEl = arrowMarkerRef.current;
 
     if (!sectionEl || !lineEl) return;
 
@@ -51,11 +49,6 @@ export const GrowthTimeline: React.FC = () => {
                       Math.floor(self.progress * processSteps.length)
                     );
                     setActiveIndex((prev) => (prev !== stepIdx ? stepIdx : prev));
-                    if (arrowEl) {
-                      gsap.set(arrowEl, {
-                        y: `${self.progress * 100}%`,
-                      });
-                    }
                   },
                 },
               }
@@ -127,7 +120,7 @@ export const GrowthTimeline: React.FC = () => {
             ref={progressLineRef}
             aria-hidden="true"
             className="absolute left-3 sm:left-4 top-2 bottom-2 w-0.5 gp-gradient-bg origin-top"
-            style={{ transform: reducedMotion ? 'scaleY(1)' : undefined }}
+            style={{ transform: reducedMotion ? 'scaleY(1)' : 'scaleY(0)' }}
           />
 
           <div className="space-y-8">
@@ -137,7 +130,7 @@ export const GrowthTimeline: React.FC = () => {
               return (
                 <div
                   key={step.stepNumber}
-                  className={`relative rounded-2xl border p-6 sm:p-8 transition-colors duration-200 ${isIlluminated
+                  className={`relative rounded-2xl border p-5 sm:p-8 transition-colors duration-200 ${isIlluminated
                       ? 'border-[#08D9F5]/35 bg-[#050505]'
                       : 'border-white/10 bg-[#050505]/70'
                     }`}

@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 
 export const TermsAndConditions: React.FC = () => {
+  const meta = getRouteMetaByPath('/terms-and-conditions')!;
+
   useDocumentMeta({
-    title: 'Terms & Conditions — GrowthPilot',
-    description:
-      'Terms and conditions governing the use of the GrowthPilot website, demonstration architectures, and project inquiries.',
+    title: meta.title,
+    description: meta.description,
     path: '/terms-and-conditions',
   });
 

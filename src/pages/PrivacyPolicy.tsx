@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 
 export const PrivacyPolicy: React.FC = () => {
+  const meta = getRouteMetaByPath('/privacy-policy')!;
+
   useDocumentMeta({
-    title: 'Privacy Policy — GrowthPilot',
-    description:
-      'Learn how GrowthPilot collects, uses, stores, and protects personal information when you visit our website or submit a project enquiry.',
+    title: meta.title,
+    description: meta.description,
     path: '/privacy-policy',
   });
 
@@ -129,12 +132,12 @@ export const PrivacyPolicy: React.FC = () => {
               </p>
               <p>
                 <span className="font-semibold text-white">Contact page:</span>{' '}
-                <a
-                  href="https://growthpilot.agancy.workers.dev/contact"
+                <Link
+                  to="/contact"
                   className="text-[#08D9F5] underline underline-offset-4 hover:text-white transition-colors"
                 >
                   Contact
-                </a>
+                </Link>
               </p>
             </div>
           </section>

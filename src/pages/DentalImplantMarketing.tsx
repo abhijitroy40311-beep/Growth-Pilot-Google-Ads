@@ -10,7 +10,8 @@ import {
   ArrowRight,
   Filter,
 } from 'lucide-react';
-import SEOHead from '../components/SEOHead';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import { AnimatedHeading } from '../components/animation/AnimatedHeading';
@@ -108,14 +109,17 @@ export const DentalImplantMarketing: React.FC = () => {
     ],
   };
 
+  const meta = getRouteMetaByPath('/dental-implant-marketing')!;
+
+  useDocumentMeta({
+    title: meta.title,
+    description: meta.description,
+    path: '/dental-implant-marketing',
+    structuredData,
+  });
+
   return (
     <div className="bg-[#050505] text-white min-h-screen">
-      <SEOHead
-        title="Google Ads for Dental Implant Clinics | Independent PPC Specialist | GrowthPilot"
-        description="Independent Google Ads management for dental implant clinics across the US, UK, Australia, Canada, and Ireland. High-intent Search campaigns, negative keywords, and privacy-safe GA4 conversion tracking."
-        path="/dental-implant-marketing"
-        schema={structuredData}
-      />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-white/10 pt-14 pb-20 sm:pt-20 sm:pb-24">

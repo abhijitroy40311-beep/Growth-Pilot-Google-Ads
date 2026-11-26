@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, ArrowRight } from 'lucide-react';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { getRouteMetaByPath } from '../lib/routeMeta';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import { faqsData, faqCategories, FAQCategory } from '../data/faqs';
 import { filterFAQs } from '../lib/filterLogic';
@@ -12,10 +13,11 @@ export const FAQ: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<FAQCategory>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const meta = getRouteMetaByPath('/faq')!;
+
   useDocumentMeta({
-    title: 'Google Ads Management, Website Design & CRO FAQs | GrowthPilot',
-    description:
-      'Find straightforward answers about GrowthPilot’s Google Ads management services, lead-generation website development, GA4 conversion tracking, and project workflow.',
+    title: meta.title,
+    description: meta.description,
     path: '/faq',
     structuredData: [
       buildBreadcrumbSchema([
@@ -89,7 +91,7 @@ export const FAQ: React.FC = () => {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
-                    className={`rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
+                    className={`inline-flex min-h-[40px] items-center rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
                       isActive
                         ? 'gp-gradient-bg text-[#050505] font-semibold'
                         : 'text-[#A5AAB4] hover:text-white'

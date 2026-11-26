@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Primary SEO Metadata (Override per route via react-helmet-async / prerendering) -->
+  <!-- Primary SEO Metadata (Override per route via useDocumentMeta & build-time route HTML) -->
   <title>Independent Google Ads Specialist for Service Businesses | GrowthPilot</title>
   <meta name="description"
     content="Independent Google Ads specialist helping HVAC, solar, dental, epoxy flooring, roofing, and plumbing businesses across the US, UK, Australia, Canada, and Ireland generate qualified enquiries." />
@@ -15,8 +15,10 @@
   <!-- Update domain below when migrating from Vercel to your custom domain -->
   <link rel="canonical" href="https://growthpilotagency-ten.vercel.app/" />
 
-  <!-- Preload Primary Above-the-Fold Brand Emblem & Favicon -->
+  <!-- Preload Primary Above-the-Fold Brand Emblem, Arrow Overlay & Favicon -->
   <link rel="preload" as="image" href="/assets/aistudio/growthpilot-emblem_d5dbc453.svg" type="image/svg+xml"
+    fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/aistudio/growthpilot-arrow_46f22e63.svg" type="image/svg+xml"
     fetchpriority="high" />
   <link rel="icon" type="image/svg+xml" href="/assets/aistudio/favicon_130b28cb.svg" />
 
@@ -59,8 +61,6 @@
   <!-- Non-Render-Blocking Google Fonts: Manrope, Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     media="print" onload="this.media='all'" />
@@ -70,7 +70,7 @@
   </noscript>
 
   <!-- Schema.org Structured Data (ProfessionalService, Person & WebSite) -->
-  <script type="application/ld+json">
+  <script id="gp-route-jsonld" type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [

@@ -237,6 +237,7 @@ export function isValidSubmissionReceipt(candidate: unknown): candidate is Submi
   const obj = candidate as Record<string, unknown>;
   if (typeof obj.inquiryId !== 'string' || !obj.inquiryId.startsWith('GP-')) return false;
   if (typeof obj.submittedAt !== 'string' || !obj.submittedAt) return false;
+  if (typeof obj.emailDispatched !== 'boolean' || !obj.emailDispatched) return false;
   if (!obj.summary || typeof obj.summary !== 'object') return false;
   const summary = obj.summary as Record<string, unknown>;
   return (

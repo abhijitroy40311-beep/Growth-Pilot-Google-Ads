@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http';
+import { readEmailJsServerConfig } from '../src/lib/emailjsServer.js';
 
 export default function handler(
   req: IncomingMessage & { method?: string },
@@ -14,27 +15,19 @@ export default function handler(
     return;
   }
 
-  const serviceId =
-    process.env.VITE_EMAILJS_SERVICE_ID ||
-    process.env.EMAILJS_SERVICE_ID ||
-    'service_1g1fike';
-  const templateId =
-    process.env.VITE_EMAILJS_TEMPLATE_ID ||
-    process.env.EMAILJS_TEMPLATE_ID ||
-    'template_a1gp7od';
-  const publicKey =
-    process.env.VITE_EMAILJS_PUBLIC_KEY ||
-    process.env.EMAILJS_PUBLIC_KEY ||
-    'J6Z6BqADTVbe_oGTY';
+  const emailConfig = readEmailJsServerConfig();
 
   const payload = {
     status: 'ok',
     service: 'GrowthPilot Serverless API',
     timestamp: new Date().toISOString(),
     emailjs: {
-      serviceId,
-      templateId,
-      configured: Boolean(serviceId && templateId && publicKey),
+      serviceId: emailConfig.serviceId,
+      templateId: emailConfig.templateId,
+      configured: Boolean(
+        emailConfig.serviceId && emailConfig.templateId && emailConfig.publicKey
+      ),
+      privateKeyConfigured: Boolean(emailConfig.privateKey),
     },
   };
 

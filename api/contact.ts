@@ -2,7 +2,11 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import {
   validateContactForm,
   buildEmailJsTemplateParams,
-} from '../src/lib/validation';
+} from '../src/lib/validation.js';
+import {
+  readEmailJsServerConfig,
+  dispatchEmailJsRest,
+} from '../src/lib/emailjsServer.js';
 
 function sendJson(res: ServerResponse, statusCode: number, data: unknown) {
   res.statusCode = statusCode;
@@ -88,96 +92,38 @@ export default async function handler(
       ? body.submittedAt
       : new Date().toISOString();
 
-  const serviceId =
-    process.env.VITE_EMAILJS_SERVICE_ID ||
-    process.env.EMAILJS_SERVICE_ID ||
-    'service_1g1fike';
-  const templateId =
-    process.env.VITE_EMAILJS_TEMPLATE_ID ||
-    process.env.EMAILJS_TEMPLATE_ID ||
-    'template_a1gp7od';
-  const publicKey =
-    process.env.VITE_EMAILJS_PUBLIC_KEY ||
-    process.env.EMAILJS_PUBLIC_KEY ||
-    'J6Z6BqADTVbe_oGTY';
-  const privateKey =
-    process.env.EMAILJS_PRIVATE_KEY ||
-    process.env.VITE_EMAILJS_PRIVATE_KEY ||
-    'DI2V29MD3yRrzMUHrnOQZ';
-  const recipientEmail =
-    process.env.VITE_CONTACT_EMAIL || 'abhijitroy40311@gmail.com';
-
-  let emailDispatched = Boolean(body.clientEmailSent);
-  let emailError: string | null = emailDispatched
-    ? null
-    : typeof body.clientEmailError === 'string'
-    ? body.clientEmailError
-    : null;
-
-  if (!emailDispatched && serviceId && templateId && publicKey) {
-    const templateParams = buildEmailJsTemplateParams(
-      validation.sanitized,
-      inquiryId,
-      submittedAt,
-      recipientEmail
-    );
-
-    const dispatchPromise = fetch(
-      'https://api.emailjs.com/api/v1.0/email/send',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Origin:
-            process.env.APP_URL ||
-            process.env.VITE_APP_URL ||
-            'https://growthpilotagency-ten.vercel.app',
-        },
-        body: JSON.stringify({
-          service_id: serviceId,
-          template_id: templateId,
-          user_id: publicKey,
-          ...(privateKey ? { accessToken: privateKey } : {}),
-          template_params: templateParams,
-        }),
-      }
-    )
-      .then(async (emailResponse) => {
-        const responseText = await emailResponse.text();
-        if (emailResponse.ok) {
-          return { sent: true, err: null };
-        }
-        return {
-          sent: false,
-          err: `EmailJS (${serviceId} / ${templateId}): ${responseText}`,
-        };
-      })
-      .catch((err) => ({
-        sent: false,
-        err: err instanceof Error ? err.message : 'Unable to reach EmailJS API.',
-      }));
-
-    const fastResult = await Promise.race([
-      dispatchPromise,
-      new Promise<{ sent: boolean; err: string | null }>((resolve) =>
-        setTimeout(() => resolve({ sent: true, err: null }), 450)
-      ),
-    ]);
-
-    emailDispatched = fastResult.sent;
-    emailError = fastResult.err;
-  }
-
-  sendJson(res, 201, {
-    ok: true,
+  const emailConfig = readEmailJsServerConfig();
+  const templateParams = buildEmailJsTemplateParams(
+    validation.sanitized,
     inquiryId,
     submittedAt,
-    emailjsServiceId: serviceId,
-    emailjsTemplateId: templateId,
-    emailDispatched,
-    emailError,
-    message:
-      "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days.",
+    emailConfig.recipientEmail
+  );
+
+  const origin =
+    process.env.APP_URL ||
+    process.env.VITE_APP_URL ||
+    'https://growthpilotagency-ten.vercel.app';
+
+  const dispatchResult = await dispatchEmailJsRest({
+    config: emailConfig,
+    templateParams,
+    origin,
+  });
+
+  const statusCode = dispatchResult.sent ? 201 : 502;
+
+  sendJson(res, statusCode, {
+    ok: dispatchResult.sent,
+    inquiryId,
+    submittedAt,
+    emailjsServiceId: emailConfig.serviceId,
+    emailjsTemplateId: emailConfig.templateId,
+    emailDispatched: dispatchResult.sent,
+    emailError: dispatchResult.err,
+    message: dispatchResult.sent
+      ? "Your project inquiry has been received successfully. Thank you for contacting GrowthPilot. We'll review your requirements and get back to you within 1–2 business days."
+      : 'We could not deliver your inquiry email automatically right now. Please use WhatsApp or your Email App below to send your brief directly.',
     summary: {
       name: validation.sanitized.name,
       businessName: validation.sanitized.businessName,

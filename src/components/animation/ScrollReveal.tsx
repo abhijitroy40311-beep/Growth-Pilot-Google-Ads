@@ -39,7 +39,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.05, rootMargin: '40px 0px' }
     );
 
     observer.observe(el);
@@ -57,9 +57,9 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         opacity: visible ? 1 : 0,
         transform: visible ? 'translate3d(0, 0, 0)' : `translate3d(0, ${yOffset}px, 0)`,
         transitionProperty: 'opacity, transform',
-        transitionDuration: '500ms',
+        transitionDuration: '420ms',
         transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-        transitionDelay: delay > 0 ? `${Math.round(delay * 1000)}ms` : undefined,
+        transitionDelay: delay > 0 ? `${Math.round(delay * 700)}ms` : undefined,
       }}
       className={className}
     >

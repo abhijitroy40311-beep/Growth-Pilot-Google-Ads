@@ -17,7 +17,6 @@ export interface SiteConfig {
     serviceId: string;
     templateId: string;
     publicKey: string;
-    privateKey: string;
   };
   contact: {
     /**
@@ -71,10 +70,9 @@ export const siteConfig: SiteConfig = {
     fullOriginalPng: '/assets/aistudio/GrowthPilot__Navigate_Growth_with_Intelligence_00a6f627_00a6f627.png',
   },
   emailjs: {
-    serviceId: cleanEnv(metaEnv.VITE_EMAILJS_SERVICE_ID, 'service_1g1fike') || 'service_1g1fike',
-    templateId: cleanEnv(metaEnv.VITE_EMAILJS_TEMPLATE_ID, 'template_a1gp7od') || 'template_a1gp7od',
-    publicKey: cleanEnv(metaEnv.VITE_EMAILJS_PUBLIC_KEY, 'J6Z6BqADTVbe_oGTY') || 'J6Z6BqADTVbe_oGTY',
-    privateKey: cleanEnv(metaEnv.VITE_EMAILJS_PRIVATE_KEY, 'DI2V29MD3yRrzMUHrnOQZ') || 'DI2V29MD3yRrzMUHrnOQZ',
+    serviceId: cleanEnv(metaEnv.VITE_EMAILJS_SERVICE_ID, '') || '',
+    templateId: cleanEnv(metaEnv.VITE_EMAILJS_TEMPLATE_ID, '') || '',
+    publicKey: cleanEnv(metaEnv.VITE_EMAILJS_PUBLIC_KEY, '') || '',
   },
   contact: {
     // Verified channels configured via .env

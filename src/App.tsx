@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
-  useLocation,
 } from 'react-router-dom';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { Navbar } from './components/navigation/Navbar';
@@ -20,30 +19,21 @@ import { WhatsAppFloatingButton } from './components/ui/WhatsAppFloatingButton';
 import { PageTransition } from './components/animation/PageTransition';
 
 import Home from './pages/Home';
-import Services from './pages/Services';
-import About from './pages/About';
-import DentalImplantMarketing from './pages/DentalImplantMarketing';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
+import { Services } from './pages/Services';
+import { About } from './pages/About';
+import { DentalImplantMarketing } from './pages/DentalImplantMarketing';
+import { Projects } from './pages/Projects';
+import { Contact } from './pages/Contact';
 import ThankYou from './pages/ThankYou';
-import FAQ from './pages/FAQ';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsAndConditions from './pages/TermsAndConditions';
-import NotFound from './pages/NotFound';
-
-const ScrollToTop: React.FC = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
+import { FAQ } from './pages/FAQ';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
+import { TermsAndConditions } from './pages/TermsAndConditions';
+import { NotFound } from './pages/NotFound';
 
 export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <ScrollToTop />
         <div className="flex min-h-screen flex-col bg-[#050505] text-white">
           <a
             href="#main-content"

@@ -40,7 +40,7 @@ export const AnimatedHeading: React.FC<AnimatedHeadingProps> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05, rootMargin: '20px 0px' }
     );
 
     observer.observe(el);
@@ -73,12 +73,12 @@ export const AnimatedHeading: React.FC<AnimatedHeadingProps> = ({
           <React.Fragment key={idx}>
             <span
               style={{
-                transitionDelay: `${idx * 40}ms`,
+                transitionDelay: `${Math.min(idx, 10) * 24}ms`,
               }}
-              className={`inline-block transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              className={`inline-block transition-[opacity,transform] duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                 inView
                   ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-3'
+                  : 'opacity-0 translate-y-2.5'
               } ${isHighlighted ? 'gp-gradient-text' : ''}`}
             >
               {word}

@@ -38,7 +38,7 @@ export function buildBreadcrumbSchema(
 
 export function buildOrganizationAndWebSiteSchema(
   origin: string = siteConfig.domain
-): Record<string, unknown>[] {
+): Record<string, unknown> {
   const baseUrl = buildCanonicalUrl('/', origin).replace(/\/$/, '');
   const sameAs = [
     siteConfig.socials.linkedin,
@@ -46,36 +46,80 @@ export function buildOrganizationAndWebSiteSchema(
     siteConfig.socials.facebook,
   ].filter(Boolean) as string[];
 
-  return [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      '@id': `${baseUrl}/#organization`,
-      name: siteConfig.brandName,
-      url: `${baseUrl}/`,
-      logo: `${baseUrl}${siteConfig.assets.fullOriginalPng}`,
-      description:
-        'GrowthPilot is a digital growth and Google Ads management agency providing search campaign management, conversion-focused website development, landing page optimization, and GA4/GTM conversion tracking.',
-      ...(siteConfig.contact.email ? { email: siteConfig.contact.email } : {}),
-      ...(sameAs.length > 0 ? { sameAs } : {}),
-      knowsAbout: [
-        'Google Ads Management Services',
-        'PPC Campaign Management',
-        'Lead Generation Website Design',
-        'Landing Page Conversion Rate Optimization',
-        'Google Analytics 4 & Google Tag Manager Setup',
-        'Dental Implant Google Ads & Lead Generation',
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      '@id': `${baseUrl}/#website`,
-      url: `${baseUrl}/`,
-      name: siteConfig.brandName,
-      publisher: {
-        '@id': `${baseUrl}/#organization`,
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ProfessionalService',
+        '@id': `${baseUrl}/#service`,
+        name: siteConfig.brandName,
+        slogan: siteConfig.tagline,
+        description:
+          'Independent Google Ads management, PPC campaign optimization, conversion-focused landing pages, and GA4/GTM conversion tracking for international service businesses.',
+        url: `${baseUrl}/`,
+        logo: `${baseUrl}${siteConfig.assets.fullOriginalPng}`,
+        image: `${baseUrl}${siteConfig.assets.fullOriginalPng}`,
+        ...(siteConfig.contact.email ? { email: `mailto:${siteConfig.contact.email}` } : {}),
+        ...(siteConfig.contact.phone ? { telephone: siteConfig.contact.phone } : {}),
+        founder: {
+          '@id': `${baseUrl}/#founder`,
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Kolkata',
+          addressRegion: 'West Bengal',
+          addressCountry: 'IN',
+        },
+        areaServed: [
+          { '@type': 'Country', name: 'United States' },
+          { '@type': 'Country', name: 'United Kingdom' },
+          { '@type': 'Country', name: 'Australia' },
+          { '@type': 'Country', name: 'Canada' },
+          { '@type': 'Country', name: 'Ireland' },
+          { '@type': 'Country', name: 'New Zealand' },
+        ],
+        ...(sameAs.length > 0 ? { sameAs } : {}),
+        knowsAbout: [
+          'Google Ads Management for Service Businesses',
+          'Google Search Ads & PPC Campaign Optimization',
+          'Google Ads for HVAC Companies',
+          'Google Ads for Solar Installation Companies',
+          'Google Ads for Dental Implant Clinics',
+          'Google Ads for Epoxy Flooring Contractors',
+          'Google Ads for Roofing and Plumbing Businesses',
+          'Google Analytics 4 & Google Tag Manager Conversion Tracking',
+          'Landing Page Conversion Rate Optimization',
+        ],
       },
-    },
-  ];
+      {
+        '@type': 'Person',
+        '@id': `${baseUrl}/#founder`,
+        name: 'Abhijit Roy',
+        jobTitle: 'Independent Google Ads Specialist',
+        worksFor: {
+          '@id': `${baseUrl}/#service`,
+        },
+        ...(siteConfig.socials.linkedin ? { sameAs: [siteConfig.socials.linkedin] } : {}),
+        hasCredential: {
+          '@type': 'EducationalOccupationalCredential',
+          name: 'Google Analytics Certification',
+          credentialCategory: 'certification',
+          identifier: '201105118',
+          recognizedBy: {
+            '@type': 'Organization',
+            name: 'Google',
+          },
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${baseUrl}/#website`,
+        url: `${baseUrl}/`,
+        name: siteConfig.brandName,
+        publisher: {
+          '@id': `${baseUrl}/#service`,
+        },
+      },
+    ],
+  };
 }
