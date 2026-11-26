@@ -164,7 +164,7 @@ test('buildWhatsAppContactUrl formats E.164 digits and encodes message cleanly',
   const withPhone = buildWhatsAppContactUrl('+91 (98765) 43210', 'Hello GrowthPilot!');
   assert.equal(withPhone, 'https://wa.me/919876543210?text=Hello%20GrowthPilot!');
 
-  const tenDigitIndian = buildWhatsAppContactUrl('8777202487', 'Hello GrowthPilot!');
+  const tenDigitIndian = buildWhatsAppContactUrl('+91 8777202487', 'Hello GrowthPilot!');
   assert.equal(tenDigitIndian, 'https://wa.me/918777202487?text=Hello%20GrowthPilot!');
 
   const withoutPhone = buildWhatsAppContactUrl(null, 'Quick inquiry');
@@ -199,19 +199,19 @@ test('resolveThankYouReceipt blocks direct unsubmitted access and accepts comple
 });
 
 test('buildCanonicalUrl normalizes trailing slashes, query parameters, and hash fragments', () => {
-  const origin = 'https://growthpilotagency-nine.vercel.app';
-  assert.equal(buildCanonicalUrl('/', origin), 'https://growthpilotagency-nine.vercel.app/');
+  const origin = 'https://growthpilotagency-ten.vercel.app';
+  assert.equal(buildCanonicalUrl('/', origin), 'https://growthpilotagency-ten.vercel.app/');
   assert.equal(
     buildCanonicalUrl('/services/', origin),
-    'https://growthpilotagency-nine.vercel.app/services'
+    'https://growthpilotagency-ten.vercel.app/services'
   );
   assert.equal(
     buildCanonicalUrl('/dental-implant-marketing?utm_source=google#top', origin),
-    'https://growthpilotagency-nine.vercel.app/dental-implant-marketing'
+    'https://growthpilotagency-ten.vercel.app/dental-implant-marketing'
   );
   assert.equal(
     buildCanonicalUrl('about/', `${origin}/`),
-    'https://growthpilotagency-nine.vercel.app/about'
+    'https://growthpilotagency-ten.vercel.app/about'
   );
 });
 
@@ -222,17 +222,17 @@ test('buildBreadcrumbSchema generates valid Schema.org BreadcrumbList with 1-ind
       { name: 'Services', path: '/services' },
       { name: 'Dental Implant Marketing', path: '/dental-implant-marketing/' },
     ],
-    'https://growthpilotagency-nine.vercel.app'
+    'https://growthpilotagency-ten.vercel.app'
   );
   assert.equal(schema['@type'], 'BreadcrumbList');
   const items = schema.itemListElement as Array<Record<string, unknown>>;
   assert.equal(items.length, 3);
   assert.equal(items[0].position, 1);
-  assert.equal(items[0].item, 'https://growthpilotagency-nine.vercel.app/');
+  assert.equal(items[0].item, 'https://growthpilotagency-ten.vercel.app/');
   assert.equal(items[2].position, 3);
   assert.equal(
     items[2].item,
-    'https://growthpilotagency-nine.vercel.app/dental-implant-marketing'
+    'https://growthpilotagency-ten.vercel.app/dental-implant-marketing'
   );
 });
 

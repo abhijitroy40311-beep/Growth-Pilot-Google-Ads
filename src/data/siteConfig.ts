@@ -58,8 +58,8 @@ export const siteConfig: SiteConfig = {
   shortDescription:
     'Google Ads management services, conversion-focused website design, landing page optimization, and GA4 tracking designed to generate qualified business inquiries.',
   domain:
-    cleanEnv(metaEnv.VITE_APP_URL, 'https://growthpilotagency-nine.vercel.app') ||
-    'https://growthpilotagency-nine.vercel.app',
+    cleanEnv(metaEnv.VITE_APP_URL, 'https://growthpilotagency-ten.vercel.app') ||
+    'https://growthpilotagency-ten.vercel.app',
   assets: {
     emblemSvg: '/assets/aistudio/growthpilot-emblem_d5dbc453.svg',
     arrowSvg: '/assets/aistudio/growthpilot-arrow_46f22e63.svg',
@@ -79,10 +79,10 @@ export const siteConfig: SiteConfig = {
   contact: {
     // Verified channels configured via .env
     email: cleanEnv(metaEnv.VITE_CONTACT_EMAIL, 'abhijitroy40311@gmail.com'),
-    phone: cleanEnv(metaEnv.VITE_CONTACT_PHONE, '8777202487'),
+    phone: cleanEnv(metaEnv.VITE_CONTACT_PHONE, '+91 8777202487'),
     whatsapp:
       cleanEnv(metaEnv.VITE_WHATSAPP_NUMBER) ||
-      cleanEnv(metaEnv.VITE_CONTACT_PHONE, '8777202487'),
+      cleanEnv(metaEnv.VITE_CONTACT_PHONE, '+91 8777202487'),
     whatsappMessage:
       "Hi GrowthPilot team! I'd like to discuss a project and learn how we can work together.",
     location: cleanEnv(metaEnv.VITE_CONTACT_LOCATION, 'Kolkata, India'),

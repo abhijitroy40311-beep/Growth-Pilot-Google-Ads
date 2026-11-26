@@ -131,7 +131,7 @@ export default async function handler(
           Origin:
             process.env.APP_URL ||
             process.env.VITE_APP_URL ||
-            'https://growthpilotagency-nine.vercel.app',
+            'https://growthpilotagency-ten.vercel.app',
         },
         body: JSON.stringify({
           service_id: serviceId,

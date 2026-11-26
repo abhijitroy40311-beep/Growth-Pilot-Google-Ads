@@ -3,8 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { Navbar } from './components/navigation/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -25,10 +31,19 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions';
 import NotFound from './pages/NotFound';
 
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
+        <ScrollToTop />
         <div className="flex min-h-screen flex-col bg-[#050505] text-white">
           <a
             href="#main-content"
@@ -43,6 +58,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/about-us" element={<Navigate to="/about" replace />} />
                 <Route path="/work" element={<Navigate to="/projects" replace />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/services" element={<Services />} />
@@ -50,9 +66,17 @@ export default function App() {
                   path="/dental-implant-marketing"
                   element={<DentalImplantMarketing />}
                 />
+                {/* Phase 2 Industry Pages — uncomment as each page component is created:
+                <Route path="/epoxy-flooring-google-ads" element={<EpoxyFlooringGoogleAds />} />
+                <Route path="/hvac-google-ads" element={<HvacGoogleAds />} />
+                <Route path="/solar-google-ads" element={<SolarGoogleAds />} />
+                <Route path="/roofing-home-services-google-ads" element={<RoofingHomeServicesGoogleAds />} />
+                */}
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
                 <Route path="/thank-you" element={<ThankYou />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/faqs" element={<Navigate to="/faq" replace />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                 <Route path="*" element={<NotFound />} />

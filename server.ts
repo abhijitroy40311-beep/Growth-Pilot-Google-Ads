@@ -147,7 +147,7 @@ function resolveRequestOrigin(req: express.Request): string {
   const host =
     (req.headers['x-forwarded-host'] as string)?.split(',')[0]?.trim() ||
     req.headers.host ||
-    'growthpilotagency-nine.vercel.app';
+    'growthpilotagency-ten.vercel.app';
   return `${proto}://${host}`;
 }
 
@@ -296,7 +296,7 @@ async function startServer() {
       process.env.VITE_EMAILJS_PUBLIC_KEY ||
       process.env.EMAILJS_PUBLIC_KEY ||
       'J6Z6BqADTVbe_oGTY';
-    const privateKey = process.env.EMAILJS_PRIVATE_KEY || 'DI2V29MD3yRrzMUHrnOQZ';
+    const privateKey = process.env.EMAILJS_PRIVATE_KEY; 
     const recipientEmail = process.env.VITE_CONTACT_EMAIL || 'abhijitroy40311@gmail.com';
 
     let emailDispatched = Boolean(req.body?.clientEmailSent);
@@ -448,4 +448,3 @@ startServer().catch((err) => {
   console.error('Failed to start server:', err);
   process.exit(1);
 });
-

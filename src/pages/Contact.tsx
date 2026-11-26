@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Check, HelpCircle, MessageCircle } from 'lucide-react';
-import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { Check, Globe, HelpCircle, MessageCircle } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
 import { trackConversionEvent } from '../lib/analytics';
@@ -10,41 +10,47 @@ import { ContactForm } from '../components/sections/ContactForm';
 import { AnimatedHeading } from '../components/animation/AnimatedHeading';
 
 export const Contact: React.FC = () => {
-  useDocumentMeta({
-    title: 'Contact GrowthPilot | Speak With a Google Ads & Growth Specialist',
-    description:
-      'Contact GrowthPilot to discuss Google Ads management, lead-generation website design, landing page optimization, or GA4 and Google Tag Manager setup.',
-    path: '/contact',
-    structuredData: buildBreadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Contact Us', path: '/contact' },
-    ]),
-  });
-
   const whatsappDirectHref = buildWhatsAppContactUrl(
     siteConfig.contact.whatsapp,
     siteConfig.contact.whatsappMessage
   );
 
+  const sanitizedPhoneHref = siteConfig.contact.phone
+    ? `tel:${siteConfig.contact.phone.replace(/\s+/g, '')}`
+    : '';
+
   return (
     <div className="bg-[#050505] text-white min-h-screen">
+      <SEOHead
+        title="Contact Abhijit Roy | Independent Google Ads Specialist | GrowthPilot"
+        description="Contact Abhijit Roy at GrowthPilot to discuss Google Ads campaign management, landing page optimization, or GA4 and Google Tag Manager conversion tracking for your service business."
+        path="/contact"
+        schema={buildBreadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ])}
+      />
+
       <section className="relative overflow-hidden border-b border-white/10 pt-6 pb-16 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50"
+        />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-8 items-start">
             {/* 1. Short Contact Introduction, Main Heading & Supporting Description */}
             <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
               <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-                Project Inquiry · {siteConfig.tagline}
+                Direct Specialist Enquiry · {siteConfig.tagline}
               </p>
               <AnimatedHeading
                 as="h1"
-                text="Let's Talk About Your Next Move."
-                highlightWords={['Next', 'Move']}
+                text="Request a Free Google Ads & Tracking Review."
+                highlightWords={['Google', 'Ads', 'Tracking']}
                 className="mt-2 sm:mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.08]"
               />
               <p className="mt-2.5 sm:mt-4 text-sm sm:text-base lg:text-lg text-[#A5AAB4] leading-relaxed">
-                Tell us a little about your business and what you want to improve.
+                Share your service industry, target market, and website URL. I will review your setup personally and reply with practical next steps.
               </p>
             </div>
 
@@ -60,37 +66,52 @@ export const Contact: React.FC = () => {
                   What Happens After You Reach Out
                 </h2>
                 <p className="text-xs sm:text-sm text-[#A5AAB4] leading-relaxed">
-                  Every project inquiry goes directly to our senior growth and engineering team—never an automated sales queue.
+                  Every enquiry goes directly to Abhijit Roy—never a sales rep, automated queue, or junior account manager.
                 </p>
                 <ul className="space-y-3 text-sm text-[#A5AAB4]">
                   <li className="flex items-start gap-2.5">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
+                    <Check
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
+                      aria-hidden="true"
+                    />
                     <span>
-                      We review your current website, search visibility, or tracking goals carefully.
+                      I review your website, service area, Google Ads opportunity, and current GA4/GTM tracking setup.
                     </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
+                    <Check
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
+                      aria-hidden="true"
+                    />
                     <span>
-                      We respond ({siteConfig.contact.responseWindow}) with practical questions or to schedule an initial discovery call.
+                      I respond ({siteConfig.contact.responseWindow}) with focused questions or a link for a 15-minute discovery call.
                     </span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
+                    <Check
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
+                      aria-hidden="true"
+                    />
                     <span>
-                      You receive a clear recommendation aligned with your business goals—never pressure or generic sales pitches.
+                      You get an honest recommendation on budget, campaign structure, and tracking—with zero lock-in pressure.
                     </span>
                   </li>
                 </ul>
               </div>
 
-              {/* Configurable Contact Details & Fallback */}
+              {/* Configurable Contact Details & International Availability */}
               <div className="rounded-2xl border border-white/10 bg-[#0B0D10] p-5 sm:p-6 space-y-3 text-sm text-[#A5AAB4]">
                 <h2 className="text-base font-bold text-white">
-                  Direct &amp; Fallback Contact Details
+                  Direct Contact &amp; International Hours
                 </h2>
-                <p>
-                  Our primary inquiry channel is the verified form on this page, which logs your project brief directly with our team and issues an immediate reference ID.
+                <p className="flex items-start gap-2 text-xs sm:text-sm leading-relaxed">
+                  <Globe
+                    className="mt-0.5 h-4 w-4 shrink-0 text-[#08D9F5]"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    Based in Kolkata, India (IST) · Serving service businesses in the US, UK, Australia, Canada, Ireland, and New Zealand. Live calls available during AU mornings, UK/IE afternoons, and US East mornings (8:00 AM–1:30 PM EST).
+                  </span>
                 </p>
                 {siteConfig.contact.email && (
                   <p>
@@ -113,7 +134,7 @@ export const Contact: React.FC = () => {
                   <p>
                     Phone:{' '}
                     <a
-                      href={`tel:${siteConfig.contact.phone}`}
+                      href={sanitizedPhoneHref}
                       onClick={() =>
                         trackConversionEvent('phone_click', {
                           contact_method: 'phone',
@@ -140,7 +161,7 @@ export const Contact: React.FC = () => {
                     className="inline-flex items-center gap-2 rounded-lg border border-[#25D366]/40 bg-[#25D366]/10 px-3.5 py-2 text-xs font-semibold text-[#25D366] hover:bg-[#25D366]/20 transition-colors"
                   >
                     <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span>Message GrowthPilot on WhatsApp</span>
+                    <span>Message Abhijit on WhatsApp</span>
                   </a>
                 </div>
                 <div className="pt-2 border-t border-white/10 flex items-center gap-2 text-xs">
@@ -151,7 +172,7 @@ export const Contact: React.FC = () => {
                       to="/faq"
                       className="text-[#08D9F5] underline underline-offset-4 hover:text-white"
                     >
-                      Read our FAQs
+                      Read the FAQs
                     </Link>
                   </span>
                 </div>

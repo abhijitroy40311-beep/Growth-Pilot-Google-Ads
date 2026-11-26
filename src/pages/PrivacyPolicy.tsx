@@ -121,10 +121,10 @@ export const PrivacyPolicy: React.FC = () => {
               <p>
                 <span className="font-semibold text-white">Privacy email:</span>{' '}
                 <a
-                  href="mailto:abhijitroy40311@gamil.com"
+                  href="mailto:abhijitroy40311@gmail.com"
                   className="text-[#08D9F5] underline underline-offset-4 hover:text-white transition-colors"
                 >
-                  abhijitroy40311@gamil.com
+                  abhijitroy40311@gmail.com
                 </a>
               </p>
               <p>

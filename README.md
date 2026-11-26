@@ -5,7 +5,6 @@
 GrowthPilot is a full-stack digital growth and performance marketing agency platform specializing in **Google Ads Management Services**, **PPC Campaign Engineering**, **Dental Implant Marketing**, **Conversion-Focused Website & Landing Page Design**, and **GA4 / Google Ads Conversion Tracking**.
 
 ---
-
 ## Core Services & Value Proposition
 1. **Google Ads Management & PPC Advertising**
    - High-intent commercial search campaign architecture (Exact & Phrase match focus)
@@ -79,8 +78,8 @@ Copy `.env.example` to `.env` in the project root:
 ```env
 # Application Origin & API Endpoints
 PORT=3000
-APP_URL="https://growthpilotagency-nine.vercel.app"
-VITE_APP_URL="https://growthpilotagency-nine.vercel.app"
+APP_URL="https://growthpilotagency-ten.vercel.app/"
+VITE_APP_URL="https://growthpilotagency-ten.vercel.app/"
 VITE_INQUIRY_API_ENDPOINT="/api/contact"
 VITE_HEALTH_API_ENDPOINT="/api/health"
 
