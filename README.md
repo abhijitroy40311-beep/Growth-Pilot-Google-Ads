@@ -45,7 +45,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 | `/terms-and-conditions` | **Terms & Conditions** — Service engagement and website usage terms |
 
 ---
-
 ## SEO, Schema & Google Ads Readiness
 - **Dynamic Route-Level SEO (`src/lib/seo.ts`)**:
   - Unique `<title>`, `<meta name="description">`, canonical URLs, OpenGraph tags, and Twitter Card metadata per route
@@ -60,7 +59,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
   - `/robots.txt` and `/sitemap.xml` served both as static files in `public/` and dynamically via `server.ts`
 
 ---
-
 ## Tech Stack & Architecture
 - **Frontend**: React 19, TypeScript, Vite 6, React Router v7 (`BrowserRouter`), Tailwind CSS v4, Lucide Icons
 - **Backend / API**:
@@ -71,7 +69,6 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
   - Direct WhatsApp follow-up link generator (`https://wa.me/...`) with pre-filled inquiry summary
 
 ---
-
 ## Environment Variables (`.env`)
 Copy `.env.example` to `.env` in the project root:
 
