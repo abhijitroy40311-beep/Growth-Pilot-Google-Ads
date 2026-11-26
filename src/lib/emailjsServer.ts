@@ -54,10 +54,15 @@ export async function dispatchEmailJsRest({
   timeoutMs = DEFAULT_EMAILJS_TIMEOUT_MS,
   fetchImpl = fetch,
 }: DispatchEmailJsOptions): Promise<EmailJsDispatchResult> {
-  if (!config.serviceId || !config.templateId || !config.publicKey) {
+  const missingFields: string[] = [];
+  if (!config.serviceId) missingFields.push('EMAILJS_SERVICE_ID');
+  if (!config.templateId) missingFields.push('EMAILJS_TEMPLATE_ID');
+  if (!config.publicKey) missingFields.push('EMAILJS_PUBLIC_KEY');
+
+  if (missingFields.length > 0) {
     return {
       sent: false,
-      err: 'EmailJS server configuration is incomplete (missing Service ID, Template ID, or Public Key).',
+      err: `EmailJS server configuration is incomplete (missing ${missingFields.join(', ')}).`,
     };
   }
 

@@ -297,6 +297,9 @@ test('dispatchEmailJsRest reports genuine success/failure without false 450ms ti
   });
   assert.equal(missingRes.sent, false);
   assert.ok(missingRes.err?.includes('incomplete'));
+  assert.ok(missingRes.err?.includes('EMAILJS_SERVICE_ID'));
+  assert.ok(missingRes.err?.includes('EMAILJS_TEMPLATE_ID'));
+  assert.ok(missingRes.err?.includes('EMAILJS_PUBLIC_KEY'));
 
   // Slow (>500ms) genuine failure must return sent: false with EmailJS error
   const failRes = await dispatchEmailJsRest({

@@ -15,10 +15,10 @@ import {
   dispatchEmailJsRest,
 } from './src/lib/emailjsServer.js';
 
-dotenv.config();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 export interface StoredInquiry extends ContactFormPayload {
   id: string;
