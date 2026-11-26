@@ -18,6 +18,7 @@ import { buildCanonicalUrl, buildBreadcrumbSchema } from './seo';
 import { shouldTrackLeadSubmission } from './analytics';
 import { CANONICAL_ROUTE_META } from './routeMeta';
 import { readEmailJsServerConfig, dispatchEmailJsRest } from './emailjsServer';
+import workerHandler from '../../worker';
 import { projectsData } from '../data/projects';
 import { faqsData } from '../data/faqs';
 import { siteConfig } from '../data/siteConfig';
@@ -355,4 +356,83 @@ test('CANONICAL_ROUTE_META includes /faq, marks /thank-you noindex, and excludes
   assert.equal(thankYou?.sitemap, undefined);
 });
 
+test('Cloudflare workerHandler serves /api/health, /api/contact, 301 redirects, and delegates static assets', async () => {
+  const healthRes = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/health'),
+    {
+      EMAILJS_SERVICE_ID: 'service_test',
+      EMAILJS_TEMPLATE_ID: 'template_test',
+      EMAILJS_PUBLIC_KEY: 'pub_test',
+      EMAILJS_PRIVATE_KEY: 'priv_test',
+    }
+  );
+  assert.equal(healthRes.status, 200);
+  const healthBody = (await healthRes.json()) as {
+    status: string;
+    emailjs: { configured: boolean; privateKeyConfigured: boolean };
+  };
+  assert.equal(healthBody.status, 'ok');
+  assert.equal(healthBody.emailjs.configured, true);
+  assert.equal(healthBody.emailjs.privateKeyConfigured, true);
+
+  const badContactRes = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    }),
+    {}
+  );
+  assert.equal(badContactRes.status, 400);
+
+  const missingEnvRes = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Alex Rivera',
+        businessName: 'Summit HVAC',
+        email: 'alex@summithvac.example',
+        serviceOfInterest: 'Google Ads & Performance Marketing',
+        projectGoals: 'Looking to scale residential HVAC enquiries cleanly.',
+        consent: true,
+      }),
+    }),
+    {}
+  );
+  assert.equal(missingEnvRes.status, 502);
+  const missingEnvJson = (await missingEnvRes.json()) as {
+    ok: boolean;
+    emailDispatched: boolean;
+    emailError: string;
+  };
+  assert.equal(missingEnvJson.ok, false);
+  assert.equal(missingEnvJson.emailDispatched, false);
+  assert.ok(missingEnvJson.emailError.includes('EMAILJS_SERVICE_ID'));
+
+  const redirectRes = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/work/'),
+    {}
+  );
+  assert.equal(redirectRes.status, 301);
+  assert.equal(
+    redirectRes.headers.get('location'),
+    'https://growthpilot-google-ads.agancy.workers.dev/projects'
+  );
+
+  let assetsCalled = false;
+  const assetRes = await workerHandler.fetch(
+    new Request('https://growthpilot-google-ads.agancy.workers.dev/services'),
+    {
+      ASSETS: {
+        async fetch() {
+          assetsCalled = true;
+          return new Response('<html></html>', { status: 200 });
+        },
+      },
+    }
+  );
+  assert.equal(assetsCalled, true);
+  assert.equal(assetRes.status, 200);
+});
 

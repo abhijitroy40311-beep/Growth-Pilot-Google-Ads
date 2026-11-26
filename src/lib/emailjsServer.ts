@@ -28,16 +28,18 @@ const DEFAULT_EMAILJS_TIMEOUT_MS = 8500;
  * hardcoded secret or unconfirmed service ID fallbacks.
  */
 export function readEmailJsServerConfig(
-  env: Record<string, string | undefined> = process.env
+  env?: Record<string, string | undefined>
 ): EmailJsServerConfig {
+  const sourceEnv: Record<string, string | undefined> =
+    env ?? (typeof process !== 'undefined' && process.env ? process.env : {});
   return {
-    serviceId: (env.EMAILJS_SERVICE_ID || env.VITE_EMAILJS_SERVICE_ID || '').trim(),
-    templateId: (env.EMAILJS_TEMPLATE_ID || env.VITE_EMAILJS_TEMPLATE_ID || '').trim(),
-    publicKey: (env.EMAILJS_PUBLIC_KEY || env.VITE_EMAILJS_PUBLIC_KEY || '').trim(),
-    privateKey: (env.EMAILJS_PRIVATE_KEY || '').trim(),
+    serviceId: (sourceEnv.EMAILJS_SERVICE_ID || sourceEnv.VITE_EMAILJS_SERVICE_ID || '').trim(),
+    templateId: (sourceEnv.EMAILJS_TEMPLATE_ID || sourceEnv.VITE_EMAILJS_TEMPLATE_ID || '').trim(),
+    publicKey: (sourceEnv.EMAILJS_PUBLIC_KEY || sourceEnv.VITE_EMAILJS_PUBLIC_KEY || '').trim(),
+    privateKey: (sourceEnv.EMAILJS_PRIVATE_KEY || '').trim(),
     recipientEmail: (
-      env.CONTACT_EMAIL ||
-      env.VITE_CONTACT_EMAIL ||
+      sourceEnv.CONTACT_EMAIL ||
+      sourceEnv.VITE_CONTACT_EMAIL ||
       'abhijitroy40311@gmail.com'
     ).trim(),
   };

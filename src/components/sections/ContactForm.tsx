@@ -336,6 +336,18 @@ export const ContactForm: React.FC = () => {
         }
       }
 
+      if (response.status === 404 || response.status === 405) {
+        const missingBuildVars: string[] = [];
+        if (!serviceId) missingBuildVars.push('VITE_EMAILJS_SERVICE_ID');
+        if (!templateId) missingBuildVars.push('VITE_EMAILJS_TEMPLATE_ID');
+        if (!publicKey) missingBuildVars.push('VITE_EMAILJS_PUBLIC_KEY');
+        recordDeliveryFailure(
+          'Our backend inquiry endpoint is unavailable on this static host, and browser fallback EmailJS keys are missing in this build. Please use WhatsApp or your Email App below to send your brief directly.',
+          `API returned HTTP ${response.status}${missingBuildVars.length ? ` (missing fallback ${missingBuildVars.join(', ')})` : ''}`
+        );
+        return;
+      }
+
       recordDeliveryFailure(
         'Our email delivery service returned an unexpected server error. Please use WhatsApp or your Email App below to send your brief directly.',
         `API returned HTTP ${response.status}`
