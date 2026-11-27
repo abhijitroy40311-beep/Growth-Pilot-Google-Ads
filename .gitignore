@@ -44,6 +44,7 @@ test-results/
 
 # Local Artifacts
 .aistudio/
+.wrangler/
 
 # Logs & Diagnostic Reports
 logs/

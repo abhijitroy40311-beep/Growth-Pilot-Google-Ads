@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
               <BrandLogo variant="footer" />
             </Link>
             <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#F4F5F7]">
-              Independent Google Ads Consultancy · Abhijit Roy
+              Google Ads Consultancy · Abhijit Roy
             </p>
             <p className="max-w-sm text-sm leading-relaxed text-[#A6ADBB]">
               {siteConfig.shortDescription}

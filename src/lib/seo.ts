@@ -95,7 +95,7 @@ export function buildOrganizationAndWebSiteSchema(
         '@type': 'Person',
         '@id': `${baseUrl}/#founder`,
         name: 'Abhijit Roy',
-        jobTitle: 'Independent Google Ads Specialist',
+        jobTitle: 'Google Ads Specialist',
         worksFor: {
           '@id': `${baseUrl}/#service`,
         },

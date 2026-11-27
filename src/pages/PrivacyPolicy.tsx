@@ -113,7 +113,7 @@ export const PrivacyPolicy: React.FC = () => {
           <section className="py-6 space-y-3">
             <h2 className="text-xl font-bold text-[#F4F5F7]">8. Changes to This Policy</h2>
             <p className="max-w-[65ch]">
-              We may update this Privacy Policy when our website, services, data practices, or legal obligations change. The revised version will be published on this page with an updated revision date.
+              We may update this Privacy Policy when our website, services, data, or legal obligations change. The revised version will be published on this page with an updated revision date.
             </p>
           </section>
 

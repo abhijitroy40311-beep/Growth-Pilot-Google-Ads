@@ -43,6 +43,16 @@
       "source": "/faqs/",
       "destination": "/faq",
       "permanent": true
+    },
+    {
+      "source": "/dental-implant-marketing",
+      "destination": "/services",
+      "statusCode": 301
+    },
+    {
+      "source": "/dental-implant-marketing/",
+      "destination": "/services",
+      "statusCode": 301
     }
   ],
   "headers": [

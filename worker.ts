@@ -44,6 +44,7 @@ const ROUTE_REDIRECTS: Record<string, string> = {
   '/about-us': '/about',
   '/contact-us': '/contact',
   '/faqs': '/faq',
+  '/dental-implant-marketing': '/services',
 };
 
 const fallbackIsolateRateLimiter = createRateLimiter();

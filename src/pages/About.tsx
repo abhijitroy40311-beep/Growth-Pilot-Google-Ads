@@ -114,7 +114,7 @@ export const About: React.FC = () => {
                   Consultant Credentials
                 </span>
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#18C4A8]">
-                  Independent Practice
+                  Test
                 </span>
               </div>
               <dl className="divide-y divide-white/10 px-5 sm:px-6">
@@ -132,7 +132,7 @@ export const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Approach & Why Independent Specialist */}
+      {/* Approach & Why Specialist */}
       <section className="border-b border-white/10 bg-[#111318] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">

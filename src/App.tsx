@@ -21,7 +21,6 @@ import { PageTransition } from './components/animation/PageTransition';
 import Home from './pages/Home';
 import { Services } from './pages/Services';
 import { About } from './pages/About';
-import { DentalImplantMarketing } from './pages/DentalImplantMarketing';
 import { Projects } from './pages/Projects';
 import { Contact } from './pages/Contact';
 import ThankYou from './pages/ThankYou';
@@ -54,14 +53,12 @@ export default function App() {
                 <Route path="/services" element={<Services />} />
                 <Route
                   path="/dental-implant-marketing"
-                  element={<DentalImplantMarketing />}
+                  element={<Navigate to="/services" replace />}
                 />
-                {/* Phase 2 Industry Pages — uncomment as each page component is created:
-                <Route path="/epoxy-flooring-google-ads" element={<EpoxyFlooringGoogleAds />} />
-                <Route path="/hvac-google-ads" element={<HvacGoogleAds />} />
-                <Route path="/solar-google-ads" element={<SolarGoogleAds />} />
-                <Route path="/roofing-home-services-google-ads" element={<RoofingHomeServicesGoogleAds />} />
-                */}
+                <Route
+                  path="/dental-implant-marketing/"
+                  element={<Navigate to="/services" replace />}
+                />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
                 <Route path="/thank-you" element={<ThankYou />} />

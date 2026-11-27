@@ -108,12 +108,6 @@ export const Services: React.FC = () => {
                 {s.title}
               </a>
             ))}
-            <Link
-              to="/dental-implant-marketing"
-              className="inline-flex min-h-[40px] items-center rounded-md border border-[#18C4A8]/40 bg-[#111318] px-3.5 py-2 text-xs sm:text-sm font-medium text-[#18C4A8] hover:border-[#18C4A8] hover:text-[#F4F5F7] transition-colors whitespace-normal sm:whitespace-nowrap shrink-0"
-            >
-              Vertical Playbook: Dental Implant PPC →
-            </Link>
           </div>
         </div>
       </section>
@@ -162,15 +156,6 @@ export const Services: React.FC = () => {
                           <span>Inquire About {service.title}</span>
                           <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
-                        {service.id === 'google-ads' && (
-                          <Link
-                            to="/dental-implant-marketing"
-                            className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-white/20 bg-transparent px-4 py-2.5 text-xs sm:text-sm font-medium text-[#18C4A8] hover:border-white/45 hover:text-[#F4F5F7] transition-colors"
-                          >
-                            <span>Dental Implant Google Ads Solution</span>
-                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                          </Link>
-                        )}
                       </div>
                     </div>
 

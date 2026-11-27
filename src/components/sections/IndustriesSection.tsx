@@ -57,16 +57,8 @@ export const IndustriesSection: React.FC = () => {
                 <div className="font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
                   Primary Outcome
                 </div>
-                <div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-[#F4F5F7]">
+                <div className="mt-1 text-xs font-medium text-[#F4F5F7]">
                   <span>{trade.primaryConversion}</span>
-                  {trade.detailHref && trade.detailLabel && (
-                    <Link
-                      to={trade.detailHref}
-                      className="text-[#18C4A8] underline underline-offset-4 hover:text-[#F4F5F7] transition-colors"
-                    >
-                      {trade.detailLabel} →
-                    </Link>
-                  )}
                 </div>
               </div>
             </AnimatedContent>

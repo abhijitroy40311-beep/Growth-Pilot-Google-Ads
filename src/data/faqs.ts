@@ -27,7 +27,7 @@ export const faqsData: FAQItem[] = [
     id: 'small-businesses',
     question: 'Do you build websites for small businesses?',
     answer:
-      'Yes. I build modern, responsive websites and dedicated landing pages for independent service operators and growing commercial teams across HVAC, solar, dental, roofing, epoxy flooring, plumbing, and related trades. Every site is structured around clarity, fast loading, mobile usability, and guiding visitors toward a real enquiry.',
+      'Yes. I build modern, responsive websites and dedicated landing pages for service operators and growing commercial teams across HVAC, solar, dental, roofing, epoxy flooring, plumbing, and related trades. Every site is structured around clarity, fast loading, mobile usability, and guiding visitors toward a real enquiry.',
     category: 'Services & Scope',
   },
   {

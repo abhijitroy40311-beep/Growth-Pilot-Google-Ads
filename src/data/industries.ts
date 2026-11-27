@@ -3,8 +3,6 @@ export interface IndustryVertical {
   name: string;
   searchIntentFocus: string;
   primaryConversion: string;
-  detailHref?: string;
-  detailLabel?: string;
 }
 
 export interface TargetMarket {
@@ -31,8 +29,6 @@ export const serviceIndustriesData: IndustryVertical[] = [
     name: 'Dental Clinics',
     searchIntentFocus: 'Dental implants, full-arch consultations, cosmetic dentistry',
     primaryConversion: 'Patient consultation forms & clinic calls',
-    detailHref: '/dental-implant-marketing',
-    detailLabel: 'Dental Implant Solution',
   },
   {
     code: '04',

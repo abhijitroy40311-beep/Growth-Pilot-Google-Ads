@@ -12,7 +12,7 @@ const quickRoutes = [
   {
     label: 'About',
     path: '/about',
-    description: 'Learn how Abhijit Roy runs GrowthPilot as an independent specialist practice.',
+    description: 'Learn how Abhijit Roy runs GrowthPilot as an specialist .',
   },
   {
     label: 'Projects',

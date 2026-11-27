@@ -231,8 +231,8 @@ test('buildCanonicalUrl normalizes trailing slashes, query parameters, and hash 
     'https://growthpilotagency-ten.vercel.app/services'
   );
   assert.equal(
-    buildCanonicalUrl('/dental-implant-marketing?utm_source=google#top', origin),
-    'https://growthpilotagency-ten.vercel.app/dental-implant-marketing'
+    buildCanonicalUrl('/projects?utm_source=google#top', origin),
+    'https://growthpilotagency-ten.vercel.app/projects'
   );
   assert.equal(
     buildCanonicalUrl('about/', `${origin}/`),
@@ -245,7 +245,7 @@ test('buildBreadcrumbSchema generates valid Schema.org BreadcrumbList with 1-ind
     [
       { name: 'Home', path: '/' },
       { name: 'Services', path: '/services' },
-      { name: 'Dental Implant Marketing', path: '/dental-implant-marketing/' },
+      { name: 'Projects', path: '/projects/' },
     ],
     'https://growthpilotagency-ten.vercel.app'
   );
@@ -257,7 +257,7 @@ test('buildBreadcrumbSchema generates valid Schema.org BreadcrumbList with 1-ind
   assert.equal(items[2].position, 3);
   assert.equal(
     items[2].item,
-    'https://growthpilotagency-ten.vercel.app/dental-implant-marketing'
+    'https://growthpilotagency-ten.vercel.app/projects'
   );
 });
 
@@ -357,6 +357,7 @@ test('CANONICAL_ROUTE_META includes /faq, marks /thank-you noindex, and excludes
   assert.equal(paths.includes('/work'), false);
   assert.equal(paths.includes('/about-us'), false);
   assert.equal(paths.includes('/contact-us'), false);
+  assert.equal(paths.includes('/dental-implant-marketing'), false);
 
   const thankYou = CANONICAL_ROUTE_META.find((r) => r.path === '/thank-you');
   assert.equal(thankYou?.noindex, true);
@@ -426,6 +427,18 @@ test('Cloudflare workerHandler serves /api/health, /api/contact, 301 redirects, 
     redirectRes.headers.get('location'),
     'https://growthpilot-google-ads.agancy.workers.dev/projects'
   );
+
+  for (const oldPath of ['/dental-implant-marketing', '/dental-implant-marketing/']) {
+    const dentalRedirectRes = await workerHandler.fetch(
+      new Request(`https://growthpilot-google-ads.agancy.workers.dev${oldPath}`),
+      {}
+    );
+    assert.equal(dentalRedirectRes.status, 301);
+    assert.equal(
+      dentalRedirectRes.headers.get('location'),
+      'https://growthpilot-google-ads.agancy.workers.dev/services'
+    );
+  }
 
   let assetsCalled = false;
   const assetRes = await workerHandler.fetch(

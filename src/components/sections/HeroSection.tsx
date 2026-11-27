@@ -59,7 +59,7 @@ export const HeroSection: React.FC = () => {
           {/* Left Column: Clear Positioning, Outcome & Immediate Contact Paths */}
           <div className="lg:col-span-7 space-y-6">
             <EditorialEyebrow
-              label="Independent Google Ads Specialist · Service Businesses"
+              label="Google Ads Specialist · Service Businesses"
               tone="teal"
             />
 
@@ -132,14 +132,14 @@ export const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Editorial Practice Specification Panel */}
+          {/* Right Column: Editorial Specification Panel */}
           <aside
-            aria-label="Practice Specification"
+            aria-label="Professional Specification"
             className="lg:col-span-5 rounded-lg border border-white/12 bg-[#111318]"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5 sm:px-6">
               <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#F4F5F7]">
-                Practice Overview
+                Overview
               </span>
               <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#18C4A8]">
                 No Agency Handoffs

@@ -41,7 +41,6 @@ export const footerNavigation = {
   services: [
     { label: 'Google Ads Management', path: '/services#google-ads' },
     { label: 'Website Design & Development', path: '/services#website-development' },
-    { label: 'Dental Implant Marketing', path: '/dental-implant-marketing' },
     { label: 'Conversion Optimization', path: '/services#conversion-optimization' },
     { label: 'Analytics & Tracking', path: '/services#analytics-tracking' },
     { label: 'Digital Strategy', path: '/services#digital-strategy' },

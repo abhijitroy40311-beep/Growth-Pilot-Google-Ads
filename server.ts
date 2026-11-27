@@ -25,7 +25,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, '.env'), quiet: true });
 
 export interface StoredInquiry extends ContactFormPayload {
   id: string;
@@ -170,6 +170,7 @@ async function startServer() {
     '/about-us': '/about',
     '/contact-us': '/contact',
     '/faqs': '/faq',
+    '/dental-implant-marketing': '/services',
   };
   app.use((req, res, next) => {
     const normalizedPath = req.path.length > 1 ? req.path.replace(/\/+$/, '') : req.path;
@@ -351,10 +352,12 @@ async function startServer() {
   });
 
   if (process.env.NODE_ENV !== 'production') {
+    const hmrEnabled = process.env.DISABLE_HMR !== 'true';
     const vite = await createViteServer({
       server: {
         middlewareMode: { server: httpServer },
-        hmr: process.env.DISABLE_HMR !== 'true',
+        ws: hmrEnabled ? { server: httpServer } : false,
+        hmr: hmrEnabled,
       },
       appType: 'spa',
     });

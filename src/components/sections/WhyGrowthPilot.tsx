@@ -17,7 +17,7 @@ export const WhyGrowthPilot: React.FC = () => {
           headingId="why-growthpilot-heading"
           index="06"
           eyebrow="Why GrowthPilot"
-          title="An Independent Specialist Practice—Not a Retainer Factory."
+          title="An Independent Specialist."
           lead="Built around direct specialist execution, client-owned accounts, and transparent progress rather than inflated vanity metrics or generic guarantees."
           action={
             <Link

@@ -2,7 +2,7 @@
 **Navigate Growth With Intelligence.**  
 **Live Website:** [https://growthpilotagency-ten.vercel.app/](https://growthpilotagency-ten.vercel.app/)
 
-GrowthPilot is a full-stack digital growth and performance marketing agency platform specializing in **Google Ads Management Services**, **PPC Campaign Engineering**, **Dental Implant Marketing**, **Conversion-Focused Website & Landing Page Design**, and **GA4 / Google Ads Conversion Tracking**.
+GrowthPilot is a full-stack Google Ads specialist and performance marketing consultancy specializing in **Google Ads Management Services**, **PPC Campaign Engineering**, **Conversion-Focused Website & Landing Page Design**, and **GA4 / Google Ads Conversion Tracking** for HVAC, solar, dental, roofing, epoxy flooring, plumbing, and other service businesses.
 
 ---
 ## Core Services & Value Proposition
@@ -12,10 +12,10 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
    - Ad copy and extension engineering for higher click-through rates (CTR) and Quality Scores
    - Bidding strategy optimization focused on qualified leads and booked consultations
 
-2. **Dental Implant Marketing & Patient Lead Generation (`/dental-implant-marketing`)**
-   - Dedicated Google Search campaigns for high-value dental implant procedures (*Single Tooth Implants, All-on-4®, Full-Arch Restoration, Snap-In Dentures*)
-   - Procedure-specific patient consultation landing pages with click-to-call and multi-step inquiry capture
-   - Verified call and form conversion tracking for dental practices
+2. **Multi-Industry Local Service Search & Conversion Funnels**
+   - Tailored Google Search campaigns for HVAC, solar, dental, roofing, epoxy flooring, plumbing, and allied local service trades
+   - Procedure- and service-specific landing pages with click-to-call, WhatsApp, and structured inquiry capture
+   - Verified call and form conversion tracking across US, UK, Australia, Canada, Ireland, New Zealand, and India
 
 3. **Conversion-Focused Website & Landing Page Development**
    - Mobile-first, high-speed React + TypeScript pages engineered to pass Google Ads landing page experience standards
@@ -35,8 +35,7 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 | :--- | :--- |
 | `/` | **Homepage** — Google Ads management services & lead generation agency overview, 7-stage interactive growth journey, services, and process |
 | `/services` | **Services** — Detailed breakdown of Google Ads management, PPC advertising, conversion-focused web design, CRO, and GA4 tracking |
-| `/dental-implant-marketing` | **Dental Implant Marketing** — Dedicated vertical landing page for dental implant clinics and oral surgery practices |
-| `/projects` | **Projects & Case Studies** — Filterable showcase of client websites, landing pages, and lead generation architectures |
+| `/projects` | **Projects & Blueprints** — Filterable showcase of reference architectures and lead generation blueprints |
 | `/about` | **About GrowthPilot** — Agency methodology, performance principles, and accountable growth standards |
 | `/faq` | **FAQ** — Searchable answers covering Google Ads budgets, management timelines, landing pages, and tracking |
 | `/contact` | **Contact & Project Audit** — Validated project inquiry form with EmailJS + `/api/contact` integration and WhatsApp quick contact |
@@ -52,7 +51,7 @@ GrowthPilot is a full-stack digital growth and performance marketing agency plat
 - **Structured Data (Schema.org JSON-LD)**:
   - `Organization` & `ProfessionalService` schema
   - `WebSite` schema
-  - `Service` catalog schema for Google Ads, Dental Implant Marketing, Web Design, CRO, and Analytics
+  - `Service` catalog schema for Google Ads, Web Design, CRO, Analytics, and Strategy
   - `FAQPage` schema on `/faq`
   - Dynamic `BreadcrumbList` schema across internal pages
 - **Crawl & Sitemap Endpoints**:
@@ -135,4 +134,4 @@ npm run build
 ### 5. Vercel Deployment (`vercel.json`)
 - Static assets under `/assets/*` are served with `Cache-Control: public, max-age=31536000, immutable`.
 - API requests under `/api/*` route directly to `/api/health.ts` and `/api/contact.ts`.
-- All SPA routes (`/services`, `/dental-implant-marketing`, `/about`, `/projects`, `/contact`, `/faq`, `/privacy-policy`, `/terms-and-conditions`, `/thank-you`) rewrite cleanly to `/index.html` so direct URL access and page refreshes never return a 404.
+- All SPA routes (`/services`, `/about`, `/projects`, `/contact`, `/faq`, `/privacy-policy`, `/terms-and-conditions`, `/thank-you`) rewrite cleanly to `/index.html` so direct URL access and page refreshes never return a 404. (`/dental-implant-marketing` permanently redirects `301` to `/services`.)

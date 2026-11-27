@@ -14,9 +14,9 @@ export const SITE_CANONICAL_DOMAIN = 'https://growthpilotagency-ten.vercel.app';
 export const CANONICAL_ROUTE_META: RouteMetaEntry[] = [
   {
     path: '/',
-    title: 'Independent Google Ads Specialist for Service Businesses | GrowthPilot',
+    title: 'Google Ads Specialist for Service Businesses | GrowthPilot',
     description:
-      'Independent Google Ads specialist helping HVAC, solar, dental, epoxy flooring, roofing, and plumbing businesses across the US, UK, Australia, Canada, and Ireland generate qualified enquiries.',
+      'Google Ads specialist helping HVAC, solar, dental, epoxy flooring, roofing, and plumbing businesses across the US, UK, Australia, Canada, and Ireland generate qualified enquiries.',
     sitemap: { changefreq: 'weekly', priority: '1.0' },
   },
   {
@@ -25,13 +25,6 @@ export const CANONICAL_ROUTE_META: RouteMetaEntry[] = [
     description:
       'Explore GrowthPilot’s Google Ads management services, PPC campaign optimization, lead-generation website design, landing page CRO, and GA4 conversion tracking.',
     sitemap: { changefreq: 'weekly', priority: '0.95' },
-  },
-  {
-    path: '/dental-implant-marketing',
-    title: 'Google Ads for Dental Implant Clinics | Independent PPC Specialist | GrowthPilot',
-    description:
-      'Independent Google Ads management for dental implant clinics across the US, UK, Australia, Canada, and Ireland. High-intent Search campaigns, negative keywords, and privacy-safe GA4 conversion tracking.',
-    sitemap: { changefreq: 'weekly', priority: '0.9' },
   },
   {
     path: '/about',
@@ -49,7 +42,7 @@ export const CANONICAL_ROUTE_META: RouteMetaEntry[] = [
   },
   {
     path: '/contact',
-    title: 'Contact Abhijit Roy | Independent Google Ads Specialist | GrowthPilot',
+    title: 'Contact Abhijit Roy | Google Ads Specialist | GrowthPilot',
     description:
       'Contact Abhijit Roy at GrowthPilot to discuss Google Ads campaign management, landing page optimization, or GA4 and Google Tag Manager conversion tracking for your service business.',
     sitemap: { changefreq: 'monthly', priority: '0.9' },
