@@ -17,14 +17,27 @@ export const Navbar: React.FC = () => {
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
 
-  const closeMobileMenu = useCallback((restoreFocus: boolean = false) => {
-    setMobileMenuOpen(false);
-    if (restoreFocus) {
-      window.requestAnimationFrame(() => {
-        toggleButtonRef.current?.focus();
-      });
+  const releaseDrawerFocus = useCallback((restoreToToggle: boolean) => {
+    if (typeof document === 'undefined') return;
+    const activeEl = document.activeElement;
+    if (
+      activeEl instanceof HTMLElement &&
+      drawerRef.current?.contains(activeEl)
+    ) {
+      activeEl.blur();
+    }
+    if (restoreToToggle) {
+      toggleButtonRef.current?.focus();
     }
   }, []);
+
+  const closeMobileMenu = useCallback(
+    (restoreFocus: boolean = false) => {
+      releaseDrawerFocus(restoreFocus);
+      setMobileMenuOpen(false);
+    },
+    [releaseDrawerFocus]
+  );
 
   useEffect(() => {
     const updateScrolled = () => {
@@ -50,8 +63,8 @@ export const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname, location.hash]);
+    closeMobileMenu(false);
+  }, [location.pathname, location.hash, closeMobileMenu]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -104,12 +117,12 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024 && mobileMenuOpen) {
-        setMobileMenuOpen(false);
+        closeMobileMenu(false);
       }
     };
     window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, closeMobileMenu]);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -117,25 +130,29 @@ export const Navbar: React.FC = () => {
     if (mobileMenuOpen) {
       htmlEl.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
-    } else {
-      htmlEl.style.overflow = '';
-      document.body.style.overflow = '';
+      return () => {
+        htmlEl.style.overflow = '';
+        document.body.style.overflow = '';
+      };
     }
-    return () => {
+
+    const releaseDelay = reducedMotion ? 0 : 240;
+    const timer = window.setTimeout(() => {
       htmlEl.style.overflow = '';
       document.body.style.overflow = '';
-    };
-  }, [mobileMenuOpen]);
+    }, releaseDelay);
+    return () => window.clearTimeout(timer);
+  }, [mobileMenuOpen, reducedMotion]);
 
   const handleNavLinkClick = (targetPath: string) => {
-    setMobileMenuOpen(false);
+    closeMobileMenu(false);
     if (location.pathname === targetPath) {
       scrollToTargetSmooth(0, { reducedMotion });
     }
   };
 
   const handleSectionQuickJump = (sectionId: string) => {
-    setMobileMenuOpen(false);
+    closeMobileMenu(false);
     if (typeof document !== 'undefined') {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
@@ -237,17 +254,17 @@ export const Navbar: React.FC = () => {
               </span>
               <div aria-hidden="true" className="relative flex h-4 w-5 flex-col justify-between">
                 <span
-                  className={`block h-0.5 w-5 bg-current transform transition-transform duration-200 origin-center ${
+                  className={`block h-0.5 w-5 bg-current transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center ${
                     mobileMenuOpen ? 'translate-y-[7px] rotate-45' : 'translate-y-0 rotate-0'
                   }`}
                 />
                 <span
-                  className={`block h-0.5 bg-current transition-[width,opacity,transform] duration-200 ${
+                  className={`block h-0.5 bg-current transition-[width,opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                     mobileMenuOpen ? 'w-0 opacity-0 translate-x-2' : 'w-3.5 opacity-100 ml-auto'
                   }`}
                 />
                 <span
-                  className={`block h-0.5 w-5 bg-current transform transition-transform duration-200 origin-center ${
+                  className={`block h-0.5 w-5 bg-current transform transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] origin-center ${
                     mobileMenuOpen ? '-translate-y-[7px] -rotate-45' : 'translate-y-0 rotate-0'
                   }`}
                 />
@@ -261,15 +278,22 @@ export const Navbar: React.FC = () => {
           ref={drawerRef}
           id="mobile-navigation-menu"
           aria-label="Mobile Navigation"
-          aria-hidden={!mobileMenuOpen}
           inert={!mobileMenuOpen || undefined}
-          className={`absolute top-full left-0 right-0 z-50 lg:hidden border-b border-white/12 bg-[#111318] origin-top transition-[opacity,transform,visibility] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`gp-mobile-drawer absolute top-full left-0 right-0 z-50 grid lg:hidden bg-[#111318] ${
             mobileMenuOpen
-              ? 'opacity-100 translate-y-0 visible pointer-events-auto'
-              : 'opacity-0 -translate-y-2 invisible pointer-events-none'
+              ? 'gp-mobile-drawer--open shadow-[0_24px_48px_-12px_rgba(0,0,0,0.7)]'
+              : 'shadow-none'
           }`}
         >
-          <div className="mx-auto max-w-7xl px-4 pt-3 pb-6 sm:px-6 max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain">
+          <div className="min-h-0 overflow-hidden">
+            <div
+              className={`border-b border-white/12 transition-[opacity,transform] ${
+                mobileMenuOpen
+                  ? 'opacity-100 translate-y-0 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]'
+                  : 'opacity-0 -translate-y-2 duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]'
+              }`}
+            >
+              <div className="mx-auto max-w-7xl px-4 pt-3 pb-6 sm:px-6 max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain">
             <div className="flex flex-col divide-y divide-white/8 border-y border-white/8">
               {primaryNavItems.map((item) => {
                 const isActive =
@@ -337,6 +361,8 @@ export const Navbar: React.FC = () => {
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
+            </div>
+            </div>
           </div>
         </nav>
       </header>
@@ -344,10 +370,8 @@ export const Navbar: React.FC = () => {
       <div
         aria-hidden="true"
         onClick={() => closeMobileMenu(true)}
-        className={`fixed inset-0 z-40 bg-black/75 lg:hidden transition-[opacity,visibility] duration-200 ${
-          mobileMenuOpen
-            ? 'opacity-100 visible pointer-events-auto'
-            : 'opacity-0 invisible pointer-events-none'
+        className={`gp-mobile-backdrop fixed inset-0 z-40 bg-black/75 lg:hidden ${
+          mobileMenuOpen ? 'gp-mobile-backdrop--open' : ''
         }`}
       />
     </>
