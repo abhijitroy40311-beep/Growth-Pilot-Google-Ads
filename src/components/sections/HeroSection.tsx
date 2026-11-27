@@ -8,6 +8,7 @@ import { scrollToTargetSmooth } from '../../lib/scrollLogic';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { EditorialEyebrow } from '../ui/EditorialPrimitives';
 import { Magnet } from '../animation/Magnet';
+import { GradientText } from '../animation/GradientText';
 
 const engagementLedgerRows = [
   {
@@ -67,7 +68,7 @@ export const HeroSection: React.FC = () => {
               id="hero-heading"
               className="text-[2.35rem] sm:text-5xl lg:text-[3.55rem] font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.06]"
             >
-              Google Ads That Turn Local Search Into Qualified Enquiries.
+              <GradientText>Google Ads</GradientText> That Turn Local Search Into Qualified Enquiries.
             </h1>
 
             <p className="max-w-[62ch] text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
