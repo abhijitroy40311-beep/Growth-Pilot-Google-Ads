@@ -195,3 +195,9 @@
   transform-origin: left center;
   animation: gp-progress-fill 1100ms linear forwards;
 }
+
+.gp-dot-matrix {
+  background-image: radial-gradient(rgba(244, 245, 247, 0.14) 1px, transparent 1px);
+  background-size: 26px 26px;
+  background-position: 0 0;
+}

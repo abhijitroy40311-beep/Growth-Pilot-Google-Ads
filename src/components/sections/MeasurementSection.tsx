@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { AnimatedContent } from '../animation/AnimatedContent';
+import { DotGrid } from '../animation/DotGrid';
 import { EditorialSectionHeader } from '../ui/EditorialPrimitives';
 
 const trackingArchitecture = [
@@ -32,13 +33,17 @@ const trackingArchitecture = [
 ];
 
 export const MeasurementSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
   return (
     <section
+      ref={sectionRef}
       id="stage-measurement"
       aria-labelledby="measurement-heading"
-      className="border-t border-white/10 bg-[#111318] py-16 sm:py-24 lg:py-28"
+      className="relative overflow-hidden border-t border-white/10 bg-[#111318] py-16 sm:py-24 lg:py-28"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <DotGrid containerRef={sectionRef} />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <EditorialSectionHeader
           headingId="measurement-heading"
           index="05"

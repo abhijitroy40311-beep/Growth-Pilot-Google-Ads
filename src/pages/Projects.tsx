@@ -11,6 +11,7 @@ import {
   ProjectItem,
 } from '../data/projects';
 import { filterProjects } from '../lib/filterLogic';
+import { AnimatedContent } from '../components/animation/AnimatedContent';
 import { ProjectCard } from '../components/ui/ProjectCard';
 import { ProjectDetailModal } from '../components/ui/ProjectDetailModal';
 import { EditorialEyebrow } from '../components/ui/EditorialPrimitives';
@@ -167,12 +168,19 @@ export const Projects: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredProjects.map((project) => (
-                <ProjectCard
+              {filteredProjects.map((project, idx) => (
+                <AnimatedContent
                   key={project.id}
-                  project={project}
-                  onSelect={(item) => setActiveProject(item)}
-                />
+                  delay={Math.min(idx, 5) * 0.035}
+                  distance={10}
+                  duration={360}
+                  className="h-full [&>article]:h-full"
+                >
+                  <ProjectCard
+                    project={project}
+                    onSelect={(item) => setActiveProject(item)}
+                  />
+                </AnimatedContent>
               ))}
             </div>
           )}

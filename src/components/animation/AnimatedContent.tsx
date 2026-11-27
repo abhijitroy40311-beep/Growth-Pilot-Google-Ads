@@ -29,7 +29,8 @@ export const AnimatedContent: React.FC<AnimatedContentProps> = ({
   className = '',
 }) => {
   const reducedMotion = useReducedMotion();
-  const bypass = reducedMotion || initiallyVisible;
+  const observerUnavailable = typeof IntersectionObserver === 'undefined';
+  const bypass = reducedMotion || initiallyVisible || observerUnavailable;
   const [visible, setVisible] = useState<boolean>(bypass);
   const containerRef = useRef<HTMLDivElement>(null);
 

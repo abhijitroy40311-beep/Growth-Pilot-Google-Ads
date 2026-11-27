@@ -26,6 +26,19 @@ export const Home: React.FC = () => {
     <div id="home-journey-container" className="relative bg-[#090A0D]">
       <HeroSection />
       <ValuePropositionSection />
+      <div aria-hidden="true" className="border-t border-white/10 bg-[#090A0D]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-10 items-center gap-4">
+            <span className="h-px flex-1 bg-white/10" />
+            <span className="flex items-center gap-2">
+              <span className="h-1 w-1 rounded-full bg-white/25" />
+              <span className="h-px w-8 bg-[#18C4A8]/75" />
+              <span className="h-1 w-1 rounded-full bg-white/25" />
+            </span>
+            <span className="h-px flex-1 bg-white/10" />
+          </div>
+        </div>
+      </div>
       <ServicesSection />
       <IndustriesSection />
       <GrowthTimeline />

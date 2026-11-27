@@ -8,6 +8,7 @@ import { buildBreadcrumbSchema } from '../lib/seo';
 import { trackConversionEvent } from '../lib/analytics';
 import { buildWhatsAppContactUrl } from '../lib/validation';
 import { ContactForm } from '../components/sections/ContactForm';
+import { AnimatedContent } from '../components/animation/AnimatedContent';
 import { EditorialEyebrow } from '../components/ui/EditorialPrimitives';
 
 export const Contact: React.FC = () => {
@@ -55,7 +56,8 @@ export const Contact: React.FC = () => {
 
             {/* 3. Direct Expectations & Contact Ledger */}
             <div className="lg:col-span-5 lg:col-start-1 lg:row-start-2 space-y-6">
-              <div className="rounded-lg border border-white/10 bg-[#111318] p-5 sm:p-6 space-y-4">
+              <AnimatedContent delay={0.04} distance={10} duration={360}>
+                <div className="rounded-lg border border-white/10 bg-[#111318] p-5 sm:p-6 space-y-4">
                 <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8]">
                   What Happens After You Submit
                 </h2>
@@ -92,8 +94,10 @@ export const Contact: React.FC = () => {
                   </li>
                 </ul>
               </div>
+              </AnimatedContent>
 
               {/* Direct Contact & Timezones */}
+              <AnimatedContent delay={0.08} distance={10} duration={360}>
               <div className="rounded-lg border border-white/10 bg-[#111318] p-5 sm:p-6 space-y-3.5 text-sm text-[#A6ADBB]">
                 <h2 className="font-mono text-xs uppercase tracking-[0.12em] text-[#F4F5F7]">
                   Direct Contact &amp; International Hours
@@ -175,6 +179,7 @@ export const Contact: React.FC = () => {
                   </span>
                 </div>
               </div>
+              </AnimatedContent>
             </div>
           </div>
         </div>
