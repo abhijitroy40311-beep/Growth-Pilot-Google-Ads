@@ -64,7 +64,7 @@ export const WhatsAppFloatingButton: React.FC = () => {
       }
       aria-label="Quick contact on WhatsApp"
       title="Quick contact on WhatsApp"
-      className={`group fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-40 h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[#25D366] text-[#050505] shadow-[0_8px_28px_rgba(37,211,102,0.4)] ring-2 ring-white/20 transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 hover:bg-[#1ebe5d] hover:shadow-[0_12px_34px_rgba(37,211,102,0.58)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] ${isContactRoute ? 'hidden xl:flex' : 'flex'
+      className={`group fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-40 h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[#25D366] text-[#090A0D] shadow-lg ring-1 ring-white/20 transition-[transform,background-color,opacity] duration-200 hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] ${isContactRoute ? 'hidden xl:flex' : 'flex'
         } ${formInputFocused
           ? 'opacity-0 pointer-events-none translate-y-3 sm:opacity-100 sm:pointer-events-auto sm:translate-y-0'
           : 'opacity-100 translate-y-0'
@@ -73,9 +73,9 @@ export const WhatsAppFloatingButton: React.FC = () => {
       {/* Tooltip label on hover/focus */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-lg border border-white/15 bg-[#0B0D10]/95 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg backdrop-blur-md transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block translate-x-1"
+        className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-md border border-white/15 bg-[#111318] px-3 py-1.5 text-xs font-medium text-[#F4F5F7] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 sm:block translate-x-1"
       >
-        Quick Contact on WhatsApp
+        Message Abhijit on WhatsApp
       </span>
 
       <svg

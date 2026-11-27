@@ -13,7 +13,7 @@ import {
 import { filterProjects } from '../lib/filterLogic';
 import { ProjectCard } from '../components/ui/ProjectCard';
 import { ProjectDetailModal } from '../components/ui/ProjectDetailModal';
-import { AnimatedHeading } from '../components/animation/AnimatedHeading';
+import { EditorialEyebrow } from '../components/ui/EditorialPrimitives';
 
 export const Projects: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,31 +64,25 @@ export const Projects: React.FC = () => {
   );
 
   return (
-    <div className="bg-[#050505] text-white min-h-screen">
-      <section className="relative border-b border-white/10 pt-14 pb-16 sm:pt-20 sm:pb-20">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-              Project Gallery · Clearly &amp; Reference Architectures
-            </p>
-            <AnimatedHeading
-              as="h1"
-              text="Explore Our Digital Growth Blueprints."
-              highlightWords={['Digital', 'Growth', 'Blueprints']}
-              className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-white"
-            />
-            <p className="mt-4 text-base sm:text-lg text-[#A5AAB4]">
-              Filter by capability to inspect how we structure websites, search campaigns, conversion funnels, and analytics tracking.
+    <div className="min-h-screen bg-[#090A0D] text-[#F4F5F7]">
+      <section className="border-b border-white/10 pt-14 pb-16 sm:pt-20 sm:pb-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl space-y-4">
+            <EditorialEyebrow label="Project Gallery // Clearly Labeled Reference Architectures" />
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.08]">
+              Search Architecture, Landing Pages &amp; Measurement Blueprints.
+            </h1>
+            <p className="max-w-[62ch] text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
+              Every project below is transparently marked as a Demonstration Architecture, Concept Showcase, or Reference Blueprint—showing system structure without fabricated client performance claims.
             </p>
           </div>
 
-          {/* Interactive Filter Controls & Search Bar */}
+          {/* Filter & Search Bar */}
           <div className="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div
               role="group"
               aria-label="Filter projects by category"
-              className="flex flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-[#0B0D10] p-1.5"
+              className="flex flex-wrap items-center gap-1.5 rounded-md border border-white/12 bg-[#111318] p-1.5"
             >
               {projectCategories.map((category) => {
                 const isActive = selectedCategory === category;
@@ -97,10 +91,11 @@ export const Projects: React.FC = () => {
                     key={category}
                     type="button"
                     onClick={() => handleCategoryChange(category)}
-                    className={`inline-flex min-h-[40px] items-center rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${isActive
-                        ? 'gp-gradient-bg text-[#050505] font-semibold shadow-sm'
-                        : 'text-[#A5AAB4] hover:text-white'
-                      }`}
+                    className={`inline-flex min-h-[40px] items-center rounded-sm px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8] ${
+                      isActive
+                        ? 'bg-[#F4F5F7] text-[#090A0D] font-semibold'
+                        : 'text-[#A6ADBB] hover:text-[#F4F5F7]'
+                    }`}
                   >
                     {category}
                   </button>
@@ -113,7 +108,7 @@ export const Projects: React.FC = () => {
                 Search projects by keyword or industry
               </label>
               <Search
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#A5AAB4]"
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8890A0]"
                 aria-hidden="true"
               />
               <input
@@ -122,7 +117,7 @@ export const Projects: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search industry or service..."
-                className="w-full rounded-xl border border-white/15 bg-[#0B0D10] pl-10 pr-4 py-2.5 text-sm text-white placeholder-[#A5AAB4]/60 focus:border-[#08D9F5] focus:outline-none"
+                className="w-full min-h-[44px] rounded-md border border-white/15 bg-[#111318] pl-10 pr-4 py-2 text-sm text-[#F4F5F7] placeholder-[#8890A0] focus:border-[#18C4A8] focus:outline-none"
               />
             </div>
           </div>
@@ -132,9 +127,9 @@ export const Projects: React.FC = () => {
       {/* Project Grid */}
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-6 flex items-center justify-between text-xs font-mono text-[#A5AAB4]">
+          <div className="mb-6 flex items-center justify-between text-xs font-mono text-[#8890A0]">
             <span className="tabular-nums">
-              Showing {filteredProjects.length} of {projectsData.length} demonstration projects
+              Showing {filteredProjects.length} of {projectsData.length} demonstration blueprints
             </span>
             {(selectedCategory !== 'All' || searchQuery.trim() !== '') && (
               <button
@@ -143,7 +138,7 @@ export const Projects: React.FC = () => {
                   handleCategoryChange('All');
                   setSearchQuery('');
                 }}
-                className="inline-flex items-center gap-1.5 text-[#08D9F5] hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 text-[#18C4A8] hover:text-[#F4F5F7] transition-colors"
               >
                 <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
                 <span>Reset Filters</span>
@@ -152,11 +147,11 @@ export const Projects: React.FC = () => {
           </div>
 
           {filteredProjects.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-[#0B0D10] p-12 text-center">
-              <h2 className="text-lg font-bold text-white">
-                No projects match your current filter
+            <div className="rounded-lg border border-white/10 bg-[#111318] p-12 text-center">
+              <h2 className="text-lg font-bold text-[#F4F5F7]">
+                No blueprints match your current filter
               </h2>
-              <p className="mt-2 text-sm text-[#A5AAB4]">
+              <p className="mt-2 text-sm text-[#A6ADBB]">
                 Try selecting &ldquo;All&rdquo; categories or clearing your search term.
               </p>
               <button
@@ -165,9 +160,9 @@ export const Projects: React.FC = () => {
                   handleCategoryChange('All');
                   setSearchQuery('');
                 }}
-                className="mt-5 rounded-lg gp-gradient-bg px-4 py-2 text-xs font-semibold text-[#050505]"
+                className="mt-5 min-h-[40px] rounded-md bg-[#F4F5F7] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors"
               >
-                Show All Projects
+                Show All Blueprints
               </button>
             </div>
           ) : (

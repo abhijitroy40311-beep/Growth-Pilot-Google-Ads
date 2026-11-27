@@ -2,7 +2,7 @@ import React from 'react';
 import { siteConfig } from '../../data/siteConfig';
 
 interface BrandLogoProps {
-  variant?: 'navbar' | 'hero' | 'footer' | 'emblem-only';
+  variant?: 'navbar' | 'footer' | 'emblem-only';
   className?: string;
 }
 
@@ -13,13 +13,13 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   if (variant === 'emblem-only') {
     return (
       <span
-        className={`relative inline-flex aspect-square h-12 w-12 shrink-0 items-center justify-center overflow-hidden ${className}`}
+        className={`relative inline-flex aspect-square h-11 w-11 shrink-0 items-center justify-center overflow-hidden ${className}`}
       >
         <img
           src={siteConfig.assets.emblemSvg}
           alt="GrowthPilot Emblem"
-          width={48}
-          height={48}
+          width={44}
+          height={44}
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
@@ -29,45 +29,14 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     );
   }
 
-  if (variant === 'hero') {
-    return (
-      <div className={`relative flex flex-col items-center select-none ${className}`}>
-        {/* Controlled Blue/Cyan/Green Ambient Glow */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-8 rounded-full opacity-75 blur-3xl"
-          style={{
-            background:
-              'radial-gradient(circle, rgba(22,119,255,0.28) 0%, rgba(8,217,245,0.18) 45%, rgba(0,230,168,0.10) 72%, transparent 100%)',
-          }}
-        />
-        {/* Original Full GrowthPilot Brand Artwork Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#050505] p-6 sm:p-8 shadow-2xl">
-          <div className="relative z-10 mx-auto aspect-square w-56 sm:w-64 md:w-72 shrink-0 overflow-hidden flex items-center justify-center">
-            <img
-              src={siteConfig.assets.fullOriginalPng}
-              alt="GrowthPilot — Navigate Growth With Intelligence."
-              width={288}
-              height={288}
-              loading="lazy"
-              decoding="async"
-              referrerPolicy="no-referrer"
-              className="h-full w-full object-contain"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const sizePx = variant === 'navbar' ? 30 : 34;
 
-  const sizePx = variant === 'navbar' ? 32 : 36;
-
-  // Navbar or Footer horizontal lockup using original emblem SVG + wordmark
   return (
-    <span className={`inline-flex items-center gap-3 whitespace-nowrap shrink-0 ${className}`}>
+    <span className={`inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 ${className}`}>
       <span
-        className={`relative inline-flex aspect-square shrink-0 items-center justify-center overflow-hidden ${variant === 'navbar' ? 'h-8 w-8' : 'h-9 w-9'
-          }`}
+        className={`relative inline-flex aspect-square shrink-0 items-center justify-center overflow-hidden ${
+          variant === 'navbar' ? 'h-[30px] w-[30px]' : 'h-[34px] w-[34px]'
+        }`}
       >
         <img
           src={siteConfig.assets.emblemSvg}
@@ -81,9 +50,9 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           className="h-full w-full object-contain"
         />
       </span>
-      <span className="font-extrabold tracking-tight text-lg sm:text-xl leading-none">
-        <span className="text-white">Growth</span>
-        <span className="gp-gradient-text">Pilot</span>
+      <span className="font-display font-bold tracking-[-0.03em] text-lg sm:text-[1.2rem] leading-none text-[#F4F5F7]">
+        <span>Growth</span>
+        <span className="text-[#18C4A8]">Pilot</span>
       </span>
     </span>
   );

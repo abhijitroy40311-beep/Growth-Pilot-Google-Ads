@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import fs from 'fs';
+import http from 'node:http';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import zlib from 'zlib';
@@ -149,6 +150,7 @@ function tryServeStaticFile(
 
 async function startServer() {
   const app = express();
+  const httpServer = http.createServer(app);
   const PORT = Number(process.env.PORT) || 3000;
   const publicPath = path.join(__dirname, 'public');
   const distPath = path.join(__dirname, 'dist');
@@ -350,7 +352,10 @@ async function startServer() {
 
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: { server: httpServer },
+        hmr: process.env.DISABLE_HMR !== 'true',
+      },
       appType: 'spa',
     });
     app.use(vite.middlewares);
@@ -409,7 +414,18 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  httpServer.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(
+        `Port ${PORT} is already in use. Stop the existing process on port ${PORT} or set a different PORT in your environment.`
+      );
+      process.exit(1);
+    }
+    console.error('Server listen error:', err);
+    process.exit(1);
+  });
+
+  httpServer.listen(PORT, '0.0.0.0', () => {
     console.log(`GrowthPilot server running at http://localhost:${PORT}`);
   });
 }

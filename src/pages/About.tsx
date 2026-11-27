@@ -5,62 +5,74 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
-import { AnimatedHeading } from '../components/animation/AnimatedHeading';
-import { ScrollReveal } from '../components/animation/ScrollReveal';
+import { AnimatedContent } from '../components/animation/AnimatedContent';
+import { EditorialEyebrow, EditorialSectionHeader } from '../components/ui/EditorialPrimitives';
+import { Magnet } from '../components/animation/Magnet';
+
+const practiceFacts = [
+  { label: 'Founder & Specialist', value: 'Abhijit Roy (1-on-1 client engagement)' },
+  { label: 'Base & Coordination', value: 'Kolkata, India (IST) · AU, UK, IE & US East overlap' },
+  { label: 'Verified Analytics ID', value: 'Google Analytics Credential #201105118' },
+  { label: 'Billing Model', value: 'Clients own ad accounts and pay Google directly' },
+];
 
 const philosophyPhases = [
   {
     step: '01',
     title: 'Understand',
     detail:
-      'Clarify your business model, buyer intent, competitive landscape, and what constitutes a valuable customer enquiry.',
+      'Clarify your trade economics, catchment area, buyer urgency, and what separates a profitable lead from wasted clicks.',
   },
   {
     step: '02',
     title: 'Plan',
     detail:
-      'Define the information architecture, campaign structure, conversion actions, and realistic milestones.',
+      'Map out campaign segmentation, negative keyword protection, page hierarchy, and verified primary conversion triggers.',
   },
   {
     step: '03',
     title: 'Build',
     detail:
-      'Develop responsive websites, high-clarity landing pages, search campaigns, and clean analytics configurations.',
+      'Develop responsive landing pages, structured Search campaigns, and clean GA4 + Google Tag Manager configurations.',
   },
   {
     step: '04',
     title: 'Measure',
     detail:
-      'Verify form submissions, phone clicks, and user behavior through GA4 and Google Tag Manager.',
+      'Verify enquiry form submissions, phone clicks, and WhatsApp events using clean debugging—without inflating vanity counts.',
   },
   {
     step: '05',
     title: 'Improve',
     detail:
-      'Refine copy, layouts, keyword targeting, and enquiry flows based on observed visitor interaction.',
+      'Review real search-term logs and visitor drop-offs systematically to refine targeting, bids, and enquiry conversion paths.',
   },
 ];
 
-const coreValues = [
+const operatingValues = [
   {
+    code: '01',
     title: 'Clarity Over Complexity',
     description:
-      'We avoid jargon and unnecessary technical bloat. Every page, campaign, and report is built to be understood quickly.',
+      'Recommendations are written in plain business language—explaining what is being changed, why it matters commercially, and what input is needed.',
   },
   {
-    title: 'Purposeful Design',
+    code: '02',
+    title: 'Integrated Execution',
     description:
-      'Visual craft and smooth motion should guide attention toward your message and call to action—never distract from them.',
+      'Paid search, landing page experience, and analytics tracking are handled together so clicks never stall on slow or confusing pages.',
   },
   {
-    title: 'Honest Measurement',
+    code: '03',
+    title: 'Honest Attribution',
     description:
-      'We distinguish between raw traffic and genuine enquiries, configuring analytics so you know what is happening on your site.',
+      'I separate raw engagement from genuine business enquiries so bidding decisions rely on confirmed leads rather than inflated surface numbers.',
   },
   {
-    title: 'Practical Collaboration',
+    code: '04',
+    title: 'Respect for Budget & Ownership',
     description:
-      'We work as a focused partner, respecting your time and aligning our recommendations with your operational capacity.',
+      'You keep administrative control of every Google Ads and analytics asset with transparent scope and zero long-term lock-in traps.',
   },
 ];
 
@@ -73,183 +85,156 @@ export const About: React.FC = () => {
     path: '/about',
     structuredData: buildBreadcrumbSchema([
       { name: 'Home', path: '/' },
-      { name: 'About Us', path: '/about' },
+      { name: 'About', path: '/about' },
     ]),
   });
 
   return (
-    <div className="bg-[#050505] text-white min-h-screen">
+    <div className="min-h-screen bg-[#090A0D] text-[#F4F5F7]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-white/10 pt-14 pb-20 sm:pt-20 sm:pb-28">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-8">
-              <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-                About GrowthPilot · {siteConfig.tagline}
-              </p>
-              <AnimatedHeading
-                as="h1"
-                text="Intelligent Thinking. Meaningful Digital Progress."
-                highlightWords={['Intelligent', 'Meaningful', 'Progress']}
-                className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]"
-              />
-              <p className="mt-6 max-w-2xl text-base sm:text-lg text-[#A5AAB4] leading-relaxed">
-                GrowthPilot is a digital growth agency and Google Ads specialist focused on website development, performance marketing, conversion optimization, and practical GA4 measurement designed to help businesses turn online attention into real inquiries.
+      <section className="border-b border-white/10 pt-14 pb-16 sm:pt-20 sm:pb-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-7 space-y-5">
+              <EditorialEyebrow label={`About GrowthPilot · ${siteConfig.tagline}`} />
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.08]">
+                Direct Specialist Execution. Transparent Paid Search &amp; Measurement.
+              </h1>
+              <p className="max-w-[62ch] text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
+                GrowthPilot is an independent Google Ads and conversion-focused web consultancy operated directly by Abhijit Roy. I work with HVAC, solar, dental, roofing, epoxy flooring, plumbing, and local service businesses across the US, UK, Australia, Canada, Ireland, New Zealand, and India—connecting search intent with clear landing pages and reliable GA4 attribution.
               </p>
             </div>
 
-            <div className="lg:col-span-4 flex justify-center lg:justify-end">
-              <div className="rounded-2xl border border-white/15 bg-[#0B0D10] p-8 text-center shadow-2xl">
-                <div className="relative mx-auto aspect-square h-28 w-28 shrink-0 overflow-hidden flex items-center justify-center">
-                  <img
-                    src={siteConfig.assets.emblemSvg}
-                    alt="GrowthPilot — Google Ads Specialist & Digital Growth Agency Emblem"
-                    width={112}
-                    height={112}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-contain"
-                  />
-                </div>
-                <div className="mt-4 font-bold text-xl">
-                  <span className="text-white">Growth</span>
-                  <span className="gp-gradient-text">Pilot</span>
-                </div>
-                <p className="mt-1 text-xs font-mono text-[#A5AAB4]">
-                  {siteConfig.tagline}
-                </p>
+            <aside
+              aria-label="Consultant Profile Ledger"
+              className="lg:col-span-5 rounded-lg border border-white/12 bg-[#111318]"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5 sm:px-6">
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#F4F5F7]">
+                  Consultant Credentials
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#18C4A8]">
+                  Independent Practice
+                </span>
               </div>
-            </div>
+              <dl className="divide-y divide-white/10 px-5 sm:px-6">
+                {practiceFacts.map((fact) => (
+                  <div key={fact.label} className="py-3.5 space-y-1">
+                    <dt className="font-mono text-xs uppercase tracking-wider text-[#8890A0]">
+                      {fact.label}
+                    </dt>
+                    <dd className="text-sm text-[#F4F5F7]">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </aside>
           </div>
         </div>
       </section>
 
-      {/* Who We Are & Our Mission */}
-      <section className="py-20 sm:py-24 border-b border-white/10 bg-[#0B0D10]">
+      {/* Approach & Why Independent Specialist */}
+      <section className="border-b border-white/10 bg-[#111318] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-            <ScrollReveal initiallyVisible className="rounded-2xl border border-white/10 bg-[#050505] p-8 sm:p-10">
-              <div className="text-xs font-mono text-[#08D9F5]">01 · Who We Are</div>
-              <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-white">
-                Built for Businesses That Value Clarity and Action
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+            <AnimatedContent initiallyVisible className="lg:col-span-6 space-y-4">
+              <EditorialEyebrow index="01" label="Why Independent" />
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#F4F5F7]">
+                Accountability Without Agency Layers
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                Many businesses invest in websites or digital ads that look busy on the surface but fail to explain the offer clearly or guide visitors toward making contact. GrowthPilot was created to bridge the gap between design, advertising, and measurable conversion paths.
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
+                Many service businesses sign retainer contracts with multi-tier agencies only to find their ad campaigns passed to junior coordinators splitting attention across dozens of unrelated accounts.
               </p>
-              <p className="mt-4 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                We combine clean frontend engineering, structured search marketing, and reliable analytics tracking so every part of your digital presence works toward a single goal: helping qualified prospects understand what you do and reach out with confidence.
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
+                Working with GrowthPilot means the person auditing your search terms, refining negative keywords, shaping your landing page copy, and verifying GTM tags is the same specialist advising you directly on calls and WhatsApp.
               </p>
-            </ScrollReveal>
+            </AnimatedContent>
 
-            <ScrollReveal initiallyVisible className="rounded-2xl border border-white/10 bg-[#050505] p-8 sm:p-10">
-              <div className="text-xs font-mono text-[#00E6A8]">02 · Our Mission &amp; Approach</div>
-              <h2 className="mt-3 text-2xl sm:text-3xl font-bold text-white">
-                Connecting Strategy, Execution, and Measurement
+            <AnimatedContent
+              initiallyVisible
+              className="lg:col-span-6 border-t border-white/10 pt-8 lg:border-t-0 lg:border-l lg:border-white/10 lg:pl-10 lg:pt-0 space-y-4"
+            >
+              <EditorialEyebrow index="02" label="How Campaigns & Pages Align" />
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#F4F5F7]">
+                Connecting Search Intent, Web Architecture &amp; Data
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                Our mission is to replace guesswork with structured digital execution. Whether we are building a new business website, designing a dedicated Google Ads landing page, or setting up Google Analytics 4 and Tag Manager, we start by asking what action you need visitors to take.
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
+                Paid search underperforms when keyword strategy, landing-page clarity, and tracking operate in silos. Every engagement integrates all three:
               </p>
-              <ul className="mt-6 space-y-3 text-sm text-white/90">
+              <ul className="mt-4 space-y-3 text-sm text-[#F4F5F7]/90">
                 <li className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
-                  <span>Websites structured around customer questions and clear calls to action</span>
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]" aria-hidden="true" />
+                  <span>Intent-matched landing pages written for buyer questions and immediate calls</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
-                  <span>Search campaigns aligned with landing page relevance and intent</span>
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]" aria-hidden="true" />
+                  <span>Disciplined negative keyword guardrails blocking irrelevant or low-intent clicks</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]" aria-hidden="true" />
-                  <span>Transparent event tracking for forms, calls, and key interactions</span>
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]" aria-hidden="true" />
+                  <span>Clean GA4 &amp; Tag Manager tracking for verified forms, calls, and WhatsApp enquiries</span>
                 </li>
               </ul>
-            </ScrollReveal>
+            </AnimatedContent>
           </div>
         </div>
       </section>
 
-      {/* Visual Philosophy Timeline: Understand → Plan → Build → Measure → Improve */}
-      <section className="py-20 sm:py-28 border-b border-white/10 bg-[#050505]">
+      {/* Operating Sequence */}
+      <section className="border-b border-white/10 bg-[#090A0D] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <div className="text-xs font-mono text-[#08D9F5]">
-              03 · Working Philosophy
-            </div>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-white">
-              Understand → Plan → Build → Measure → Improve
-            </h2>
-            <p className="mt-3 text-base text-[#A5AAB4]">
-              A connected cycle that keeps every project grounded in real commercial priorities.
-            </p>
-          </div>
+          <EditorialSectionHeader
+            index="03"
+            eyebrow="Working Sequence"
+            title="Understand → Plan → Build → Measure → Improve"
+            lead="A repeatable sequence that keeps decisions grounded in commercial priorities rather than vanity metrics."
+          />
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
             {philosophyPhases.map((phase, idx) => (
-              <ScrollReveal key={phase.step} delay={idx * 0.05}>
-                <div className="flex h-full flex-col justify-between rounded-2xl gp-card-surface p-6">
-                  <div>
-                    <div className="flex items-center justify-between font-mono text-xs text-[#08D9F5]">
-                      <span>Phase {phase.step}</span>
-                      <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
-                        <img
-                          src={siteConfig.assets.arrowSvg}
-                          alt=""
-                          aria-hidden="true"
-                          width={14}
-                          height={14}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="h-full w-full object-contain"
-                        />
-                      </span>
-                    </div>
-                    <h3 className="mt-4 text-xl font-bold text-white">
-                      {phase.title}
-                    </h3>
-                    <p className="mt-2.5 text-sm text-[#A5AAB4] leading-relaxed">
-                      {phase.detail}
-                    </p>
-                  </div>
+              <AnimatedContent
+                key={phase.step}
+                delay={idx * 0.04}
+                distance={8}
+                className="flex h-full flex-col bg-[#111318] p-6"
+              >
+                <div className="font-mono text-xs text-[#18C4A8] tabular-nums">
+                  Phase {phase.step}
                 </div>
-              </ScrollReveal>
+                <h3 className="mt-3 text-xl font-bold text-[#F4F5F7]">{phase.title}</h3>
+                <p className="mt-2.5 text-sm text-[#A6ADBB] leading-relaxed">{phase.detail}</p>
+              </AnimatedContent>
             ))}
           </div>
         </div>
       </section>
 
-      {/* What Makes GrowthPilot Different & Core Values */}
-      <section className="py-20 sm:py-28 border-b border-white/10 bg-[#0B0D10]">
+      {/* Core Values */}
+      <section className="border-b border-white/10 bg-[#111318] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <div className="text-xs font-mono text-[#08D9F5]">
-                04 · What Makes GrowthPilot Different
-              </div>
-              <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">
-                How We Work With Clients
+            <div className="lg:col-span-5 space-y-4">
+              <EditorialEyebrow index="04" label="Working Standards" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F5F7]">
+                What to Expect When Working Together
               </h2>
-              <p className="mt-4 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                We do not separate website design from how visitors find you or how enquiries are tracked. By considering traffic, landing experience, and analytics together, we avoid common handoff gaps.
-              </p>
-              <p className="mt-4 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                Throughout an engagement, you receive clear updates on what is being built, why specific layout or campaign decisions were made, and how performance will be monitored after launch.
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
+                No exaggerated revenue promises, fabricated screenshots, or opaque retainers. You receive straightforward reporting tied to verified enquiry paths and full administrative control of your Google Ads and GA4 properties.
               </p>
             </div>
 
             <div className="lg:col-span-7 grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {coreValues.map((val, idx) => (
-                <ScrollReveal key={val.title} delay={idx * 0.05}>
-                  <div className="h-full rounded-2xl border border-white/10 bg-[#050505] p-6">
-                    <h3 className="text-lg font-bold text-white">{val.title}</h3>
-                    <p className="mt-2.5 text-sm text-[#A5AAB4] leading-relaxed">
+              {operatingValues.map((val, idx) => (
+                <AnimatedContent key={val.title} delay={idx * 0.04} distance={10}>
+                  <div className="h-full rounded-lg border border-white/10 bg-[#090A0D] p-6">
+                    <div className="font-mono text-xs text-[#18C4A8] tabular-nums">
+                      {val.code} // Standard
+                    </div>
+                    <h3 className="mt-2.5 text-lg font-bold text-[#F4F5F7]">{val.title}</h3>
+                    <p className="mt-2 text-sm text-[#A6ADBB] leading-relaxed">
                       {val.description}
                     </p>
                   </div>
-                </ScrollReveal>
+                </AnimatedContent>
               ))}
             </div>
           </div>
@@ -257,22 +242,24 @@ export const About: React.FC = () => {
       </section>
 
       {/* Closing CTA */}
-      <section className="py-20 sm:py-24 bg-[#050505]">
+      <section className="bg-[#090A0D] py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">
-            Ready to Discuss Your Digital Priorities?
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F5F7]">
+            Ready to Review Your Campaigns or Landing Pages?
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-[#A5AAB4]">
-            Share where your business stands today and what you want to improve next.
+          <p className="mx-auto mt-4 max-w-xl text-base text-[#A6ADBB]">
+            Share your service industry, target market, and website URL for a direct personal review.
           </p>
           <div className="mt-8 flex justify-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2.5 rounded-xl gp-gradient-bg px-7 py-4 text-sm sm:text-base font-semibold text-[#050505] shadow-lg transition-transform duration-150 hover:scale-[1.02]"
-            >
-              <span>Let&apos;s Talk About Your Business.</span>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+            <Magnet>
+              <Link
+                to="/contact"
+                className="inline-flex min-h-[48px] items-center gap-2.5 rounded-md bg-[#F4F5F7] px-7 py-3.5 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors duration-150 hover:bg-[#18C4A8]"
+              >
+                <span>Request a Free Account Review</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Magnet>
           </div>
         </div>
       </section>

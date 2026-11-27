@@ -7,7 +7,7 @@ import { buildBreadcrumbSchema } from '../lib/seo';
 import { faqsData, faqCategories, FAQCategory } from '../data/faqs';
 import { filterFAQs } from '../lib/filterLogic';
 import { FAQAccordion } from '../components/ui/FAQAccordion';
-import { AnimatedHeading } from '../components/animation/AnimatedHeading';
+import { EditorialEyebrow } from '../components/ui/EditorialPrimitives';
 
 export const FAQ: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<FAQCategory>('All');
@@ -42,31 +42,24 @@ export const FAQ: React.FC = () => {
   const filteredFaqs = filterFAQs(faqsData, selectedCategory, searchQuery);
 
   return (
-    <div className="bg-[#050505] text-white min-h-screen">
-      <section className="relative border-b border-white/10 pt-14 pb-16 sm:pt-20 sm:pb-20">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50" />
-        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-            Knowledge Base · Frequently Asked Questions
-          </p>
-          <AnimatedHeading
-            as="h1"
-            text="Clear Answers to Help You Plan Ahead."
-            highlightWords={['Clear', 'Answers']}
-            className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-white"
-          />
-          <p className="mt-4 text-base sm:text-lg text-[#A5AAB4]">
-            Honest, practical information on how we build websites, manage Google Ads, measure conversions, and structure client engagements.
+    <div className="min-h-screen bg-[#090A0D] text-[#F4F5F7]">
+      <section className="border-b border-white/10 pt-14 pb-16 sm:pt-20 sm:pb-20">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-5">
+          <EditorialEyebrow label="Knowledge Base // Frequently Asked Questions" />
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.08]">
+            Clear Answers to Help You Plan Ahead.
+          </h1>
+          <p className="max-w-[60ch] text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
+            Straightforward information on how Google Ads campaigns, conversion-focused websites, GA4 measurement, and pricing engagements work.
           </p>
 
-          {/* Search & Category Filter Controls */}
-          <div className="mt-8 space-y-4">
+          <div className="pt-4 space-y-4">
             <div className="relative">
               <label htmlFor="faq-search-input" className="sr-only">
                 Search frequently asked questions
               </label>
               <Search
-                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#A5AAB4]"
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8890A0]"
                 aria-hidden="true"
               />
               <input
@@ -74,15 +67,15 @@ export const FAQ: React.FC = () => {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search questions (e.g., Google Ads, timeline, existing website, pricing)..."
-                className="w-full rounded-xl border border-white/15 bg-[#0B0D10] pl-11 pr-4 py-3 text-sm text-white placeholder-[#A5AAB4]/60 focus:border-[#08D9F5] focus:outline-none"
+                placeholder="Search questions (e.g., Google Ads, timeline, pricing, existing site)..."
+                className="w-full min-h-[46px] rounded-md border border-white/15 bg-[#111318] pl-11 pr-4 py-2.5 text-sm text-[#F4F5F7] placeholder-[#8890A0] focus:border-[#18C4A8] focus:outline-none"
               />
             </div>
 
             <div
               role="group"
               aria-label="Filter FAQs by category"
-              className="flex flex-wrap items-center gap-1.5 rounded-xl border border-white/10 bg-[#0B0D10] p-1.5"
+              className="flex flex-wrap items-center gap-1.5 rounded-md border border-white/12 bg-[#111318] p-1.5"
             >
               {faqCategories.map((cat) => {
                 const isActive = selectedCategory === cat;
@@ -91,10 +84,10 @@ export const FAQ: React.FC = () => {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
-                    className={`inline-flex min-h-[40px] items-center rounded-lg px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
+                    className={`inline-flex min-h-[40px] items-center rounded-sm px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8] ${
                       isActive
-                        ? 'gp-gradient-bg text-[#050505] font-semibold'
-                        : 'text-[#A5AAB4] hover:text-white'
+                        ? 'bg-[#F4F5F7] text-[#090A0D] font-semibold'
+                        : 'text-[#A6ADBB] hover:text-[#F4F5F7]'
                     }`}
                   >
                     {cat}
@@ -108,26 +101,26 @@ export const FAQ: React.FC = () => {
 
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-4 text-xs font-mono text-[#A5AAB4] tabular-nums">
+          <div className="mb-4 font-mono text-xs text-[#8890A0] tabular-nums">
             Showing {filteredFaqs.length} of {faqsData.length} questions
           </div>
 
           <FAQAccordion items={filteredFaqs} />
 
-          <div className="mt-12 rounded-2xl border border-white/10 bg-[#0B0D10] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="mt-12 rounded-lg border border-white/12 bg-[#111318] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white">
-                Have a specific question about your project?
+              <h2 className="text-lg sm:text-xl font-bold text-[#F4F5F7]">
+                Have a specific question about your account or website?
               </h2>
-              <p className="mt-1 text-sm text-[#A5AAB4]">
-                Tell us what you are planning and we will give you a straightforward answer.
+              <p className="mt-1 text-sm text-[#A6ADBB]">
+                Share what you are planning and I will give you a straightforward answer.
               </p>
             </div>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-xl gp-gradient-bg px-5 py-3 text-sm font-semibold text-[#050505] whitespace-nowrap shrink-0"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-[#F4F5F7] px-5 py-2.5 text-sm font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors whitespace-nowrap shrink-0"
             >
-              <span>Ask Us Directly</span>
+              <span>Ask Directly</span>
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>

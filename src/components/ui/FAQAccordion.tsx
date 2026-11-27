@@ -22,10 +22,10 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
 
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-[#0B0D10] p-8 text-center text-sm text-[#A5AAB4]">
+      <div className="rounded-lg border border-white/10 bg-[#090A0D] p-8 text-center text-sm text-[#A6ADBB]">
         No matching questions found. Try clearing your search filter or{' '}
-        <Link to="/contact" className="text-[#08D9F5] underline underline-offset-4">
-          ask us directly
+        <Link to="/contact" className="text-[#18C4A8] underline underline-offset-4">
+          ask directly
         </Link>
         .
       </div>
@@ -33,14 +33,14 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
   }
 
   return (
-    <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#0B0D10]">
+    <div className="divide-y divide-white/10 border-y border-white/10">
       {items.map((faq) => {
         const isOpen = openId === faq.id;
         const panelId = `faq-panel-${faq.id}`;
         const buttonId = `faq-button-${faq.id}`;
 
         return (
-          <div key={faq.id} className="p-5 sm:p-6">
+          <div key={faq.id} className="py-5 sm:py-6">
             <h3>
               <button
                 id={buttonId}
@@ -48,20 +48,21 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggleItem(faq.id)}
-                className="flex w-full items-start justify-between gap-4 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#08D9F5] rounded-sm"
+                className="flex w-full items-start justify-between gap-4 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#18C4A8] rounded-sm"
               >
                 <div>
-                  <span className="block font-mono text-[11px] text-[#08D9F5]">
+                  <span className="block font-mono text-xs uppercase tracking-[0.1em] text-[#18C4A8]">
                     {faq.category}
                   </span>
-                  <span className="mt-1 block text-base sm:text-lg font-semibold text-white">
+                  <span className="mt-1.5 block text-base sm:text-lg font-semibold text-[#F4F5F7]">
                     {faq.question}
                   </span>
                 </div>
                 <span
                   aria-hidden="true"
-                  className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#050505] text-[#A5AAB4] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'rotate-180 border-[#08D9F5]/40 text-[#08D9F5]' : ''
-                    }`}
+                  className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-white/15 bg-[#090A0D] text-[#A6ADBB] transition-transform duration-200 ${
+                    isOpen ? 'rotate-180 border-[#18C4A8]/60 text-[#18C4A8]' : ''
+                  }`}
                 >
                   <ChevronDown className="h-4 w-4" />
                 </span>
@@ -75,7 +76,7 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
                 aria-labelledby={buttonId}
                 className="overflow-hidden"
               >
-                <div className="pt-4 pr-4 sm:pr-8 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+                <div className="pt-4 pr-2 sm:pr-10 max-w-[68ch] text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
                   {faq.answer}
                 </div>
               </div>
@@ -86,4 +87,3 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({
     </div>
   );
 };
-

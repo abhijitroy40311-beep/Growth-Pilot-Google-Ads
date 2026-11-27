@@ -34,10 +34,10 @@ export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <div className="flex min-h-screen flex-col bg-[#050505] text-white">
+        <div className="flex min-h-screen flex-col bg-[#090A0D] text-[#F4F5F7]">
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-[#08D9F5] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#050505] focus:shadow-lg"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-[#F4F5F7] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#090A0D] focus:outline-2 focus:outline-offset-2 focus:outline-[#18C4A8]"
           >
             Skip to main content
           </a>

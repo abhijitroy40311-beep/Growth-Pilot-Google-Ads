@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import { processSteps } from '../../data/process';
-import { siteConfig } from '../../data/siteConfig';
-import { AnimatedHeading } from '../animation/AnimatedHeading';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { EditorialSectionHeader } from '../ui/EditorialPrimitives';
 
 export const GrowthTimeline: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -19,7 +18,6 @@ export const GrowthTimeline: React.FC = () => {
 
     const sectionEl = sectionRef.current;
     const lineEl = progressLineRef.current;
-
     if (!sectionEl || !lineEl) return;
 
     let isCancelled = false;
@@ -42,7 +40,7 @@ export const GrowthTimeline: React.FC = () => {
                   trigger: sectionEl,
                   start: 'top 65%',
                   end: 'bottom 70%',
-                  scrub: 0.4,
+                  scrub: 0.35,
                   onUpdate: (self) => {
                     const stepIdx = Math.min(
                       processSteps.length - 1,
@@ -70,7 +68,7 @@ export const GrowthTimeline: React.FC = () => {
             initTimeline();
           }
         },
-        { rootMargin: '300px 0px' }
+        { rootMargin: '250px 0px' }
       );
       observer.observe(sectionEl);
     } else {
@@ -79,8 +77,8 @@ export const GrowthTimeline: React.FC = () => {
 
     return () => {
       isCancelled = true;
-      if (observer) observer.disconnect();
-      if (revertCtx) revertCtx();
+      observer?.disconnect();
+      revertCtx?.();
     };
   }, [reducedMotion]);
 
@@ -89,103 +87,75 @@ export const GrowthTimeline: React.FC = () => {
       id="stage-process"
       ref={sectionRef}
       aria-labelledby="process-heading"
-      className="relative border-t border-white/10 bg-[#0B0D10] py-20 sm:py-28"
+      className="border-t border-white/10 bg-[#090A0D] py-16 sm:py-24 lg:py-28"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <div className="text-xs font-mono text-[#08D9F5]">
-            03 · How We Make Your Service Better
-          </div>
-          <AnimatedHeading
-            id="process-heading"
-            as="h2"
-            text="A Clear Process. Smarter Growth."
-            highlightWords={['Clear', 'Smarter', 'Growth']}
-            className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white"
-          />
-          <p className="mt-4 text-base sm:text-lg text-[#A5AAB4]">
-            Every project follows a structured six-step methodology from initial discovery through launch and measurable refinement.
-          </p>
-        </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <EditorialSectionHeader
+          headingId="process-heading"
+          index="04"
+          eyebrow="Campaign Management Process"
+          title="Six Deliberate Phases From Audit to Ongoing Optimization."
+          lead="Every engagement follows a transparent build sequence so tracking, landing experience, and keyword controls are verified before budget scales."
+        />
 
-        {/* Connected Timeline */}
-        <div className="relative mt-14 pl-8 sm:pl-12">
-          {/* Background Track Line */}
+        <div className="relative mt-12 pl-8 sm:pl-12">
           <div
             aria-hidden="true"
-            className="absolute left-3 sm:left-4 top-2 bottom-2 w-0.5 bg-white/10"
+            className="absolute left-3 sm:left-4 top-2 bottom-2 w-[2px] bg-white/10"
           />
-          {/* Animated Gradient Progress Line */}
           <div
             ref={progressLineRef}
             aria-hidden="true"
-            className="absolute left-3 sm:left-4 top-2 bottom-2 w-0.5 gp-gradient-bg origin-top"
+            className="absolute left-3 sm:left-4 top-2 bottom-2 w-[2px] bg-[#18C4A8] origin-top"
             style={{ transform: reducedMotion ? 'scaleY(1)' : 'scaleY(0)' }}
           />
 
-          <div className="space-y-8">
+          <div className="divide-y divide-white/10 border-y border-white/10">
             {processSteps.map((step, index) => {
               const isIlluminated = index <= activeIndex;
 
               return (
                 <div
                   key={step.stepNumber}
-                  className={`relative rounded-2xl border p-5 sm:p-8 transition-colors duration-200 ${isIlluminated
-                      ? 'border-[#08D9F5]/35 bg-[#050505]'
-                      : 'border-white/10 bg-[#050505]/70'
-                    }`}
+                  className="relative py-7 sm:py-9 transition-colors duration-200"
                 >
-                  {/* Milestone Node on the Track */}
+                  {/* Step Marker Node */}
                   <div
                     aria-hidden="true"
-                    className={`absolute -left-[29px] sm:-left-[41px] top-7 flex h-6 w-6 items-center justify-center rounded-full border text-[11px] font-mono transition-colors duration-200 ${isIlluminated
-                        ? 'border-[#00E6A8] bg-[#050505] text-[#00E6A8] shadow-[0_0_14px_rgba(8,217,245,0.45)]'
-                        : 'border-white/20 bg-[#0B0D10] text-[#A5AAB4]'
-                      }`}
+                    className={`absolute -left-[33px] sm:-left-[45px] top-8 flex h-7 w-7 items-center justify-center rounded-md border font-mono text-[11px] transition-colors duration-200 ${
+                      isIlluminated
+                        ? 'border-[#18C4A8] bg-[#111318] text-[#18C4A8]'
+                        : 'border-white/20 bg-[#090A0D] text-[#8890A0]'
+                    }`}
                   >
-                    {index === activeIndex ? (
-                      <span className="relative inline-flex aspect-square h-3.5 w-3.5 shrink-0 items-center justify-center overflow-hidden">
-                        <img
-                          src={siteConfig.assets.arrowSvg}
-                          alt=""
-                          width={14}
-                          height={14}
-                          loading="lazy"
-                          decoding="async"
-                          referrerPolicy="no-referrer"
-                          className="h-full w-full object-contain"
-                        />
-                      </span>
-                    ) : (
-                      step.stepNumber
-                    )}
+                    {step.stepNumber}
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
                     <div className="lg:col-span-7">
-                      <div className="font-mono text-xs text-[#08D9F5]">
+                      <div className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8]">
                         {step.code}
                       </div>
-                      <h3 className="mt-2 text-xl sm:text-2xl font-bold text-white">
+                      <h3 className="mt-2 text-xl sm:text-2xl font-bold text-[#F4F5F7]">
                         {step.title}
                       </h3>
-                      <p className="mt-2.5 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+                      <p className="mt-2.5 max-w-[60ch] text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
                         {step.description}
                       </p>
                     </div>
 
-                    <div className="lg:col-span-5 border-t border-white/10 pt-4 lg:border-t-0 lg:border-l lg:pl-6 lg:pt-0">
-                      <div className="text-xs font-mono text-white/75">
-                        Key Deliverables
+                    <div className="lg:col-span-5 border-t border-white/10 pt-4 lg:border-t-0 lg:border-l lg:border-white/10 lg:pl-8 lg:pt-0">
+                      <div className="font-mono text-xs uppercase tracking-wider text-[#8890A0]">
+                        Phase Deliverables
                       </div>
-                      <ul className="mt-3 space-y-2 text-sm text-[#A5AAB4]">
+                      <ul className="mt-3 space-y-2 text-sm text-[#F4F5F7]/90">
                         {step.deliverables.map((item) => (
-                          <li key={item} className="flex items-start gap-2">
+                          <li key={item} className="flex items-start gap-2.5">
                             <Check
-                              className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
+                              className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]"
                               aria-hidden="true"
                             />
-                            <span className="text-white/90">{item}</span>
+                            <span>{item}</span>
                           </li>
                         ))}
                       </ul>

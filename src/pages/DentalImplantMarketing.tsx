@@ -14,8 +14,9 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { getRouteMetaByPath } from '../lib/routeMeta';
 import { siteConfig } from '../data/siteConfig';
 import { buildBreadcrumbSchema } from '../lib/seo';
-import { AnimatedHeading } from '../components/animation/AnimatedHeading';
-import { ScrollReveal } from '../components/animation/ScrollReveal';
+import { AnimatedContent } from '../components/animation/AnimatedContent';
+import { EditorialEyebrow, EditorialSectionHeader } from '../components/ui/EditorialPrimitives';
+import { Magnet } from '../components/animation/Magnet';
 
 const implantPillars = [
   {
@@ -119,111 +120,96 @@ export const DentalImplantMarketing: React.FC = () => {
   });
 
   return (
-    <div className="bg-[#050505] text-white min-h-screen">
-
+    <div className="min-h-screen bg-[#090A0D] text-[#F4F5F7]">
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-white/10 pt-14 pb-20 sm:pt-20 sm:pb-24">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 gp-grid-bg opacity-50"
-        />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <nav aria-label="Breadcrumb" className="mb-4 text-xs font-mono text-[#A5AAB4]">
+      <section className="border-b border-white/10 pt-12 pb-16 sm:pt-18 sm:pb-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <nav aria-label="Breadcrumb" className="mb-5 font-mono text-xs text-[#8890A0]">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link to="/" className="hover:text-[#F4F5F7] transition-colors">
                   Home
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <Link to="/services" className="hover:text-white transition-colors">
+                <Link to="/services" className="hover:text-[#F4F5F7] transition-colors">
                   Services
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="text-[#08D9F5]" aria-current="page">
+              <li className="text-[#18C4A8]" aria-current="page">
                 Dental Implant Marketing
               </li>
             </ol>
           </nav>
 
-          <div className="max-w-3xl">
-            <p className="text-xs sm:text-sm font-mono text-[#08D9F5]">
-              Industry Solution · Dental Implant PPC &amp; Consultation Funnels
-            </p>
-            <AnimatedHeading
-              as="h1"
-              text="Google Ads Management for Dental Implant Clinics."
-              highlightWords={['Google', 'Ads', 'Dental', 'Implant']}
-              className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]"
-            />
-            <p className="mt-5 text-base sm:text-lg text-[#A5AAB4] leading-relaxed">
+          <div className="max-w-3xl space-y-5">
+            <EditorialEyebrow label="Industry Playbook // Dental Implant PPC & Consultation Funnels" />
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.08]">
+              Google Ads Management for Dental Implant Clinics.
+            </h1>
+            <p className="max-w-[62ch] text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
               High-value dental implant treatments require search campaigns built around patient intent, clear consultation landing pages, and accurate call and form tracking. As an independent Google Ads specialist, I help dental implant clinics across the US, UK, Australia, Canada, Ireland, and New Zealand turn local search demand into qualified consultation enquiries—without agency bloat or long-term lock-in.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2.5 rounded-xl gp-gradient-bg px-6 py-3.5 text-sm sm:text-base font-semibold text-[#050505] shadow-lg transition-transform duration-150 hover:scale-[1.02]"
-              >
-                <span>Request a Dental Campaign &amp; Landing Page Review</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Magnet>
+                <Link
+                  to="/contact"
+                  className="inline-flex min-h-[48px] items-center gap-2.5 rounded-md bg-[#F4F5F7] px-6 py-3 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors hover:bg-[#18C4A8]"
+                >
+                  <span>Request a Dental Campaign &amp; Page Review</span>
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Magnet>
               <Link
                 to="/services"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-[#0B0D10] px-6 py-3.5 text-sm sm:text-base font-medium text-white hover:border-[#08D9F5]/60 transition-colors"
+                className="inline-flex min-h-[48px] items-center gap-2 rounded-md border border-white/20 bg-transparent px-6 py-3 text-sm sm:text-base font-medium text-[#F4F5F7] hover:border-white/45 hover:bg-white/[0.04] transition-colors"
               >
-                <span>View All Service Industries</span>
+                <span>View All Service Capabilities</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Four Pillars of Dental Implant Google Ads & Funnel Architecture */}
-      <section className="py-16 sm:py-24 border-b border-white/10">
+      {/* Four Pillars */}
+      <section className="border-b border-white/10 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="text-xs font-mono text-[#08D9F5]">
-              01 · Dental Implant Lead Generation Architecture
-            </div>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-white">
-              How I Structure Dental Implant PPC &amp; Landing Pages
-            </h2>
-            <p className="mt-3 text-base text-[#A5AAB4] leading-relaxed">
-              Prospective implant patients compare treatment options, recovery expectations, and financing before booking an exam. Each campaign connects search intent directly to a dedicated consultation pathway.
-            </p>
-          </div>
+          <EditorialSectionHeader
+            index="01"
+            eyebrow="Acquisition Architecture"
+            title="How I Structure Dental Implant PPC & Landing Pages"
+            lead="Prospective implant patients compare treatment options, recovery expectations, and financing before booking an exam. Each campaign connects search intent directly to a dedicated consultation pathway."
+          />
 
-          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {implantPillars.map((pillar, idx) => {
               const Icon = pillar.icon;
               return (
-                <ScrollReveal key={pillar.step} initiallyVisible={idx < 2}>
-                  <article className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-[#0B0D10] p-6 sm:p-8">
+                <AnimatedContent key={pillar.step} initiallyVisible={idx < 2} distance={10}>
+                  <article className="flex h-full flex-col justify-between rounded-lg border border-white/10 bg-[#111318] p-6 sm:p-8">
                     <div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-[#050505] text-[#08D9F5]">
-                          <Icon className="h-5 w-5" aria-hidden="true" />
-                        </div>
-                        <span className="font-mono text-xs text-[#00E6A8]">
+                      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                        <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8] tabular-nums">
                           Pillar {pillar.step}
                         </span>
+                        <Icon className="h-5 w-5 text-[#A6ADBB]" aria-hidden="true" />
                       </div>
 
-                      <h3 className="mt-5 text-xl sm:text-2xl font-bold text-white">
+                      <h3 className="mt-5 text-xl sm:text-2xl font-bold text-[#F4F5F7]">
                         {pillar.title}
                       </h3>
-                      <p className="mt-3 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+                      <p className="mt-3 text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
                         {pillar.description}
                       </p>
 
-                      <ul className="mt-5 space-y-2.5 border-t border-white/10 pt-5 text-sm text-white/90">
+                      <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-5 text-sm text-[#F4F5F7]/90">
                         {pillar.points.map((pt) => (
                           <li key={pt} className="flex items-start gap-2.5">
                             <Check
-                              className="mt-0.5 h-4 w-4 shrink-0 text-[#00E6A8]"
+                              className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]"
                               aria-hidden="true"
                             />
                             <span>{pt}</span>
@@ -232,63 +218,61 @@ export const DentalImplantMarketing: React.FC = () => {
                       </ul>
                     </div>
                   </article>
-                </ScrollReveal>
+                </AnimatedContent>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Why Dental Implant Campaigns Require Dedicated Landing Pages & Negative Keywords */}
-      <section className="py-16 sm:py-24 border-b border-white/10 bg-[#0B0D10]">
+      {/* Campaign Alignment & Checklist */}
+      <section className="border-b border-white/10 bg-[#111318] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 items-start">
-            <div className="lg:col-span-6 space-y-4">
-              <div className="text-xs font-mono text-[#00E6A8]">
-                02 · Campaign &amp; Conversion Alignment
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white">
+            <div className="lg:col-span-6 space-y-5">
+              <EditorialEyebrow index="02" label="Campaign & Conversion Alignment" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F5F7]">
                 Aligning Search Intent With Front-Desk Consultation Enquiries
               </h2>
-              <p className="text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
                 When a dental clinic runs Google Search Ads without separating procedure types or filtering out informational queries, budget is quickly consumed by clicks that never become appointments.
               </p>
-              <p className="text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
                 I align every step of the patient enquiry funnel: high-intent search keywords, clear ad copy written inside local advertising guidelines, a dedicated dental implant landing page, and verified tracking for phone calls and consultation forms. You always retain full ownership of your Google Ads account and pay Google directly for ad spend.
               </p>
 
-              <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono text-[#08D9F5]">
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#050505] px-3 py-1.5">
-                  <PhoneCall className="h-3.5 w-3.5 text-[#00E6A8]" aria-hidden="true" />
+              <div className="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs text-[#F4F5F7]">
+                <span className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-[#090A0D] px-3.5 py-2">
+                  <PhoneCall className="h-3.5 w-3.5 text-[#18C4A8]" aria-hidden="true" />
                   <span>Verified Call &amp; Form Tracking</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-[#050505] px-3 py-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-[#08D9F5]" aria-hidden="true" />
+                <span className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-[#090A0D] px-3.5 py-2">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#18C4A8]" aria-hidden="true" />
                   <span>Direct Specialist · No Lock-In</span>
                 </span>
               </div>
             </div>
 
-            <div className="lg:col-span-6 rounded-2xl border border-white/10 bg-[#050505] p-6 sm:p-8">
-              <h3 className="text-lg font-bold text-white">
-                What Your Dental Clinic Receives
+            <div className="lg:col-span-6 rounded-lg border border-white/10 bg-[#090A0D] p-6 sm:p-8">
+              <h3 className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8]">
+                Clinic Readiness Deliverables
               </h3>
-              <ul className="mt-4 space-y-3 text-sm text-[#A5AAB4]">
+              <ul className="mt-5 divide-y divide-white/10 border-t border-white/10 text-sm text-[#A6ADBB]">
                 {campaignReadinessChecklist.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
+                  <li key={item} className="flex items-start gap-3 py-3.5">
                     <Check
-                      className="mt-0.5 h-4 w-4 shrink-0 text-[#08D9F5]"
+                      className="mt-0.5 h-4 w-4 shrink-0 text-[#18C4A8]"
                       aria-hidden="true"
                     />
-                    <span>{item}</span>
+                    <span className="text-[#F4F5F7]/90">{item}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-6 border-t border-white/10 pt-5">
+              <div className="mt-4 border-t border-white/10 pt-5">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#08D9F5] hover:text-[#00E6A8] transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-[#18C4A8] hover:text-[#F4F5F7] transition-colors"
                 >
                   <span>Discuss Your Dental Clinic’s Growth Goals</span>
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -300,25 +284,27 @@ export const DentalImplantMarketing: React.FC = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 sm:py-20 bg-[#050505]">
+      <section className="bg-[#090A0D] py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F5F7]">
             Planning Google Ads or a Dedicated Landing Page for Your Clinic?
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-[#A5AAB4]">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-[#A6ADBB]">
             Share your clinic’s location, priority implant procedures, and current website URL. I will review your setup personally and outline a clear, practical recommendation.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2.5 rounded-xl gp-gradient-bg px-7 py-4 text-sm sm:text-base font-semibold text-[#050505] shadow-lg transition-transform duration-150 hover:scale-[1.02]"
-            >
-              <span>Start Your Dental Clinic Enquiry</span>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+            <Magnet>
+              <Link
+                to="/contact"
+                className="inline-flex min-h-[48px] items-center gap-2.5 rounded-md bg-[#F4F5F7] px-7 py-3.5 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors hover:bg-[#18C4A8]"
+              >
+                <span>Start Your Dental Clinic Enquiry</span>
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Magnet>
             <Link
               to="/faq"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-[#0B0D10] px-6 py-4 text-sm sm:text-base font-medium text-white hover:border-[#08D9F5]/50 transition-colors"
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-md border border-white/20 bg-transparent px-6 py-3.5 text-sm sm:text-base font-medium text-[#F4F5F7] hover:border-white/45 transition-colors"
             >
               <span>Read Campaign &amp; Process FAQs</span>
             </Link>

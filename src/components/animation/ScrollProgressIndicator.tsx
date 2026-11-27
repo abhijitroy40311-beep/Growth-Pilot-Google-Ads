@@ -36,11 +36,11 @@ export const ScrollProgressIndicator: React.FC = () => {
   return (
     <div
       aria-hidden="true"
-      className="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-transparent pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent pointer-events-none"
     >
       <div
         ref={barRef}
-        className="h-full gp-gradient-bg origin-left will-change-transform"
+        className="h-full bg-[#18C4A8] origin-left will-change-transform"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>

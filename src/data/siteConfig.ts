@@ -55,7 +55,7 @@ export const siteConfig: SiteConfig = {
   brandName: 'GrowthPilot',
   tagline: 'Navigate Growth With Intelligence.',
   shortDescription:
-    'Google Ads management services, conversion-focused website design, landing page optimization, and GA4 tracking designed to generate qualified business inquiries.',
+    'Independent Google Ads management, conversion-focused landing pages, and verified GA4 attribution built to help local service businesses generate qualified enquiries.',
   domain:
     cleanEnv(metaEnv.VITE_APP_URL, 'https://growthpilotagency-ten.vercel.app') ||
     'https://growthpilotagency-ten.vercel.app',

@@ -387,7 +387,7 @@ export const ContactForm: React.FC = () => {
         noValidate
         aria-busy={submitting || confirmationReceipt !== null}
         onSubmit={handleSubmit}
-        className="rounded-2xl border border-white/10 bg-[#0B0D10] p-5 sm:p-8 md:p-10 shadow-2xl space-y-6"
+        className="rounded-lg border border-white/12 bg-[#111318] p-5 sm:p-8 md:p-10 space-y-6"
       >
         {serverError && (
           <div
@@ -395,12 +395,12 @@ export const ContactForm: React.FC = () => {
             tabIndex={-1}
             role="alert"
             data-testid="contact-delivery-error"
-            className="gp-popup-enter rounded-xl border border-red-500/40 bg-red-950/30 p-4 text-sm text-red-200 space-y-3 focus:outline-none focus:ring-2 focus:ring-red-400/50"
+            className="gp-popup-enter rounded-md border border-red-500/45 bg-red-950/35 p-4 text-sm text-red-100 space-y-3 focus:outline-none focus:ring-2 focus:ring-red-400/50"
           >
           <div className="flex items-start gap-3">
             <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-400" aria-hidden="true" />
             <div className="space-y-1">
-              <p className="font-semibold text-white">Email delivery could not be completed</p>
+              <p className="font-semibold text-[#F4F5F7]">Email delivery could not be completed</p>
               <p>{serverError}</p>
               {failedDelivery?.diagnostic && (
                 <p className="font-mono text-xs text-red-200/80 break-words">
@@ -417,7 +417,7 @@ export const ContactForm: React.FC = () => {
                   href={whatsappFollowupHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2 text-xs font-semibold text-[#050505] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
+                  className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#25D366] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   <span>Send Inquiry on WhatsApp</span>
@@ -426,7 +426,7 @@ export const ContactForm: React.FC = () => {
               {fallbackMailtoHref && (
                 <a
                   href={fallbackMailtoHref}
-                  className="inline-flex items-center gap-2 rounded-lg gp-gradient-bg px-4 py-2 text-xs font-semibold text-[#050505] whitespace-nowrap shrink-0"
+                  className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#F4F5F7] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors whitespace-nowrap shrink-0"
                 >
                   <Mail className="h-4 w-4" aria-hidden="true" />
                   <span>Send Copy via Email App</span>
@@ -456,9 +456,9 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-name"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
-            Your Name <span className="text-[#08D9F5]">*</span>
+            Your Name <span className="text-[#18C4A8]">*</span>
           </label>
           <input
             id="contact-name"
@@ -471,9 +471,9 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? 'error-name' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.name
-                ? 'border-red-500/70 focus:ring-red-500/50'
-                : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.name
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
               }`}
           />
           {errors.name && (
@@ -487,9 +487,9 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-business"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
-            Business Name <span className="text-[#08D9F5]">*</span>
+            Business Name <span className="text-[#18C4A8]">*</span>
           </label>
           <input
             id="contact-business"
@@ -497,14 +497,14 @@ export const ContactForm: React.FC = () => {
             type="text"
             required
             autoComplete="organization"
-            placeholder="e.g., Apex Industrial Ltd."
+            placeholder="e.g., Summit HVAC Services"
             value={formData.businessName}
             onChange={handleChange}
             aria-invalid={Boolean(errors.businessName)}
             aria-describedby={errors.businessName ? 'error-businessName' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.businessName
-                ? 'border-red-500/70 focus:ring-red-500/50'
-                : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.businessName
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
               }`}
           />
           {errors.businessName && (
@@ -522,9 +522,9 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-email"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
-            Email Address <span className="text-[#08D9F5]">*</span>
+            Email Address <span className="text-[#18C4A8]">*</span>
           </label>
           <input
             id="contact-email"
@@ -537,9 +537,9 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'error-email' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.email
-                ? 'border-red-500/70 focus:ring-red-500/50'
-                : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.email
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
               }`}
           />
           {errors.email && (
@@ -553,9 +553,9 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-phone"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
-            Phone Number <span className="text-xs font-normal text-[#A5AAB4]">(Optional)</span>
+            Phone Number <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
           </label>
           <input
             id="contact-phone"
@@ -567,9 +567,9 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.phone)}
             aria-describedby={errors.phone ? 'error-phone' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.phone
-                ? 'border-red-500/70 focus:ring-red-500/50'
-                : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.phone
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
               }`}
           />
           {errors.phone && (
@@ -583,10 +583,10 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-website"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
             Current Website URL{' '}
-            <span className="text-xs font-normal text-[#A5AAB4]">(Optional)</span>
+            <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
           </label>
           <input
             id="contact-website"
@@ -597,9 +597,9 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.websiteUrl)}
             aria-describedby={errors.websiteUrl ? 'error-websiteUrl' : undefined}
-            className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.websiteUrl
-                ? 'border-red-500/70 focus:ring-red-500/50'
-                : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.websiteUrl
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
               }`}
           />
           {errors.websiteUrl && (
@@ -617,17 +617,17 @@ export const ContactForm: React.FC = () => {
         <div>
           <label
             htmlFor="contact-budget"
-            className="block text-xs sm:text-sm font-medium text-white"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
             Estimated Project Budget{' '}
-            <span className="text-xs font-normal text-[#A5AAB4]">(Optional)</span>
+            <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
           </label>
           <select
             id="contact-budget"
             name="projectBudget"
             value={formData.projectBudget}
             onChange={handleChange}
-            className="mt-2 w-full rounded-xl border border-white/15 bg-[#050505] px-4 py-3 text-sm text-white focus:border-[#08D9F5] focus:outline-none focus:ring-2 focus:ring-[#08D9F5]/30"
+            className="mt-2 w-full rounded-md border border-white/15 bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:border-[#18C4A8] focus:outline-none focus:ring-2 focus:ring-[#18C4A8]/25"
           >
             <option value="">Select a budget range (optional)</option>
             {budgetOptions.map((b) => (
@@ -643,9 +643,9 @@ export const ContactForm: React.FC = () => {
       <div>
         <label
           htmlFor="contact-service"
-          className="block text-xs sm:text-sm font-medium text-white"
+          className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
         >
-          Service of Interest <span className="text-[#08D9F5]">*</span>
+          Service of Interest <span className="text-[#18C4A8]">*</span>
         </label>
         <select
           id="contact-service"
@@ -657,9 +657,9 @@ export const ContactForm: React.FC = () => {
           aria-describedby={
             errors.serviceOfInterest ? 'error-serviceOfInterest' : undefined
           }
-          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 ${errors.serviceOfInterest
-              ? 'border-red-500/70 focus:ring-red-500/50'
-              : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+          className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:outline-none focus:ring-2 ${errors.serviceOfInterest
+              ? 'border-red-500/70 focus:ring-red-500/40'
+              : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
             }`}
         >
           <option value="">Select the primary service you need</option>
@@ -687,23 +687,23 @@ export const ContactForm: React.FC = () => {
       <div>
         <label
           htmlFor="contact-goals"
-          className="block text-xs sm:text-sm font-medium text-white"
+          className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
         >
-          Project Goals &amp; Current Challenges <span className="text-[#08D9F5]">*</span>
+          Project Goals &amp; Current Challenges <span className="text-[#18C4A8]">*</span>
         </label>
         <textarea
           id="contact-goals"
           name="projectGoals"
           rows={4}
           required
-          placeholder="Tell us about your business, what you want to improve (e.g., new website, better landing page conversion, Google Ads setup, or GA4 tracking), and your desired timeline."
+          placeholder="Tell me about your trade, target cities or countries, and what you want to improve (e.g., Google Ads lead quality, new landing page, or GA4 tracking)."
           value={formData.projectGoals}
           onChange={handleChange}
           aria-invalid={Boolean(errors.projectGoals)}
           aria-describedby={errors.projectGoals ? 'error-projectGoals' : undefined}
-          className={`mt-2 w-full rounded-xl border bg-[#050505] px-4 py-3 text-sm text-white placeholder-[#A5AAB4]/50 focus:outline-none focus:ring-2 ${errors.projectGoals
-              ? 'border-red-500/70 focus:ring-red-500/50'
-              : 'border-white/15 focus:border-[#08D9F5] focus:ring-[#08D9F5]/30'
+          className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.projectGoals
+              ? 'border-red-500/70 focus:ring-red-500/40'
+              : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
             }`}
         />
         {errors.projectGoals && (
@@ -728,17 +728,17 @@ export const ContactForm: React.FC = () => {
             onChange={handleChange}
             aria-invalid={Boolean(errors.consent)}
             aria-describedby={errors.consent ? 'error-consent' : undefined}
-            className="mt-1 h-4 w-4 rounded border-white/25 bg-[#050505] text-[#08D9F5] focus:ring-[#08D9F5]"
+            className="mt-1 h-4 w-4 rounded border-white/25 bg-[#090A0D] accent-[#18C4A8] focus:ring-[#18C4A8]"
           />
-          <span className="text-xs sm:text-sm text-[#A5AAB4] leading-relaxed">
+          <span className="text-xs sm:text-sm text-[#A6ADBB] leading-relaxed">
             I consent to GrowthPilot storing and processing the details submitted in this form to respond to my project inquiry, in accordance with the{' '}
             <Link
               to="/privacy-policy"
-              className="text-[#08D9F5] underline underline-offset-4 hover:text-white"
+              className="text-[#18C4A8] underline underline-offset-4 hover:text-[#F4F5F7]"
             >
               Privacy Policy
             </Link>
-            . <span className="text-[#08D9F5]">*</span>
+            . <span className="text-[#18C4A8]">*</span>
           </span>
         </label>
         {errors.consent && (
@@ -750,14 +750,14 @@ export const ContactForm: React.FC = () => {
 
       {/* Submit Action */}
       <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <p className="text-xs text-[#A5AAB4]">
-          Fields marked with <span className="text-[#08D9F5]">*</span> are required.
+        <p className="text-xs text-[#8890A0]">
+          Fields marked with <span className="text-[#18C4A8]">*</span> are required.
         </p>
 
         <button
           type="submit"
           disabled={submitting || confirmationReceipt !== null}
-          className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl gp-gradient-bg px-7 py-3.5 text-sm sm:text-base font-semibold text-[#050505] shadow-lg transition-[transform,opacity] duration-150 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-75 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08D9F5]"
+          className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-[#F4F5F7] px-7 py-3 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors duration-150 hover:bg-[#18C4A8] disabled:cursor-not-allowed disabled:opacity-75 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8]"
         >
           {confirmationReceipt ? (
             <>
@@ -793,48 +793,48 @@ export const ContactForm: React.FC = () => {
             data-testid="contact-confirmation-popup"
             className="gp-backdrop-enter fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           >
-            <div className="gp-popup-enter relative w-full max-w-md rounded-2xl border border-[#00E6A8]/40 bg-[#0B0D10] p-6 sm:p-8 text-center shadow-2xl">
+            <div className="gp-popup-enter relative w-full max-w-md rounded-lg border border-[#18C4A8]/45 bg-[#111318] p-6 sm:p-8 text-center shadow-2xl">
               <div
                 aria-hidden="true"
-                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-[#00E6A8]/35 bg-[#00E6A8]/12 text-[#00E6A8] shadow-[0_0_32px_rgba(0,230,168,0.28)]"
+                className="mx-auto flex h-14 w-14 items-center justify-center rounded-md border border-[#18C4A8]/40 bg-[#18C4A8]/12 text-[#18C4A8]"
               >
-                <CheckCircle2 className="h-8 w-8" />
+                <CheckCircle2 className="h-7 w-7" />
               </div>
 
-              <p className="mt-4 font-mono text-[11px] uppercase tracking-widest text-[#00E6A8]">
+              <p className="mt-4 font-mono text-[11px] uppercase tracking-widest text-[#18C4A8]">
                 Inquiry Dispatched
               </p>
               <h2
                 id="inquiry-confirmation-popup-title"
-                className="mt-2 text-2xl font-bold tracking-tight text-white"
+                className="mt-2 text-2xl font-bold tracking-tight text-[#F4F5F7]"
               >
                 Inquiry Sent Successfully!
               </h2>
               <p
                 id="inquiry-confirmation-popup-desc"
-                className="mt-2.5 text-sm leading-relaxed text-[#A5AAB4]"
+                className="mt-2.5 text-sm leading-relaxed text-[#A6ADBB]"
               >
                 Thank you,{' '}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-[#F4F5F7]">
                   {confirmationReceipt.summary.name}
                 </strong>
                 . Your project brief has been received for{' '}
-                <strong className="font-semibold text-white">
+                <strong className="font-semibold text-[#F4F5F7]">
                   {confirmationReceipt.summary.businessName}
                 </strong>
                 .
               </p>
 
-              <div className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#050505] px-3 py-1.5 font-mono text-xs text-[#A5AAB4]">
+              <div className="mt-4 inline-flex items-center gap-2 rounded-md border border-white/12 bg-[#090A0D] px-3 py-1.5 font-mono text-xs text-[#A6ADBB]">
                 <span>Ref:</span>
-                <strong className="text-white">{confirmationReceipt.inquiryId}</strong>
+                <strong className="text-[#F4F5F7]">{confirmationReceipt.inquiryId}</strong>
               </div>
 
               <div className="mt-6 space-y-2">
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                  <div className="gp-progress-fill gp-gradient-bg h-full w-full" />
+                  <div className="gp-progress-fill h-full w-full bg-[#18C4A8]" />
                 </div>
-                <p className="text-xs text-[#08D9F5]">
+                <p className="text-xs text-[#18C4A8]">
                   Opening your Thank You confirmation page...
                 </p>
               </div>
@@ -843,7 +843,7 @@ export const ContactForm: React.FC = () => {
                 ref={confirmButtonRef}
                 type="button"
                 onClick={() => navigateToThankYou(confirmationReceipt)}
-                className="mt-5 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl gp-gradient-bg px-5 py-2.5 text-sm font-semibold text-[#050505] shadow-md transition-transform duration-150 hover:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08D9F5]"
+                className="mt-5 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-md bg-[#F4F5F7] px-5 py-2.5 text-sm font-semibold text-[#090A0D] transition-colors duration-150 hover:bg-[#18C4A8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8]"
               >
                 <span>View Confirmation Now</span>
                 <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />

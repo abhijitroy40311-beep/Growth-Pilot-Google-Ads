@@ -12,11 +12,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 01 — DISCOVER',
     title: 'Discover',
     description:
-      'We understand your business, target customers, goals, and current challenges.',
+      'I review your service lines, target catchment area, lead quality benchmarks, and what makes an enquiry genuinely profitable for your business.',
     deliverables: [
-      'Initial consultation',
-      'Goal definition',
-      'Business and audience understanding',
+      'Direct specialist consultation',
+      'Service-area and capacity alignment',
+      'Definition of a qualified enquiry',
     ],
   },
   {
@@ -24,11 +24,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 02 — AUDIT & RESEARCH',
     title: 'Audit & Research',
     description:
-      'We evaluate your existing website, customer journey, advertising opportunities, and tracking setup.',
+      'I inspect your current Google Ads history (if active), landing page clarity, competitor search landscape, and existing GA4 / GTM tracking setup.',
     deliverables: [
-      'Opportunity analysis',
-      'Keyword and competitor research where relevant',
-      'Technical and conversion review',
+      'Wasted-spend & search term diagnostic',
+      'High-intent commercial keyword research',
+      'Landing page & conversion tracking audit',
     ],
   },
   {
@@ -36,11 +36,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 03 — STRATEGY',
     title: 'Strategy',
     description:
-      'We define the priorities, recommended solutions, and measurement plan.',
+      'Before spending budget on clicks, I map out the campaign architecture, negative keyword guardrails, landing page structure, and attribution plan.',
     deliverables: [
-      'Project roadmap',
-      'Service recommendations',
-      'Defined success metrics',
+      'Segmented Search campaign architecture',
+      'Initial negative keyword exclusion lists',
+      'Written measurement & conversion plan',
     ],
   },
   {
@@ -48,11 +48,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 04 — BUILD & IMPLEMENT',
     title: 'Build & Implement',
     description:
-      'We develop the website, landing pages, campaigns, or tracking improvements agreed upon for the project.',
+      'I configure your campaigns, build or refine focused landing pages, and wire verified GA4 and Google Tag Manager conversion triggers cleanly.',
     deliverables: [
-      'Responsive implementation',
-      'Quality assurance',
-      'Tracking configuration',
+      'Intent-matched campaigns, ad groups & copy',
+      'Responsive service landing page build/updates',
+      'Verified form, call & WhatsApp event tracking',
     ],
   },
   {
@@ -60,11 +60,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 05 — TEST & LAUNCH',
     title: 'Test & Launch',
     description:
-      'We test user journeys, forms, navigation, mobile layouts, tracking, and campaign settings before launch.',
+      'Every form submission flow, click-to-call trigger, mobile layout, geo-targeting radius, and conversion tag is QA-verified before traffic starts.',
     deliverables: [
-      'Functional testing',
-      'Performance checks',
-      'Launch readiness',
+      'End-to-end form & event firing verification',
+      'Mobile viewport & speed QA checks',
+      'Controlled initial campaign launch',
     ],
   },
   {
@@ -72,11 +72,11 @@ export const processSteps: ProcessStep[] = [
     code: 'STEP 06 — MEASURE & IMPROVE',
     title: 'Measure & Improve',
     description:
-      'We review available data and refine the experience based on actual performance.',
+      'Using real search-term logs and verified enquiry outcomes, I prune irrelevant queries and refine ad copy, bids, and page conversion paths.',
     deliverables: [
-      'Performance monitoring',
-      'Actionable recommendations',
-      'Ongoing optimization when included in the service agreement',
+      'Weekly search-term & budget hygiene',
+      'Plain-English reporting tied to real enquiries',
+      'Ongoing landing page & bidding refinement',
     ],
   },
 ];
@@ -90,38 +90,38 @@ export interface PrincipleItem {
 export const whyGrowthPilotPrinciples: PrincipleItem[] = [
   {
     number: '01',
-    title: 'Strategy Before Execution',
+    title: 'Direct Specialist Execution',
     description:
-      'Every project begins by clarifying who you want to reach, what action matters most, and why visitors should trust your business before writing code or launching ads.',
+      'Every strategy, campaign adjustment, and tracking check is handled directly by Abhijit Roy—never delegated to junior coordinators after onboarding.',
   },
   {
     number: '02',
-    title: 'Clear Communication',
+    title: 'Commercial Intent Over Vanity Traffic',
     description:
-      'We explain recommendations in plain business terms—what we are building, why it matters, and what inputs are required at each stage.',
+      'Campaigns are structured strictly around buyers actively seeking service quotes, calls, or bookings—filtering out DIY, jobs, and broad noise early.',
   },
   {
     number: '03',
-    title: 'Conversion-Focused Design',
+    title: 'Conversion-Focused Landing Experience',
     description:
-      'Visual polish serves a purpose: guiding visitors logically toward a call, form submission, or consultation inquiry without distraction.',
+      'Clicks go to clear, fast-loading destination pages built around customer questions and low-friction contact options rather than cluttered homepages.',
   },
   {
     number: '04',
-    title: 'Measurement and Transparency',
+    title: 'Honest Attribution & Measurement',
     description:
-      'We configure analytics and event tracking so you can see how users interact with your website and campaigns without guesswork.',
+      'GA4 and Google Tag Manager are configured so primary conversions reflect genuine enquiries, never inflated by pageviews or accidental button taps.',
   },
   {
     number: '05',
-    title: 'Continuous Improvement',
+    title: 'Full Client Account Ownership',
     description:
-      'Digital growth is iterative. We use real campaign and user behavior insights to refine landing pages, targeting, and enquiry flows over time.',
+      'You retain complete administrative ownership of your Google Ads account, billing method, GA4 property, and historical campaign data at all times.',
   },
   {
     number: '06',
-    title: 'Solutions Aligned With Business Goals',
+    title: 'Transparent Scope Without Lock-In',
     description:
-      'We recommend only the services and scope that fit your current stage, operational capacity, and commercial objectives.',
+      'Recommendations match your actual service capacity and budget stage, backed by clear written deliverables and zero long-term contract traps.',
   },
 ];

@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Clock,
   ShieldCheck,
-  Sparkles,
   Copy,
   Check,
   Home,
@@ -28,21 +27,21 @@ import { siteConfig } from '../data/siteConfig';
 const nextSteps = [
   {
     step: '01',
-    title: 'Initial Brief & Website Review',
+    title: 'Personal Brief & Website Review',
     description:
-      'Our senior team reviews your business goals, current digital presence, and service requirements to understand your highest-leverage opportunities.',
+      'I inspect your target markets, search intent, website or landing pages, and any active tracking notes to identify the highest-leverage fixes.',
   },
   {
     step: '02',
-    title: 'Tailored Strategy & Scope Outline',
+    title: 'Clear Diagnostic & Scope Outline',
     description:
-      'We prepare clear, practical recommendations covering architecture, timeline, and transparent milestones — with zero generic sales fluff.',
+      'You receive straightforward recommendations covering campaign architecture, conversion tracking, and practical milestones—zero sales fluff.',
   },
   {
     step: '03',
-    title: 'Direct Response Within 1–2 Business Days',
+    title: 'Direct Reply Within 1–2 Business Days',
     description:
-      'We reach out directly to your email (or WhatsApp if preferred) to share our initial thoughts and schedule a focused discovery conversation.',
+      'I reply directly to your email (or WhatsApp if preferred) to share initial observations and schedule a 15-minute discovery call.',
   },
 ];
 
@@ -124,44 +123,38 @@ export default function ThankYou() {
   return (
     <section
       aria-labelledby="thank-you-heading"
-      className="relative min-h-screen overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28 bg-[#050505]"
+      className="min-h-screen bg-[#090A0D] pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-28"
     >
-      {/* Subtle Brand Ambient Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(ellipse_at_top,rgba(0,230,168,0.12),rgba(8,217,245,0.06)_45%,transparent_75%)]"
-      />
-
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        {/* Main Confirmation Card */}
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        {/* Confirmation Dossier */}
         <div
           role="status"
           aria-live="polite"
           data-testid="contact-confirmation"
-          className="rounded-2xl border border-[#00E6A8]/35 bg-[#0B0D10] p-5 sm:p-10 lg:p-12 shadow-2xl"
+          className="rounded-lg border border-[#18C4A8]/40 bg-[#111318] p-5 sm:p-10 lg:p-12"
         >
           {/* Status Header */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
-            <div className="inline-flex items-center gap-2.5 text-[#00E6A8]">
-              <CheckCircle2 className="h-6 w-6 shrink-0" aria-hidden="true" />
-              <span className="font-mono text-xs uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2.5 text-[#18C4A8]">
+              <CheckCircle2 className="h-5 w-5 shrink-0" aria-hidden="true" />
+              <span className="font-mono text-xs uppercase tracking-[0.12em]">
                 Inquiry Confirmed · Submission Complete
               </span>
             </div>
 
-            <div className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#050505] px-3 py-1.5 font-mono text-xs text-[#A5AAB4]">
+            <div className="inline-flex items-center gap-2 rounded-md border border-white/12 bg-[#090A0D] px-3 py-1.5 font-mono text-xs text-[#A6ADBB]">
               <span>Ref:</span>
-              <strong className="text-white">{receipt.inquiryId}</strong>
+              <strong className="text-[#F4F5F7]">{receipt.inquiryId}</strong>
               <button
                 type="button"
                 onClick={handleCopyReference}
                 aria-label="Copy inquiry reference ID"
-                className="ml-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-[#08D9F5] hover:bg-white/5 transition-colors"
+                className="ml-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-[#18C4A8] hover:bg-white/5 transition-colors"
               >
                 {copiedId ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-[#00E6A8]" aria-hidden="true" />
-                    <span className="text-[#00E6A8]">Copied</span>
+                    <Check className="h-3.5 w-3.5 text-[#18C4A8]" aria-hidden="true" />
+                    <span className="text-[#18C4A8]">Copied</span>
                   </>
                 ) : (
                   <>
@@ -173,37 +166,36 @@ export default function ThankYou() {
             </div>
           </div>
 
-          {/* Primary Heading & Personalized Confirmation */}
+          {/* Primary Heading */}
           <div className="mt-8 max-w-3xl">
             <h1
               id="thank-you-heading"
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.12]"
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-[#F4F5F7] leading-[1.1]"
             >
-              Thank you,{' '}
-              <span className="gp-gradient-text">{receipt.summary.name}</span>.
-              <span className="block mt-2 text-2xl sm:text-3xl lg:text-4xl text-white/95">
-                Your project brief is in our hands.
+              Thank you, {receipt.summary.name}.
+              <span className="block mt-2 text-2xl sm:text-3xl text-[#A6ADBB] font-bold">
+                Your brief has been received.
               </span>
             </h1>
 
-            <p className="mt-4 text-base sm:text-lg text-[#A5AAB4] leading-relaxed">
-              {receipt.message} Our team will review the objectives for{' '}
-              <strong className="text-white font-semibold">
+            <p className="mt-4 text-base sm:text-lg text-[#A6ADBB] leading-relaxed">
+              {receipt.message} I will review the objectives for{' '}
+              <strong className="text-[#F4F5F7] font-semibold">
                 {receipt.summary.businessName}
               </strong>{' '}
               and reply directly to{' '}
-              <strong className="text-white font-semibold">
+              <strong className="text-[#F4F5F7] font-semibold">
                 {receipt.summary.email}
               </strong>{' '}
-              ({siteConfig.contact.responseWindow}).
+              ({siteConfig.contact.responseWindow.toLowerCase()}).
             </p>
           </div>
 
-          {/* Diagnostic alert only if EmailJS returned a configuration notice */}
+          {/* Diagnostic alert only if returned */}
           {!receipt.emailDispatched && receipt.emailError && (
             <div
               role="alert"
-              className="mt-6 rounded-xl border border-amber-500/40 bg-amber-950/25 p-4 text-xs sm:text-sm text-amber-200 space-y-2"
+              className="mt-6 rounded-md border border-amber-500/40 bg-amber-950/25 p-4 text-xs sm:text-sm text-amber-200 space-y-2"
             >
               <div className="flex items-start gap-2.5 font-semibold text-amber-300">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
@@ -216,39 +208,39 @@ export default function ThankYou() {
           )}
 
           {/* Inquiry Dossier Grid */}
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border border-white/10 bg-[#050505] p-4">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-[#A5AAB4]">
+          <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-md border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="bg-[#090A0D] p-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
                 Organization
               </div>
-              <div className="mt-1.5 text-sm font-semibold text-white break-words">
+              <div className="mt-1.5 text-sm font-semibold text-[#F4F5F7] break-words">
                 {receipt.summary.businessName}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-[#050505] p-4">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-[#A5AAB4]">
-                Primary Service Focus
+            <div className="bg-[#090A0D] p-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
+                Service Focus
               </div>
-              <div className="mt-1.5 text-sm font-semibold text-[#08D9F5] break-words">
+              <div className="mt-1.5 text-sm font-semibold text-[#18C4A8] break-words">
                 {receipt.summary.serviceOfInterest}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-[#050505] p-4">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-[#A5AAB4]">
-                Confirmation Email
+            <div className="bg-[#090A0D] p-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
+                Reply Email
               </div>
-              <div className="mt-1.5 text-sm font-semibold text-white break-all">
+              <div className="mt-1.5 text-sm font-semibold text-[#F4F5F7] break-all">
                 {receipt.summary.email}
               </div>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-[#050505] p-4">
-              <div className="font-mono text-[11px] uppercase tracking-wider text-[#A5AAB4]">
+            <div className="bg-[#090A0D] p-4">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
                 Dispatch Status
               </div>
-              <div className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-[#00E6A8]">
+              <div className="mt-1.5 flex items-center gap-1.5 text-sm font-semibold text-[#18C4A8]">
                 <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>
                   {receipt.emailDispatched
@@ -259,35 +251,33 @@ export default function ThankYou() {
             </div>
           </div>
 
-          {/* Optional Submitted Project Goals Preview */}
           {fallbackFormData.projectGoals && (
-            <div className="mt-4 rounded-xl border border-white/10 bg-[#050505] p-4 sm:p-5">
-              <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-wider text-[#A5AAB4]">
-                <span>Submitted Project Goals & Context</span>
+            <div className="mt-4 rounded-md border border-white/10 bg-[#090A0D] p-4 sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-wider text-[#8890A0]">
+                <span>Submitted Goals &amp; Context</span>
                 {fallbackFormData.projectBudget && (
-                  <span className="text-[#08D9F5]">
+                  <span className="text-[#18C4A8]">
                     Estimated Budget: {fallbackFormData.projectBudget}
                   </span>
                 )}
               </div>
-              <p className="mt-2 text-xs sm:text-sm text-white/90 leading-relaxed whitespace-pre-line">
+              <p className="mt-2 text-xs sm:text-sm text-[#F4F5F7]/90 leading-relaxed whitespace-pre-line">
                 {fallbackFormData.projectGoals}
               </p>
             </div>
           )}
 
-          {/* Fast-Track Priority Actions */}
-          <div className="mt-8 rounded-xl border border-[#08D9F5]/25 bg-[#050505]/90 p-5 sm:p-6">
+          {/* Direct Fast-Track Actions */}
+          <div className="mt-8 rounded-md border border-white/12 bg-[#090A0D] p-5 sm:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#08D9F5]">
-                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>Want to Fast-Track Your Conversation?</span>
+                <div className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8]">
+                  Need a Faster Reply?
                 </div>
-                <p className="text-xs sm:text-sm text-[#A5AAB4]">
-                  You can also share your inquiry reference{' '}
-                  <span className="font-mono text-white">({receipt.inquiryId})</span>{' '}
-                  directly on WhatsApp for an immediate thread with our team.
+                <p className="text-xs sm:text-sm text-[#A6ADBB]">
+                  Send your reference ID{' '}
+                  <span className="font-mono text-[#F4F5F7]">({receipt.inquiryId})</span>{' '}
+                  directly to Abhijit on WhatsApp for quick scheduling.
                 </p>
               </div>
 
@@ -296,28 +286,28 @@ export default function ThankYou() {
                   href={whatsappFollowupHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#050505] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
+                  className="inline-flex min-h-[42px] items-center gap-2 rounded-md bg-[#25D366] px-4 py-2 text-xs sm:text-sm font-semibold text-[#090A0D] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  <span>Fast-Track on WhatsApp</span>
+                  <span>Message on WhatsApp</span>
                 </a>
 
                 {fallbackMailtoHref && (
                   <a
                     href={fallbackMailtoHref}
-                    className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-[#0B0D10] px-4 py-2.5 text-xs sm:text-sm font-medium text-white hover:border-[#08D9F5]/50 transition-colors whitespace-nowrap shrink-0"
+                    className="inline-flex min-h-[42px] items-center gap-2 rounded-md border border-white/20 bg-[#111318] px-4 py-2 text-xs sm:text-sm font-medium text-[#F4F5F7] hover:border-white/45 transition-colors whitespace-nowrap shrink-0"
                   >
-                    <Mail className="h-4 w-4 text-[#08D9F5]" aria-hidden="true" />
-                    <span>Send Copy via Email App</span>
+                    <Mail className="h-4 w-4 text-[#18C4A8]" aria-hidden="true" />
+                    <span>Save Copy in Email App</span>
                   </a>
                 )}
               </div>
             </div>
           </div>
 
-          {/* What Happens Next — 3 Step Timeline */}
+          {/* What Happens Next */}
           <div className="mt-10 pt-8 border-t border-white/10">
-            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#08D9F5]">
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8]">
               <Clock className="h-4 w-4" aria-hidden="true" />
               <span>What Happens Next</span>
             </div>
@@ -326,19 +316,17 @@ export default function ThankYou() {
               {nextSteps.map((item) => (
                 <div
                   key={item.step}
-                  className="rounded-xl border border-white/10 bg-[#050505] p-5 flex flex-col justify-between"
+                  className="rounded-md border border-white/10 bg-[#090A0D] p-5"
                 >
-                  <div>
-                    <span className="font-mono text-xs font-semibold text-[#00E6A8]">
-                      STEP {item.step}
-                    </span>
-                    <h2 className="mt-2 text-base font-bold text-white">
-                      {item.title}
-                    </h2>
-                    <p className="mt-2 text-xs sm:text-sm text-[#A5AAB4] leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
+                  <span className="font-mono text-xs text-[#18C4A8] tabular-nums">
+                    STEP {item.step}
+                  </span>
+                  <h2 className="mt-2 text-base font-bold text-[#F4F5F7]">
+                    {item.title}
+                  </h2>
+                  <p className="mt-2 text-xs sm:text-sm text-[#A6ADBB] leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -349,7 +337,7 @@ export default function ThankYou() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 to="/"
-                className="inline-flex items-center gap-2 rounded-lg gp-gradient-bg px-5 py-2.5 text-xs sm:text-sm font-semibold text-[#050505] transition-transform hover:scale-[1.01] whitespace-nowrap"
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-md bg-[#F4F5F7] px-5 py-2 text-xs sm:text-sm font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors whitespace-nowrap"
               >
                 <Home className="h-4 w-4" aria-hidden="true" />
                 <span>Back to Home</span>
@@ -357,17 +345,17 @@ export default function ThankYou() {
 
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-[#050505] px-4 py-2.5 text-xs sm:text-sm font-medium text-white hover:border-[#08D9F5]/50 transition-colors whitespace-nowrap"
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-md border border-white/20 bg-transparent px-4 py-2 text-xs sm:text-sm font-medium text-[#F4F5F7] hover:border-white/45 transition-colors whitespace-nowrap"
               >
-                <span>Explore Demo Concepts</span>
-                <ArrowRight className="h-4 w-4 text-[#08D9F5]" aria-hidden="true" />
+                <span>Explore Blueprints</span>
+                <ArrowRight className="h-4 w-4 text-[#18C4A8]" aria-hidden="true" />
               </Link>
             </div>
 
             <button
               type="button"
               onClick={handleSubmitAnother}
-              className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-[#050505] px-4 py-2.5 text-xs sm:text-sm font-medium text-[#A5AAB4] hover:text-white hover:border-white/30 transition-colors whitespace-nowrap"
+              className="inline-flex min-h-[42px] items-center gap-2 rounded-md border border-white/15 bg-[#090A0D] px-4 py-2 text-xs sm:text-sm font-medium text-[#A6ADBB] hover:text-[#F4F5F7] hover:border-white/35 transition-colors whitespace-nowrap"
             >
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               <span>Submit Another Inquiry</span>

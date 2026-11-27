@@ -1,71 +1,53 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { whyGrowthPilotPrinciples } from '../../data/process';
-import { AnimatedHeading } from '../animation/AnimatedHeading';
-import { ScrollReveal } from '../animation/ScrollReveal';
-import { siteConfig } from '../../data/siteConfig';
+import { AnimatedContent } from '../animation/AnimatedContent';
+import { EditorialSectionHeader } from '../ui/EditorialPrimitives';
 
 export const WhyGrowthPilot: React.FC = () => {
   return (
     <section
       id="stage-why"
       aria-labelledby="why-growthpilot-heading"
-      className="relative border-t border-white/10 bg-[#050505] py-20 sm:py-28"
+      className="border-t border-white/10 bg-[#090A0D] py-16 sm:py-24 lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <div className="text-xs font-mono text-[#08D9F5]">
-              04 · Operating Principles
-            </div>
-            <AnimatedHeading
-              id="why-growthpilot-heading"
-              as="h2"
-              text="Built Around Progress, Not Empty Promises."
-              highlightWords={['Progress', 'Promises']}
-              className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white"
-            />
-            <p className="mt-4 max-w-2xl text-base sm:text-lg text-[#A5AAB4]">
-              We do not rely on exaggerated claims or vanity metrics. Our work is structured around clarity, technical discipline, and practical commercial progress.
-            </p>
-          </div>
+        <EditorialSectionHeader
+          headingId="why-growthpilot-heading"
+          index="06"
+          eyebrow="Why GrowthPilot"
+          title="An Independent Specialist Practice—Not a Retainer Factory."
+          lead="Built around direct specialist execution, client-owned accounts, and transparent progress rather than inflated vanity metrics or generic guarantees."
+          action={
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#18C4A8] hover:text-[#F4F5F7] transition-colors whitespace-nowrap"
+            >
+              <span>About Abhijit Roy</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          }
+        />
 
-          <div className="lg:col-span-4 flex lg:justify-end">
-            <div className="inline-flex items-center gap-3 rounded-xl border border-white/10 bg-[#0B0D10] px-4 py-3">
-              <span className="relative inline-flex aspect-square h-7 w-7 shrink-0 items-center justify-center overflow-hidden">
-                <img
-                  src={siteConfig.assets.emblemSvg}
-                  alt=""
-                  aria-hidden="true"
-                  width={28}
-                  height={28}
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="h-full w-full object-contain"
-                />
-              </span>
-              <span className="text-xs font-mono text-white/85">
-                Understand → Plan → Build → Measure → Improve
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
           {whyGrowthPilotPrinciples.map((principle, idx) => (
-            <ScrollReveal key={principle.number} delay={idx * 0.05}>
-              <div className="h-full rounded-2xl gp-card-surface p-6 sm:p-8">
-                <div className="font-mono text-xs text-[#08D9F5]">
-                  {principle.number}. Core Principle
-                </div>
-                <h3 className="mt-3 text-lg sm:text-xl font-bold text-white">
-                  {principle.title}
-                </h3>
-                <p className="mt-2.5 text-sm sm:text-base text-[#A5AAB4] leading-relaxed">
-                  {principle.description}
-                </p>
+            <AnimatedContent
+              key={principle.number}
+              delay={idx * 0.04}
+              distance={10}
+              className="flex h-full flex-col bg-[#111318] p-6 sm:p-8"
+            >
+              <div className="font-mono text-xs uppercase tracking-[0.12em] text-[#18C4A8] tabular-nums">
+                {principle.number} // Standard
               </div>
-            </ScrollReveal>
+              <h3 className="mt-3 text-lg sm:text-xl font-bold text-[#F4F5F7]">
+                {principle.title}
+              </h3>
+              <p className="mt-2.5 text-sm sm:text-base text-[#A6ADBB] leading-relaxed">
+                {principle.description}
+              </p>
+            </AnimatedContent>
           ))}
         </div>
       </div>
