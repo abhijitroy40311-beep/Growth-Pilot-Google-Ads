@@ -1,7 +1,7 @@
 # GrowthPilot — Google Ads Management & Lead Generation Agency
 
 **Navigate Growth With Intelligence.**  
-**Live Website:** https://growthpilot-google-ads.agancy.workers.dev <!-- Replace with your canonical production URL (e.g., custom domain or Vercel URL) -->
+**Live Website:** growthpilot-google-ads.agancy.workers.dev <!-- Replace with your canonical production URL (e.g., custom domain or Vercel URL) -->
 
 GrowthPilot is a full-stack Google Ads specialist and performance marketing consultancy specializing in **Google Ads Management Services**, **PPC Campaign Engineering**, **Conversion-Focused Website & Landing Page Design**, and **GA4 / Google Ads Conversion Tracking** for HVAC, solar, dental, roofing, epoxy flooring, plumbing, and other local service businesses.
 
