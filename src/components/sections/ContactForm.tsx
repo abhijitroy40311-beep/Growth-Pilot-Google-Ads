@@ -261,7 +261,7 @@ export const ContactForm: React.FC = () => {
           }
           setServerError(
             data.message ||
-              'Unable to submit your inquiry right now. Please verify your details and try again.'
+            'Unable to submit your inquiry right now. Please verify your details and try again.'
           );
           return;
         }
@@ -283,7 +283,7 @@ export const ContactForm: React.FC = () => {
 
         recordDeliveryFailure(
           data.message ||
-            'Your inquiry could not be delivered by email right now. Please send it via WhatsApp or Email below so nothing is lost.',
+          'Your inquiry could not be delivered by email right now. Please send it via WhatsApp or Email below so nothing is lost.',
           typeof data.emailError === 'string' ? data.emailError : null
         );
         return;
@@ -366,17 +366,17 @@ export const ContactForm: React.FC = () => {
   const fallbackMailtoHref =
     failedDelivery && siteConfig.contact.email
       ? `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
-          `GrowthPilot Inquiry [${failedDelivery.inquiryId}] - ${failedDelivery.formData.businessName}`
-        )}&body=${encodeURIComponent(
-          `Inquiry Reference: ${failedDelivery.inquiryId}\nName: ${failedDelivery.formData.name}\nBusiness: ${failedDelivery.formData.businessName}\nEmail: ${failedDelivery.formData.email}\nPhone: ${failedDelivery.formData.phone || 'Not provided'}\nWebsite: ${failedDelivery.formData.websiteUrl || 'Not provided'}\nService: ${failedDelivery.formData.serviceOfInterest}\nBudget: ${failedDelivery.formData.projectBudget || 'Not specified'}\n\nProject Goals:\n${failedDelivery.formData.projectGoals}`
-        )}`
+        `GrowthPilot Inquiry [${failedDelivery.inquiryId}] - ${failedDelivery.formData.businessName}`
+      )}&body=${encodeURIComponent(
+        `Inquiry Reference: ${failedDelivery.inquiryId}\nName: ${failedDelivery.formData.name}\nBusiness: ${failedDelivery.formData.businessName}\nEmail: ${failedDelivery.formData.email}\nPhone: ${failedDelivery.formData.phone || 'Not provided'}\nWebsite: ${failedDelivery.formData.websiteUrl || 'Not provided'}\nService: ${failedDelivery.formData.serviceOfInterest}\nBudget: ${failedDelivery.formData.projectBudget || 'Not specified'}\n\nProject Goals:\n${failedDelivery.formData.projectGoals}`
+      )}`
       : null;
 
   const whatsappFollowupHref = failedDelivery
     ? buildWhatsAppContactUrl(
-        siteConfig.contact.whatsapp,
-        buildWhatsAppInquiryMessage(failedDelivery.formData, failedDelivery.inquiryId)
-      )
+      siteConfig.contact.whatsapp,
+      buildWhatsAppInquiryMessage(failedDelivery.formData, failedDelivery.inquiryId)
+    )
     : null;
 
   return (
@@ -397,390 +397,390 @@ export const ContactForm: React.FC = () => {
             data-testid="contact-delivery-error"
             className="gp-popup-enter rounded-md border border-red-500/45 bg-red-950/35 p-4 text-sm text-red-100 space-y-3 focus:outline-none focus:ring-2 focus:ring-red-400/50"
           >
-          <div className="flex items-start gap-3">
-            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-400" aria-hidden="true" />
-            <div className="space-y-1">
-              <p className="font-semibold text-[#F4F5F7]">Email delivery could not be completed</p>
-              <p>{serverError}</p>
-              {failedDelivery?.diagnostic && (
-                <p className="font-mono text-xs text-red-200/80 break-words">
-                  {failedDelivery.diagnostic}
-                </p>
-              )}
+            <div className="flex items-start gap-3">
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-400" aria-hidden="true" />
+              <div className="space-y-1">
+                <p className="font-semibold text-[#F4F5F7]">Email delivery could not be completed</p>
+                <p>{serverError}</p>
+                {failedDelivery?.diagnostic && (
+                  <p className="font-mono text-xs text-red-200/80 break-words">
+                    {failedDelivery.diagnostic}
+                  </p>
+                )}
+              </div>
             </div>
+
+            {failedDelivery && (
+              <div className="flex flex-wrap items-center gap-3 pt-1 pl-8">
+                {whatsappFollowupHref && (
+                  <a
+                    href={whatsappFollowupHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#25D366] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
+                  >
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                    <span>Send Inquiry on WhatsApp</span>
+                  </a>
+                )}
+                {fallbackMailtoHref && (
+                  <a
+                    href={fallbackMailtoHref}
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#F4F5F7] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors whitespace-nowrap shrink-0"
+                  >
+                    <Mail className="h-4 w-4" aria-hidden="true" />
+                    <span>Send Copy via Email App</span>
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Honeypot field hidden from screen readers and visual users */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor="contact-honeypot">Leave this field blank</label>
+          <input
+            id="contact-honeypot"
+            name="honeypot"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={formData.honeypot}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {/* Name */}
+          <div>
+            <label
+              htmlFor="contact-name"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
+            >
+              Your Name <span className="text-[#18C4A8]">*</span>
+            </label>
+            <input
+              id="contact-name"
+              name="name"
+              type="text"
+              required
+              autoComplete="name"
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? 'error-name' : undefined}
+              className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.name
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
+                }`}
+            />
+            {errors.name && (
+              <p id="error-name" role="alert" className="mt-1.5 text-xs text-red-400">
+                {errors.name}
+              </p>
+            )}
           </div>
 
-          {failedDelivery && (
-            <div className="flex flex-wrap items-center gap-3 pt-1 pl-8">
-              {whatsappFollowupHref && (
-                <a
-                  href={whatsappFollowupHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#25D366] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#1ebe5d] transition-colors whitespace-nowrap shrink-0"
-                >
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  <span>Send Inquiry on WhatsApp</span>
-                </a>
-              )}
-              {fallbackMailtoHref && (
-                <a
-                  href={fallbackMailtoHref}
-                  className="inline-flex min-h-[40px] items-center gap-2 rounded-md bg-[#F4F5F7] px-4 py-2 text-xs font-semibold text-[#090A0D] hover:bg-[#18C4A8] transition-colors whitespace-nowrap shrink-0"
-                >
-                  <Mail className="h-4 w-4" aria-hidden="true" />
-                  <span>Send Copy via Email App</span>
-                </a>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Honeypot field hidden from screen readers and visual users */}
-      <div className="hidden" aria-hidden="true">
-        <label htmlFor="contact-honeypot">Leave this field blank</label>
-        <input
-          id="contact-honeypot"
-          name="honeypot"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-          value={formData.honeypot}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {/* Name */}
-        <div>
-          <label
-            htmlFor="contact-name"
-            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-          >
-            Your Name <span className="text-[#18C4A8]">*</span>
-          </label>
-          <input
-            id="contact-name"
-            name="name"
-            type="text"
-            required
-            autoComplete="name"
-            placeholder="e.g., Alex Morgan"
-            value={formData.name}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? 'error-name' : undefined}
-            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.name
-                ? 'border-red-500/70 focus:ring-red-500/40'
-                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-              }`}
-          />
-          {errors.name && (
-            <p id="error-name" role="alert" className="mt-1.5 text-xs text-red-400">
-              {errors.name}
-            </p>
-          )}
-        </div>
-
-        {/* Business Name */}
-        <div>
-          <label
-            htmlFor="contact-business"
-            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-          >
-            Business Name <span className="text-[#18C4A8]">*</span>
-          </label>
-          <input
-            id="contact-business"
-            name="businessName"
-            type="text"
-            required
-            autoComplete="organization"
-            placeholder="e.g., Summit HVAC Services"
-            value={formData.businessName}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.businessName)}
-            aria-describedby={errors.businessName ? 'error-businessName' : undefined}
-            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.businessName
-                ? 'border-red-500/70 focus:ring-red-500/40'
-                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-              }`}
-          />
-          {errors.businessName && (
-            <p
-              id="error-businessName"
-              role="alert"
-              className="mt-1.5 text-xs text-red-400"
+          {/* Business Name */}
+          <div>
+            <label
+              htmlFor="contact-business"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
             >
-              {errors.businessName}
-            </p>
-          )}
-        </div>
-
-        {/* Email */}
-        <div>
-          <label
-            htmlFor="contact-email"
-            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-          >
-            Email Address <span className="text-[#18C4A8]">*</span>
-          </label>
-          <input
-            id="contact-email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            placeholder="you@company.com"
-            value={formData.email}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? 'error-email' : undefined}
-            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.email
+              Business Name <span className="text-[#18C4A8]">*</span>
+            </label>
+            <input
+              id="contact-business"
+              name="businessName"
+              type="text"
+              required
+              autoComplete="organization"
+              placeholder="Enter Business Name"
+              value={formData.businessName}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.businessName)}
+              aria-describedby={errors.businessName ? 'error-businessName' : undefined}
+              className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.businessName
                 ? 'border-red-500/70 focus:ring-red-500/40'
                 : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-              }`}
-          />
-          {errors.email && (
-            <p id="error-email" role="alert" className="mt-1.5 text-xs text-red-400">
-              {errors.email}
-            </p>
-          )}
-        </div>
+                }`}
+            />
+            {errors.businessName && (
+              <p
+                id="error-businessName"
+                role="alert"
+                className="mt-1.5 text-xs text-red-400"
+              >
+                {errors.businessName}
+              </p>
+            )}
+          </div>
 
-        {/* Phone (Optional) */}
-        <div>
-          <label
-            htmlFor="contact-phone"
-            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-          >
-            Phone Number <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
-          </label>
-          <input
-            id="contact-phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            placeholder="+1 (555) 000-0000"
-            value={formData.phone}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? 'error-phone' : undefined}
-            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.phone
-                ? 'border-red-500/70 focus:ring-red-500/40'
-                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-              }`}
-          />
-          {errors.phone && (
-            <p id="error-phone" role="alert" className="mt-1.5 text-xs text-red-400">
-              {errors.phone}
-            </p>
-          )}
-        </div>
-
-        {/* Website URL (Optional) */}
-        <div>
-          <label
-            htmlFor="contact-website"
-            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-          >
-            Current Website URL{' '}
-            <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
-          </label>
-          <input
-            id="contact-website"
-            name="websiteUrl"
-            type="url"
-            placeholder="https://yourbusiness.com"
-            value={formData.websiteUrl}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.websiteUrl)}
-            aria-describedby={errors.websiteUrl ? 'error-websiteUrl' : undefined}
-            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.websiteUrl
-                ? 'border-red-500/70 focus:ring-red-500/40'
-                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-              }`}
-          />
-          {errors.websiteUrl && (
-            <p
-              id="error-websiteUrl"
-              role="alert"
-              className="mt-1.5 text-xs text-red-400"
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="contact-email"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
             >
-              {errors.websiteUrl}
-            </p>
-          )}
+              Email Address <span className="text-[#18C4A8]">*</span>
+            </label>
+            <input
+              id="contact-email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="Enter email address"
+              value={formData.email}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? 'error-email' : undefined}
+              className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.email
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
+                }`}
+            />
+            {errors.email && (
+              <p id="error-email" role="alert" className="mt-1.5 text-xs text-red-400">
+                {errors.email}
+              </p>
+            )}
+          </div>
+
+          {/* Phone (Optional) */}
+          <div>
+            <label
+              htmlFor="contact-phone"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
+            >
+              Phone Number <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
+            </label>
+            <input
+              id="contact-phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              placeholder="Enter phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? 'error-phone' : undefined}
+              className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.phone
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
+                }`}
+            />
+            {errors.phone && (
+              <p id="error-phone" role="alert" className="mt-1.5 text-xs text-red-400">
+                {errors.phone}
+              </p>
+            )}
+          </div>
+
+          {/* Website URL (Optional) */}
+          <div>
+            <label
+              htmlFor="contact-website"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
+            >
+              Current Website URL{' '}
+              <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
+            </label>
+            <input
+              id="contact-website"
+              name="websiteUrl"
+              type="url"
+              placeholder="https://yourbusiness.com"
+              value={formData.websiteUrl}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.websiteUrl)}
+              aria-describedby={errors.websiteUrl ? 'error-websiteUrl' : undefined}
+              className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.websiteUrl
+                ? 'border-red-500/70 focus:ring-red-500/40'
+                : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
+                }`}
+            />
+            {errors.websiteUrl && (
+              <p
+                id="error-websiteUrl"
+                role="alert"
+                className="mt-1.5 text-xs text-red-400"
+              >
+                {errors.websiteUrl}
+              </p>
+            )}
+          </div>
+
+          {/* Project Budget (Optional) */}
+          <div>
+            <label
+              htmlFor="contact-budget"
+              className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
+            >
+              Estimated Project Budget{' '}
+              <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
+            </label>
+            <select
+              id="contact-budget"
+              name="projectBudget"
+              value={formData.projectBudget}
+              onChange={handleChange}
+              className="mt-2 w-full rounded-md border border-white/15 bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:border-[#18C4A8] focus:outline-none focus:ring-2 focus:ring-[#18C4A8]/25"
+            >
+              <option value="">Select a budget range (optional)</option>
+              {budgetOptions.map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* Project Budget (Optional) */}
+        {/* Service of Interest */}
         <div>
           <label
-            htmlFor="contact-budget"
+            htmlFor="contact-service"
             className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
           >
-            Estimated Project Budget{' '}
-            <span className="text-xs font-normal text-[#8890A0]">(Optional)</span>
+            Service of Interest <span className="text-[#18C4A8]">*</span>
           </label>
           <select
-            id="contact-budget"
-            name="projectBudget"
-            value={formData.projectBudget}
+            id="contact-service"
+            name="serviceOfInterest"
+            required
+            value={formData.serviceOfInterest}
             onChange={handleChange}
-            className="mt-2 w-full rounded-md border border-white/15 bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:border-[#18C4A8] focus:outline-none focus:ring-2 focus:ring-[#18C4A8]/25"
+            aria-invalid={Boolean(errors.serviceOfInterest)}
+            aria-describedby={
+              errors.serviceOfInterest ? 'error-serviceOfInterest' : undefined
+            }
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:outline-none focus:ring-2 ${errors.serviceOfInterest
+              ? 'border-red-500/70 focus:ring-red-500/40'
+              : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
+              }`}
           >
-            <option value="">Select a budget range (optional)</option>
-            {budgetOptions.map((b) => (
-              <option key={b} value={b}>
-                {b}
+            <option value="">Select the primary service you need</option>
+            {servicesData.map((s) => (
+              <option key={s.id} value={s.title}>
+                {s.title}
               </option>
             ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Service of Interest */}
-      <div>
-        <label
-          htmlFor="contact-service"
-          className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-        >
-          Service of Interest <span className="text-[#18C4A8]">*</span>
-        </label>
-        <select
-          id="contact-service"
-          name="serviceOfInterest"
-          required
-          value={formData.serviceOfInterest}
-          onChange={handleChange}
-          aria-invalid={Boolean(errors.serviceOfInterest)}
-          aria-describedby={
-            errors.serviceOfInterest ? 'error-serviceOfInterest' : undefined
-          }
-          className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] focus:outline-none focus:ring-2 ${errors.serviceOfInterest
-              ? 'border-red-500/70 focus:ring-red-500/40'
-              : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-            }`}
-        >
-          <option value="">Select the primary service you need</option>
-          {servicesData.map((s) => (
-            <option key={s.id} value={s.title}>
-              {s.title}
+            <option value="Multiple Services / Full Digital Growth Package">
+              Multiple Services / Full Digital Growth Package
             </option>
-          ))}
-          <option value="Multiple Services / Full Digital Growth Package">
-            Multiple Services / Full Digital Growth Package
-          </option>
-        </select>
-        {errors.serviceOfInterest && (
-          <p
-            id="error-serviceOfInterest"
-            role="alert"
-            className="mt-1.5 text-xs text-red-400"
-          >
-            {errors.serviceOfInterest}
-          </p>
-        )}
-      </div>
+          </select>
+          {errors.serviceOfInterest && (
+            <p
+              id="error-serviceOfInterest"
+              role="alert"
+              className="mt-1.5 text-xs text-red-400"
+            >
+              {errors.serviceOfInterest}
+            </p>
+          )}
+        </div>
 
-      {/* Project Goals */}
-      <div>
-        <label
-          htmlFor="contact-goals"
-          className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
-        >
-          Project Goals &amp; Current Challenges <span className="text-[#18C4A8]">*</span>
-        </label>
-        <textarea
-          id="contact-goals"
-          name="projectGoals"
-          rows={4}
-          required
-          placeholder="Tell me about your trade, target cities or countries, and what you want to improve (e.g., Google Ads lead quality, new landing page, or GA4 tracking)."
-          value={formData.projectGoals}
-          onChange={handleChange}
-          aria-invalid={Boolean(errors.projectGoals)}
-          aria-describedby={errors.projectGoals ? 'error-projectGoals' : undefined}
-          className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.projectGoals
+        {/* Project Goals */}
+        <div>
+          <label
+            htmlFor="contact-goals"
+            className="block text-xs sm:text-sm font-medium text-[#F4F5F7]"
+          >
+            Project Goals &amp; Current Challenges <span className="text-[#18C4A8]">*</span>
+          </label>
+          <textarea
+            id="contact-goals"
+            name="projectGoals"
+            rows={4}
+            required
+            placeholder="Tell me about your trade, target cities or countries, and what you want to improve (e.g., Google Ads lead quality, new landing page, or GA4 tracking)."
+            value={formData.projectGoals}
+            onChange={handleChange}
+            aria-invalid={Boolean(errors.projectGoals)}
+            aria-describedby={errors.projectGoals ? 'error-projectGoals' : undefined}
+            className={`mt-2 w-full rounded-md border bg-[#090A0D] px-4 py-3 text-sm text-[#F4F5F7] placeholder-[#8890A0]/70 focus:outline-none focus:ring-2 ${errors.projectGoals
               ? 'border-red-500/70 focus:ring-red-500/40'
               : 'border-white/15 focus:border-[#18C4A8] focus:ring-[#18C4A8]/25'
-            }`}
-        />
-        {errors.projectGoals && (
-          <p
-            id="error-projectGoals"
-            role="alert"
-            className="mt-1.5 text-xs text-red-400"
-          >
-            {errors.projectGoals}
-          </p>
-        )}
-      </div>
-
-      {/* Consent Checkbox */}
-      <div>
-        <label className="flex items-start gap-3 cursor-pointer select-none">
-          <input
-            id="contact-consent"
-            name="consent"
-            type="checkbox"
-            checked={formData.consent}
-            onChange={handleChange}
-            aria-invalid={Boolean(errors.consent)}
-            aria-describedby={errors.consent ? 'error-consent' : undefined}
-            className="mt-1 h-4 w-4 rounded border-white/25 bg-[#090A0D] accent-[#18C4A8] focus:ring-[#18C4A8]"
+              }`}
           />
-          <span className="text-xs sm:text-sm text-[#A6ADBB] leading-relaxed">
-            I consent to GrowthPilot storing and processing the details submitted in this form to respond to my project inquiry, in accordance with the{' '}
-            <Link
-              to="/privacy-policy"
-              className="text-[#18C4A8] underline underline-offset-4 hover:text-[#F4F5F7]"
+          {errors.projectGoals && (
+            <p
+              id="error-projectGoals"
+              role="alert"
+              className="mt-1.5 text-xs text-red-400"
             >
-              Privacy Policy
-            </Link>
-            . <span className="text-[#18C4A8]">*</span>
-          </span>
-        </label>
-        {errors.consent && (
-          <p id="error-consent" role="alert" className="mt-1.5 text-xs text-red-400">
-            {errors.consent}
-          </p>
-        )}
-      </div>
-
-      {/* Submit Action */}
-      <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <p className="text-xs text-[#8890A0]">
-          Fields marked with <span className="text-[#18C4A8]">*</span> are required.
-        </p>
-
-        <button
-          type="submit"
-          disabled={submitting || confirmationReceipt !== null}
-          className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-[#F4F5F7] px-7 py-3 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors duration-150 hover:bg-[#18C4A8] disabled:cursor-not-allowed disabled:opacity-75 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8]"
-        >
-          {confirmationReceipt ? (
-            <>
-              <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>Inquiry Confirmed! Opening Receipt...</span>
-            </>
-          ) : submitting ? (
-            <>
-              <Loader2
-                className="h-4 w-4 shrink-0 animate-spin motion-reduce:animate-none"
-                aria-hidden="true"
-              />
-              <span>Submitting Your Enquiry...</span>
-            </>
-          ) : (
-            <>
-              <span>Send Project Inquiry</span>
-              <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
-            </>
+              {errors.projectGoals}
+            </p>
           )}
-        </button>
-      </div>
-    </form>
+        </div>
+
+        {/* Consent Checkbox */}
+        <div>
+          <label className="flex items-start gap-3 cursor-pointer select-none">
+            <input
+              id="contact-consent"
+              name="consent"
+              type="checkbox"
+              checked={formData.consent}
+              onChange={handleChange}
+              aria-invalid={Boolean(errors.consent)}
+              aria-describedby={errors.consent ? 'error-consent' : undefined}
+              className="mt-1 h-4 w-4 rounded border-white/25 bg-[#090A0D] accent-[#18C4A8] focus:ring-[#18C4A8]"
+            />
+            <span className="text-xs sm:text-sm text-[#A6ADBB] leading-relaxed">
+              I consent to GrowthPilot storing and processing the details submitted in this form to respond to my project inquiry, in accordance with the{' '}
+              <Link
+                to="/privacy-policy"
+                className="text-[#18C4A8] underline underline-offset-4 hover:text-[#F4F5F7]"
+              >
+                Privacy Policy
+              </Link>
+              . <span className="text-[#18C4A8]">*</span>
+            </span>
+          </label>
+          {errors.consent && (
+            <p id="error-consent" role="alert" className="mt-1.5 text-xs text-red-400">
+              {errors.consent}
+            </p>
+          )}
+        </div>
+
+        {/* Submit Action */}
+        <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <p className="text-xs text-[#8890A0]">
+            Fields marked with <span className="text-[#18C4A8]">*</span> are required.
+          </p>
+
+          <button
+            type="submit"
+            disabled={submitting || confirmationReceipt !== null}
+            className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-[#F4F5F7] px-7 py-3 text-sm sm:text-base font-semibold text-[#090A0D] transition-colors duration-150 hover:bg-[#18C4A8] disabled:cursor-not-allowed disabled:opacity-75 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#18C4A8]"
+          >
+            {confirmationReceipt ? (
+              <>
+                <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>Inquiry Confirmed! Opening Receipt...</span>
+              </>
+            ) : submitting ? (
+              <>
+                <Loader2
+                  className="h-4 w-4 shrink-0 animate-spin motion-reduce:animate-none"
+                  aria-hidden="true"
+                />
+                <span>Submitting Your Enquiry...</span>
+              </>
+            ) : (
+              <>
+                <span>Send Project Inquiry</span>
+                <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
+              </>
+            )}
+          </button>
+        </div>
+      </form>
 
       {confirmationReceipt &&
         typeof document !== 'undefined' &&
